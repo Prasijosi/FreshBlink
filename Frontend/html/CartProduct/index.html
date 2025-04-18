@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart - FreshBlink</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <div class="navbar">
+    <div class="logo">
+      <a href="#"><img src="images/logo2.png" alt="FreshBlink Logo"></a>
+    </div>
+
+    <div class="search-box">
+      <input type="text" placeholder="Search Products......." />
+      <button><span class="material-icons">search</span></button>
+    </div>
+
+   
+
+    <div class="nav-actions">
+      <a href="#"><span class="material-icons">favorite_border</span> Saved</a>
+      <a href="#"><span class="material-icons">shopping_cart</span> Cart</a>
+      <a href="#">Register</a>
+      <button class="login-btn">Login</button>
+    </div>
+  </div>
+
+  
+
+  <!-- Cart Content -->
+  <div class="cart-container">
+    <div class="cart-layout">
+
+      <!-- Cart Items -->
+      <div class="cart-items">
+        <h2>Shopping Cart ( * Items )</h2>
+        <div class="cart-table">
+          <!-- Single Cart Row -->
+          <div class="cart-row">
+            <div class="cart-item-img"><img src="images/sample-product.jpg" alt="Product"></div>
+            <div class="cart-item-name">Product Name</div>
+            <div class="cart-item-price">Rs. 100</div>
+            <div class="cart-item-qty">
+              <input type="number" value="1" min="1" />
+            </div>
+            <div class="cart-item-subtotal">Rs. 100</div>
+            <div class="cart-item-remove"><span class="material-icons">close</span></div>
+          </div>
+        </div>
+
+         <!-- Product 2 -->
+  <div class="cart-row">
+    <div class="cart-item-img"><img src="images/product2.jpg" alt="Product 2"></div>
+    <div class="cart-item-name">Fresh Milk</div>
+    <div class="cart-item-price">Rs. 80</div>
+    <div class="cart-item-qty">
+      <input type="number" value="1" min="1" />
+    </div>
+    <div class="cart-item-subtotal">Rs. 80</div>
+    <div class="cart-item-remove"><span class="material-icons">close</span></div>
+  </div>
+
+  <!-- Product 3 -->
+  <div class="cart-row">
+    <div class="cart-item-img"><img src="images/product3.jpg" alt="Product 3"></div>
+    <div class="cart-item-name">Brown Bread</div>
+    <div class="cart-item-price">Rs. 60</div>
+    <div class="cart-item-qty">
+      <input type="number" value="3" min="1" />
+    </div>
+    <div class="cart-item-subtotal">Rs. 180</div>
+    <div class="cart-item-remove"><span class="material-icons">close</span></div>
+  </div>
+
+        <!-- Action Buttons -->
+        <div class="cart-buttons">
+          <button>Continue Shopping</button>
+          <button>Clear Cart</button>
+          <button>Update Cart</button>
+        </div>
+      </div>
+
+      <!-- Cart Summary -->
+      <div class="cart-summary">
+        <h3>Summary</h3>
+        <p>Discount: Rs. *****</p>
+        <p>Subtotal: Rs. *****</p>
+        <p><strong>Order Total: Rs. *****</strong></p>
+        <button class="checkout-btn">PROCEED TO CHECKOUT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-logo">
+        <img src="images/logo2.png" alt="FreshBlink Logo" />
+      </div>
+
+      <div class="footer-column">
+        <h3>Account</h3>
+        <ul>
+          <li><a href="#">Wishlist</a></li>
+          <li><a href="#">Cart</a></li>
+          <li><a href="#">Track Order</a></li>
+          <li><a href="#">Shipping Details</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Useful links</h3>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact us</a></li>
+          <li><a href="#">Hot Deals</a></li>
+          <li><a href="#">Promotions</a></li>
+          <li><a href="#">New product</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3>Help Center</h3>
+        <ul>
+          <li><a href="#">Payment</a></li>
+          <li><a href="#">Refund</a></li>
+          <li><a href="#">Checkout</a></li>
+          <li><a href="#">Q&amp;A</a></li>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Shipping</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="copyright">
+      <p>&copy; 2022, All rights reserved</p>
+    </div>
+    <div class="footer-bottom">
+      <img src="images/paypal.webp" alt="PayPal" />
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+

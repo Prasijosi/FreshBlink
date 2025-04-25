@@ -1,13 +1,21 @@
-
-/* General resets */
-body {
+/* Reset default margin, padding and ensure consistent box sizing */
+*,
+*::before,
+*::after {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styling */
+body {
   font-family: Arial, sans-serif;
   background-color: #f7f7f7;
   font-size: 1rem;
+  line-height: 1.5;
 }
 
-/* Navbar */
+/* ========== NAVBAR ========== */
 .navbar {
   display: flex;
   flex-wrap: wrap;
@@ -22,6 +30,7 @@ body {
   width: 9rem;
 }
 
+/* Search box styling */
 .search-box {
   display: flex;
   flex: 1;
@@ -35,6 +44,7 @@ body {
   border: 1px solid #ccc;
   border-right: none;
   background: #f3faef;
+  font-size: 1rem;
 }
 
 .search-box button {
@@ -43,8 +53,10 @@ body {
   border: none;
   color: white;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
+/* Navbar action items (Saved, Cart, Register, Login) */
 .nav-actions {
   display: flex;
   align-items: center;
@@ -59,6 +71,7 @@ body {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  transition: color 0.3s ease;
 }
 
 .login-btn {
@@ -68,9 +81,10 @@ body {
   border: none;
   cursor: pointer;
   border-radius: 0.25rem;
+  transition: all 0.3s ease;
 }
 
-/* Bottom Green Bar */
+/* ========== BOTTOM GREEN BAR (Page Title + Breadcrumb) ========== */
 .bottom-bar {
   background-color: #4DAF22;
   color: white;
@@ -81,7 +95,7 @@ body {
   font-size: 0.875rem;
 }
 
-/* Add Product Form */
+/* ========== ADD PRODUCT FORM ========== */
 .add-product-container {
   background: white;
   padding: 2rem;
@@ -89,7 +103,7 @@ body {
   width: 90%;
   max-width: 32rem;
   margin: 2.5rem auto;
-  box-shadow: 0 0 0.625rem rgba(0,0,0,0.1);
+  box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.1);
 }
 
 .add-product-form {
@@ -118,6 +132,7 @@ body {
   border-radius: 0.25rem;
   font-size: 0.875rem;
   background-color: white;
+  width: 100%;
 }
 
 .add-product-form textarea {
@@ -134,9 +149,10 @@ body {
   border-radius: 0.25rem;
   cursor: pointer;
   font-size: 1rem;
+  transition: all 0.3s ease;
 }
 
-/* Footer */
+/* ========== FOOTER STYLES ========== */
 .footer {
   background-color: #e0e0e0;
   padding: 2.5rem 1.25rem 1.25rem;
@@ -152,6 +168,8 @@ body {
 
 .footer-logo img {
   width: 9rem;
+  max-width: 100%;
+  height: auto;
 }
 
 .footer-column {
@@ -190,7 +208,9 @@ body {
 }
 
 .footer-bottom img {
-  width: 7.5rem;
+  width: 100%;
+  max-width: 7.5rem;
+  height: auto;
   margin-top: 0.625rem;
 }
 
@@ -200,7 +220,7 @@ body {
   color: #333;
 }
 
-/* Responsive Styles */
+/* ========== RESPONSIVE STYLES ========== */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
@@ -213,9 +233,11 @@ body {
     margin: 0;
   }
 
+  /* Keep navbar items inline but wrapped on small screens */
   .nav-actions {
-    width: 100%;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 0.5rem;
   }
 
   .bottom-bar {
@@ -231,20 +253,39 @@ body {
   }
 
   .footer-column {
+    width: 100%;
     margin: 1rem 0;
+  }
+
+  .footer-column ul li a {
+    display: inline-block;
+    margin: 0.25rem 0;
   }
 }
 
-/* Hover Effects */
+@media (max-width: 480px) {
+  .search-box input {
+    font-size: 0.75rem;
+  }
+
+  .nav-actions a,
+  .login-btn {
+    font-size: 0.75rem;
+  }
+
+  .add-product-container {
+    padding: 1rem;
+  }
+}
+
+/* ========== HOVER EFFECTS ========== */
 .search-box button:hover,
 .login-btn:hover,
 .add-product-form button:hover {
   background-color: #388e3c;
   transform: scale(1.02);
-  transition: all 0.3s ease;
 }
 
 .nav-actions a:hover {
   color: #4DAF22;
-  transition: color 0.3s ease;
 }

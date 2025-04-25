@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Meta tags for character encoding and responsive layout -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Title shown on the browser tab -->
+  <title>Profile Settings</title>
+
+  <!-- Link to external CSS file for profile styling -->
+  <link rel="stylesheet" href="profile.css" />
+
+  <!-- Google Fonts for improved typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ========== PROFILE SETTINGS CONTAINER ========== -->
+  <div class="profile-container">
+    
+    <!-- ========== PROFILE HEADER ========== -->
+    <!-- Displays user's profile picture and edit button -->
+    <div class="profile-header">
+      <img src="https://via.placeholder.com/60" alt="Profile Picture" />
+      <button class="edit-btn">Edit Picture</button>
+    </div>
+
+    <!-- ========== PROFILE FORM ========== -->
+    <!-- User form for updating profile information -->
+    <form id="profileForm">
+
+      <!-- Row 1: First and Last Name -->
+      <div class="form-row">
+        <div class="form-group">
+          <input type="text" placeholder="First Name" required />
+        </div>
+        <div class="form-group">
+          <input type="text" placeholder="Last Name" required />
+        </div>
+      </div>
+
+      <!-- Row 2: Email Address (full width) -->
+      <div class="form-row">
+        <div class="form-group" style="flex: 1 1 100%">
+          <input type="email" placeholder="Email Address" required />
+        </div>
+      </div>
+
+      <!-- Row 3: Address and New Password -->
+      <div class="form-row">
+        <div class="form-group">
+          <input type="text" placeholder="Address" />
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="New Password" />
+        </div>
+      </div>
+
+      <!-- Row 4: Current and Confirm Password -->
+      <div class="form-row">
+        <div class="form-group">
+          <input type="password" placeholder="Current Password" required />
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="Confirm Password" required />
+        </div>
+      </div>
+
+      <!-- Save Changes Button -->
+      <button class="save-btn" type="submit">Save Changes</button>
+    </form>
+  </div>
+
+  <!-- Link to external JavaScript file for form logic -->
+  <script src="profile.js"></script>
+</body>
+</html>

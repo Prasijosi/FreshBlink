@@ -26,6 +26,8 @@ class User extends Authenticatable
         'contact_details',
         'address',
         'has',
+        'is_active',
+        'remember_token',
     ];
 
     /**

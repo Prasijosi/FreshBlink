@@ -13,7 +13,7 @@ class ProductCategoryController extends Controller
     public function index()
     {
         $categories = ProductCategory::withCount('products')->paginate(15);
-        return view('categories.index', compact('categories'));
+        return view('userblade.category', compact('categories'));
     }
 
     // Display the specified category and its products
@@ -22,7 +22,7 @@ class ProductCategoryController extends Controller
         $category = ProductCategory::findOrFail($id);
         $products = Product::where('product_category_id', $id)->paginate(12);
         
-        return view('categories.show', compact('category', 'products'));
+        return view('userblade.category', compact('category', 'products'));
     }
 
     // Filter products by multiple categories
@@ -38,13 +38,13 @@ class ProductCategoryController extends Controller
         $products = $query->paginate(12);
         $categories = ProductCategory::all();
         
-        return view('categories.filter', compact('products', 'categories', 'categoryIds'));
+        return view('userblade.category', compact('products', 'categories', 'categoryIds'));
     }
 
     // Browse products by category (for navigation)
     public function browse()
     {
         $categories = ProductCategory::withCount('products')->get();
-        return view('categories.browse', compact('categories'));
+        return view('userblade.category', compact('categories'));
     }
 } 

@@ -18,8 +18,9 @@ use App\Http\Controllers\TraderController;
 */
 
 // Home route
+// Home route
 Route::get('/', function () {
-    return view('welcome');
+    return view('userblade.home');
 });
 
 // Authentication routes

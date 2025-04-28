@@ -9,7 +9,7 @@
   <title>Profile Settings</title>
 
   <!-- Link to external CSS file for profile styling -->
-  <link rel="stylesheet" href="profile.css" />
+  <link rel="stylesheet" href="public/css/profileSettingsTrader.css>
 
   <!-- Google Fonts for improved typography -->
   <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">

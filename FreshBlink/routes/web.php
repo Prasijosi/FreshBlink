@@ -12,3 +12,7 @@ Route::get('/', function () {
 
 Route::get('trader/register', [TraderController::class, 'showRegister']);
 Route::post('trader/register', [TraderController::class, 'register']);
+
+//Traders addProduct
+
+Route::view('trader/profileSetting','traderblade.profileSettings');

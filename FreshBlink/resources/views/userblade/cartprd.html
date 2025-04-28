@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cart - FreshBlink</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+
+<!-- Top Navbar -->
+<div class="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-300 bg-white">
+  <div class="flex items-center gap-2">
+    <a href="#"><img src="images/ logo.png" alt="FreshBlink Logo" class="w-40"></a>
+  </div>
+  <div class="flex items-center gap-2">
+    <input type="text" placeholder="Search Products..." class="px-3 py-2 border rounded-l bg-green-50 focus:outline-none w-48 md:w-64" />
+    <button class="px-3 py-2 bg-green-600 text-white rounded-r">
+      <span class="material-icons">search</span>
+    </button>
+  </div>
+  <div class="flex items-center gap-4">
+    <a href="#" class="flex items-center text-sm text-black hover:text-green-600">
+      <span class="material-icons mr-1">favorite_border</span> Saved
+    </a>
+    <a href="#" class="flex items-center text-sm text-black hover:text-green-600">
+      <span class="material-icons mr-1">shopping_cart</span> Cart
+    </a>
+    <a href="#" class="text-sm text-black hover:text-green-600">Register</a>
+    <button class="bg-green-600 text-white px-4 py-2 rounded text-sm">Login</button>
+  </div>
+</div>
+
+<!-- Cart Content -->
+<div class="max-w-7xl mx-auto my-10 p-4 bg-white rounded-lg">
+  <div class="flex flex-col lg:flex-row gap-6">
+    <!-- Cart Items -->
+    <div class="flex-1">
+      <h2 class="text-xl font-semibold mb-4">Shopping Cart ( * Items )</h2>
+      <div class="flex flex-col gap-4">
+        
+        <!-- Cart Header Row -->
+        <div class="hidden sm:grid grid-cols-6 gap-4 font-semibold text-gray-700 border-b pb-2">
+          <div>Item</div>
+          <div>Name</div>
+          <div>Price</div>
+          <div>Qty</div>
+          <div>Subtotal</div>
+          <div>Action</div>
+        </div>
+
+        <!-- Cart Item Row -->
+        <div class="cart-item grid grid-cols-2 sm:grid-cols-6 gap-4 items-center border-b py-4">
+          <img src="images/Lettuce.jpg" alt="Green Leaf Lettuce" class="w-16 h-16 object-cover rounded mx-auto sm:mx-0">
+          <div class="text-center sm:text-left">Green Leaf Lettuce</div>
+          <div class="item-price text-center sm:text-left">Rs. 100</div>
+          <input type="number" value="1" min="1" class="qty-input w-16 px-2 py-1 border rounded mx-auto sm:mx-0 text-center" />
+          <div class="item-subtotal text-center sm:text-left">Rs. 100.00</div>
+          <button class="remove-item text-red-500 mx-auto sm:mx-0">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+
+        <!-- Another Cart Item Row -->
+        <div class="cart-item grid grid-cols-2 sm:grid-cols-6 gap-4 items-center border-b py-4">
+          <img src="images/milk.png" alt="Fresh Milk" class="w-16 h-16 object-cover rounded mx-auto sm:mx-0">
+          <div class="text-center sm:text-left">Fresh Milk</div>
+          <div class="item-price text-center sm:text-left">Rs. 80</div>
+          <input type="number" value="1" min="1" class="qty-input w-16 px-2 py-1 border rounded mx-auto sm:mx-0 text-center" />
+          <div class="item-subtotal text-center sm:text-left">Rs. 80.00</div>
+          <button class="remove-item text-red-500 mx-auto sm:mx-0">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+
+        <!-- Another Cart Item Row -->
+        <div class="cart-item grid grid-cols-2 sm:grid-cols-6 gap-4 items-center border-b py-4">
+          <img src="images/Brownbread.jpg" alt="Brown Bread" class="w-16 h-16 object-cover rounded mx-auto sm:mx-0">
+          <div class="text-center sm:text-left">Brown Bread</div>
+          <div class="item-price text-center sm:text-left">Rs. 180</div>
+          <input type="number" value="3" min="1" class="qty-input w-16 px-2 py-1 border rounded mx-auto sm:mx-0 text-center" />
+          <div class="item-subtotal text-center sm:text-left">Rs. 540.00</div>
+          <button class="remove-item text-red-500 mx-auto sm:mx-0">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Cart Action Buttons -->
+      <div class="flex flex-wrap justify-center gap-4 mt-6">
+        <button class="px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">Continue Shopping</button>
+        <button id="clear-cart-btn" class="px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">Clear Cart</button>
+        <button class="px-5 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition" id="update-cart-btn">Update Cart</button>
+      </div>
+    </div>
+
+    <!-- Cart Summary -->
+    <div class="w-full lg:w-1/3 border border-gray-300 p-6 bg-gray-100 rounded self-start">
+      <h2 class="text-lg font-semibold mb-4">Summary</h2>
+      <div class="flex justify-between mb-2">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">Rs. 720.00</span>
+      </div>
+      <div class="flex justify-between mb-2">
+        <span>Shipping</span>
+        <span>Free</span>
+      </div>
+      <div class="flex justify-between mb-2">
+        <span>Discount</span>
+        <span>Rs. 0</span>
+      </div>
+      <hr class="my-2">
+      <div class="flex justify-between font-bold text-lg">
+        <span>Total</span>
+        <span id="order-total">Rs. 720.00</span>
+      </div>
+      <button class="w-full mt-4 bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">
+        Proceed to Checkout
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="cart.js"></script>
+
+</body>
+</html>

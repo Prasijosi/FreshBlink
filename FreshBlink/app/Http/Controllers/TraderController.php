@@ -45,4 +45,29 @@ class TraderController extends Controller
     public function showRegister(){
         return view('traderblade.register');
     }
+
+    //Trader Login session starts from here
+
+    public function showLoginForm(){
+        return view('traderblade.traderLogin');
+    }
+    public function login(Request $request){
+        $credential=$request->only('email','password');
+
+        if(Auth::guard('trader')->attempt($credential)){
+            $trader=Auth::guard('trader')->user();
+
+            if($trader->status !=='approved'){
+                Auth::guard('trader')->logout();
+                return redirect()->back()->with('error','Your account is not approved yet');
+            }
+            return redirect('/trader/dashboard')->with('success','Logged in sucessfully');
+
+        }
+        return redirect()->back()->with('error', 'Invalid email or password.');
+    }
+    public function logout(){
+        Auth::guard('trader')->logout();
+        return redirect('/trader/login')->with('success', 'Logged out successfully.');
+    }
 }

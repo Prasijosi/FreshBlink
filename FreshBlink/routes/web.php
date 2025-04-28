@@ -5,7 +5,7 @@ use App\Http\Controllers\TraderController;
 
 
 Route::get('/', function () {
-    return view('userblade.login');
+    return view('userblade.home');
 });
 
 

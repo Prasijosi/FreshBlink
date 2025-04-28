@@ -12,3 +12,5 @@ Route::get('/', function () {
 
 Route::get('trader/register', [TraderController::class, 'showRegister']);
 Route::post('trader/register', [TraderController::class, 'register']);
+//add Product trader routing
+Route::view('trader/addproduct/',"traderblade.addproduct");

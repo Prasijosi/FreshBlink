@@ -40,6 +40,12 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        //  Added trader guard
+        'trader' => [
+            'driver' => 'session',
+            'provider' => 'traders',
+        ],
     ],
 
     /*
@@ -63,6 +69,12 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+
+        // Added trader provider
+        'traders' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Trader::class,
         ],
 
         // 'users' => [

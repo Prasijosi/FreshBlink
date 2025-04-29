@@ -26,6 +26,7 @@ class TraderController extends Controller
             'email' => 'required|string|email|max:255|unique:traders',
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'nullable|string|max:15',
+            'trader_type' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -37,6 +38,7 @@ class TraderController extends Controller
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
             'phone' => $request->input('phone'),
+            'trader_type' => $request->trader_type,
         ]);
 
         return response()->json(['message' => 'Thank you, you will soon be notified when your account gets approved']);
@@ -65,6 +67,9 @@ class TraderController extends Controller
 
         }
         return redirect()->back()->with('error', 'Invalid email or password.');
+        
+        Auth::guard('trader')->login($trader);
+        return redirect()->intended('/trader/dashboard')->with('success','Logged in successfully');
     }
     public function logout(){
         Auth::guard('trader')->logout();

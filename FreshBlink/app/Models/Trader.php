@@ -13,7 +13,7 @@ class Trader extends Authenticatable
    use Notifiable;
 
    protected $fillable =[
-    'name','email','password','phone_number','status',
+    'name','email','password','phone_number','status','trader_type',
    ];
 
    protected $hidden=[

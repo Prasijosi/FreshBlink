@@ -63,13 +63,13 @@ class TraderController extends Controller
                 Auth::guard('trader')->logout();
                 return redirect()->back()->with('error','Your account is not approved yet');
             }
-            return redirect('/trader/dashboard')->with('success','Logged in sucessfully');
+            return view('traderblade.addproduct')->with('success','Logged in sucessfully');
 
         }
         return redirect()->back()->with('error', 'Invalid email or password.');
         
-        Auth::guard('trader')->login($trader);
-        return redirect()->intended('/trader/dashboard')->with('success','Logged in successfully');
+        // Auth::guard('trader')->login($trader);
+        // return redirect()->intended('/trader/dashboard')->with('success','Logged in successfully');
     }
     public function logout(){
         Auth::guard('trader')->logout();

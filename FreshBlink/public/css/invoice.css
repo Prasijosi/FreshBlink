@@ -1,0 +1,334 @@
+/* ========== RESET & BASE STYLES ========== */
+/* Reset default spacing and set box-sizing for all elements */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Base body styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* ========== NAVBAR ========== */
+/* Container for top navigation */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.625rem 1.25rem;
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Logo inside navbar */
+.logo img {
+  width: 160px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Search input container */
+.search-box {
+  display: flex;
+  flex: 1;
+  max-width: 400px;
+  margin: 0 20px;
+}
+
+/* Search input field */
+.search-box input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-right: none;
+  background-color: #f3faef;
+}
+
+/* Search button styling */
+.search-box button {
+  padding: 8px 10px;
+  background-color: #4DAF22;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* Action links in navbar: Saved, Cart, etc. */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Navbar links */
+.nav-actions a {
+  text-decoration: none;
+  color: black;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Login button in navbar */
+.login-btn {
+  background-color: #4DAF22;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* ========== PAGE TITLE / BREADCRUMB ========== */
+/* Green bar below navbar for title and breadcrumb */
+.bottom-bar {
+  background-color: #4DAF22;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ========== INVOICE CONTAINER ========== */
+/* Main container for invoice section */
+.invoice-container {
+  background-color: white;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 900px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Invoice header section */
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo inside invoice header */
+.invoice-logo {
+  width: 120px;
+}
+
+/* Download button */
+.download-btn {
+  background-color: transparent;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Invoice title */
+.invoice-container h2 {
+  font-size: 1.5rem;
+  margin: 1rem 0 0.5rem;
+}
+
+/* Invoice detail section (user, billing info, etc.) */
+.invoice-details {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+/* Each detail block inside invoice */
+.invoice-details div {
+  flex: 1 1 30%;
+}
+
+/* Individual detail paragraphs */
+.invoice-details p {
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+}
+
+/* ========== INVOICE TABLE ========== */
+/* Table displaying invoice items */
+.invoice-table {
+  width: 100%;
+  margin-top: 2rem;
+  border-collapse: collapse;
+}
+
+/* Table headers and cells */
+.invoice-table th,
+.invoice-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+  font-size: 0.875rem;
+}
+
+/* ========== TOTAL SECTION ========== */
+/* Display for invoice total at bottom */
+.invoice-total {
+  text-align: right;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* ========== FOOTER ========== */
+/* Footer container */
+.footer {
+  background-color: #e0e0e0;
+  padding: 2.5rem 1.25rem 1.25rem;
+  margin-top: 3.75rem;
+}
+
+/* Top section with logo and links */
+.footer-top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  max-width: 1200px;
+  margin: 0 auto 1.25rem;
+}
+
+/* Footer logo */
+.footer-logo img {
+  width: 9rem;
+}
+
+/* Each footer column */
+.footer-column {
+  margin: 0.625rem;
+  min-width: 200px;
+}
+
+/* Footer column heading */
+.footer-column h3 {
+  margin-bottom: 0.625rem;
+  font-size: 1.125rem;
+}
+
+/* Unordered list inside footer column */
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* List items in footer links */
+.footer-column ul li {
+  margin-bottom: 0.5rem;
+}
+
+/* Footer links */
+.footer-column ul li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 0.875rem;
+}
+
+/* Horizontal line in footer */
+.footer hr {
+  margin: 1.25rem 0;
+  border: none;
+  border-top: 1px solid #888;
+}
+
+/* Bottom payment/logo area */
+.footer-bottom {
+  text-align: center;
+}
+
+/* Payment method image */
+.footer-bottom img {
+  width: 100%;
+  max-width: 7.5rem;
+  height: auto;
+  margin-top: 0.625rem;
+}
+
+/* Copyright text */
+.copyright {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #333;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+/* Responsive styles for screens smaller than 768px */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.625rem;
+  }
+
+  .search-box {
+    width: 100%;
+    margin: 0;
+  }
+
+  .nav-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+
+  .bottom-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3125rem;
+  }
+
+  .invoice-details {
+    flex-direction: column;
+  }
+
+  .footer-top {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-column {
+    width: 100%;
+    margin: 1rem 0;
+  }
+}
+
+/* ========== HOVER EFFECTS ========== */
+/* Hover effects for buttons */
+.search-box button:hover,
+.login-btn:hover,
+.download-btn:hover {
+  background-color: #388e3c;
+  transform: scale(1.02);
+}
+
+/* Hover effect for navbar links */
+.nav-actions a:hover {
+  color: #4DAF22;
+}
+
+/* Styling for <hr> elements */
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 1rem 0;
+}

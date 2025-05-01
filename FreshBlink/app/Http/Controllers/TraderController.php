@@ -30,7 +30,7 @@ class TraderController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $trader = Trader::create([
@@ -41,7 +41,7 @@ class TraderController extends Controller
             'trader_type' => $request->trader_type,
         ]);
 
-        return response()->json(['message' => 'Thank you, you will soon be notified when your account gets approved']);
+        return redirect()->route('trader.login.form')->with('success', 'Thank you! You will be notified once approved.');
     }
 
     public function showRegister(){

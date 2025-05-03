@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Mail\InvoiceEmail;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -127,6 +129,9 @@ class OrderController extends Controller
         
         // Clear the cart
         $cart->cartProducts()->delete();
+        
+        // Send invoice email
+        Mail::to($order->user->email)->send(new InvoiceEmail($order));
         
         return redirect()->route('orders.success', $order->id)
                          ->with('success', 'Order placed successfully');

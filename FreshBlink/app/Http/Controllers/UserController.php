@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
+use App\Mail\WelcomeEmail;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 
 class UserController extends Controller
 {
@@ -151,6 +154,15 @@ class UserController extends Controller
             'favorite_shop' => null,
         ]);
 
+        // Generate OTP
+        $otp = rand(100000, 999999);
+        
+        // Store OTP in cache for 15 minutes
+        Cache::put('otp_' . $user->id, $otp, now()->addMinutes(15));
+        
+        // Send welcome email with OTP
+        Mail::to($user->email)->send(new WelcomeEmail($user, $otp));
+
         Auth::login($user);
 
         // If there's a cart in session, transfer it to the user's account
@@ -158,7 +170,7 @@ class UserController extends Controller
             app(CartController::class)->transferSessionCart();
         }
 
-        return redirect('dashboard')->with('success', 'Registration successful! Welcome to FreshBlink.');
+        return redirect('dashboard')->with('success', 'Registration successful! Please check your email for the verification OTP.');
     }
 
     // Show user profile

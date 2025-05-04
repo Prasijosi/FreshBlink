@@ -1,175 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FreshBlink - Home</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organic Store</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: white;
+      color: #1a1a1a;
+      padding: 0 96px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 48px;
+    }
+
+    nav {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    nav .left,
+    nav .right {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    nav .browse-btn {
+      background-color: #22c55e;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    nav a.active {
+      color: #15803d;
+      font-weight: bold;
+    }
+
+    .hero {
+      grid-column: 1 / -1;
+      background-color: #d1fae5;
+      padding: 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hero img {
+      max-width: 50%;
+      height: auto;
+    }
+
+    .hero-text {
+      max-width: 50%;
+    }
+
+    .hero-text h1 {
+      font-size: 36px;
+      font-weight: bold;
+    }
+
+    .promo {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 48px;
+      padding: 32px 0;
+    }
+
+    .promo-card {
+      flex: 1;
+      padding: 24px;
+      border-radius: 12px;
+    }
+
+    .promo-card.blue {
+      background-color: #e0f2fe;
+    }
+
+    .promo-card.yellow {
+      background-color: #fef9c3;
+    }
+
+    .promo-card.pink {
+      background-color: #fce7f3;
+    }
+
+    .promo-card button {
+      background-color: #f97316;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+
+    .categories {
+      grid-column: 1 / -1;
+      padding: 32px 0;
+    }
+
+    .categories h2 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 24px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 48px;
+    }
+
+    .category-box {
+      background-color: #f3f4f6;
+      border-radius: 12px;
+      text-align: center;
+      padding: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .category-box:hover {
+      transform: translateY(-5px);
+    }
+
+    .category-box img {
+      margin-bottom: 12px;
+    }
+
+    .category-box p {
+      font-weight: bold;
+    }
+
+    .products, .deals {
+      grid-column: 1 / -1;
+      margin: 48px 0;
+    }
+
+    .products h2, .deals h2 {
+      font-size: 22px;
+      margin-bottom: 24px;
+    }
+
+    .product-grid, .deal-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 24px;
+    }
+
+    .product-card, .deal-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .product-card img, .deal-card img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 12px;
+    }
+
+    .product-card button, .deal-card button {
+      background-color: #ef4444;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .price-old {
+      text-decoration: line-through;
+      color: #9ca3af;
+      font-size: 14px;
+      margin-left: 8px;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 font-sans">
 
-  <!-- Top Navbar -->
-  <div class="flex flex-col md:flex-row justify-between items-center px-5 py-3 border-b border-gray-300 bg-white gap-3 md:gap-0">
-    <!-- Logo -->
-    <div class="w-40">
-      <a href="#"><img src="Image/logo2.png" alt="Logo"></a>
+<body>
+  <div class="container">
+    <nav>
+      <div class="left">
+        <button class="browse-btn"> Browse All Categories</button>
+        <a href="#">🔥 Hot Deals</a>
+      </div>
+      <div class="right">
+        <a href="#" class="active">Home</a>
+        <a href="#">Shop</a>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-text">
+        <p style="color: #15803d; font-weight: bold;">100% Organic</p>
+        <h1>Start Shopping At Our Store</h1>
+        <p style="margin-top: 8px; color: #4b5563;">Save up to 50% off on your first order</p>
+      </div>
+      <img src="https://via.placeholder.com/400x200?text=Fruits+%26+Veggies" alt="Fruits and Veggies">
+    </section>
+
+    <div class="promo">
+      <div class="promo-card blue">
+        <h2>The best Organic Product Online</h2>
+        <img src="https://via.placeholder.com/100x100?text=Veggies">
+        <button>Shop Now</button>
+      </div>
+      <div class="promo-card yellow">
+        <h2>Everyday Fresh & Clean Product</h2>
+        <img src="https://via.placeholder.com/100x100?text=Ginger">
+        <button>Shop Now</button>
+      </div>
+      <div class="promo-card pink">
+        <h2>Make your Breakfast Healthy and Easy</h2>
+        <img src="https://via.placeholder.com/100x100?text=Cake">
+        <button>Shop Now</button>
+      </div>
     </div>
 
-    <!-- Search Box -->
-    <div class="flex w-full md:flex-1 max-w-2xl mx-0 md:mx-5">
-      <input type="text" placeholder="Search Products......." class="w-full px-3 py-2 border border-gray-300 border-r-0 bg-green-50 rounded-l">
-      <button class="bg-green-600 text-white px-3 py-2 rounded-r">
-        <span class="material-icons">search</span>
-      </button>
-    </div>
+    <section class="categories">
+      <h2>Featured Categories</h2>
+      <div class="category-grid">
+        <div class="category-box" style="background-color: #fef3c7;">
+          <img src="https://via.placeholder.com/50x50?text=Bakery">
+          <p>Bakery</p>
+        </div>
+        <div class="category-box" style="background-color: #fecaca;">
+          <img src="https://via.placeholder.com/50x50?text=Meat">
+          <p>Butchery</p>
+        </div>
+        <div class="category-box" style="background-color: #bbf7d0;">
+          <img src="https://via.placeholder.com/50x50?text=Greens">
+          <p>Greengrocer</p>
+        </div>
+        <div class="category-box" style="background-color: #fed7aa;">
+          <img src="https://via.placeholder.com/50x50?text=Delis">
+          <p>Delicatessen</p>
+        </div>
+        <div class="category-box" style="background-color: #bfdbfe;">
+          <img src="https://via.placeholder.com/50x50?text=Fish">
+          <p>Fishmonger</p>
+        </div>
+      </div>
+    </section>
 
-    <!-- Nav Actions -->
-    <div class="flex flex-wrap justify-center md:justify-end items-center gap-6 md:gap-12 w-full md:w-auto">
-      <a href="#" class="text-black text-sm flex items-center gap-1">
-        <span class="material-icons">favorite_border</span> Saved
-      </a>
-      <a href="#" class="text-black text-sm flex items-center gap-1">
-        <span class="material-icons">shopping_cart</span> Cart
-      </a>
-      <a href="#" class="text-black text-sm">Login</a>
-      <button class="bg-green-600 text-white px-4 py-2 rounded">Register</button>
-    </div>
+    <section class="products">
+      <h2>Popular Products</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <img src="https://via.placeholder.com/100x100?text=Watermelon" alt="Watermelon">
+          <p>Vegetable<br>Watermelon 500gm</p>
+          <p>4$ <span class="price-old">5.99$</span></p>
+          <button>🛒 Add</button>
+        </div>
+        <div class="product-card">
+          <img src="https://via.placeholder.com/100x100?text=Brown+Bread" alt="Bread">
+          <p>Bakery<br>Brown Bread</p>
+          <p>2.99$ <span class="price-old">3.99$</span></p>
+          <button>🛒 Add</button>
+        </div>
+        <div class="product-card">
+          <img src="https://via.placeholder.com/100x100?text=Apple" alt="Apple">
+          <p>Fruits<br>Apple 1000 gm</p>
+          <p>2.99$ <span class="price-old">3.99$</span></p>
+          <button>🛒 Add</button>
+        </div>
+        <div class="product-card">
+          <img src="https://via.placeholder.com/100x100?text=Meat" alt="Meat">
+          <p>Butchery<br>Buff Meat 200 gm</p>
+          <p>4.99$ <span class="price-old">6.99$</span></p>
+          <button>🛒 Add</button>
+        </div>
+        <div class="product-card">
+          <img src="https://via.placeholder.com/100x100?text=Nut+Bar" alt="Nut Bar">
+          <p>Snacks<br>Nut Bar</p>
+          <p>0.99$ <span class="price-old">1.99$</span></p>
+          <button>🛒 Add</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="deals">
+      <h2>Deals Of The Day</h2>
+      <div class="deal-grid">
+        <div class="deal-card">
+          <img src="https://via.placeholder.com/100x100?text=Quinoa+Rice" alt="Quinoa">
+          <p>Seeds of Change Organic Quinoa, Brown, & Red Rice</p>
+          <p>$32.85 <span class="price-old">$53.8</span></p>
+          <button>🛒 Add</button>
+        </div>
+        <div class="deal-card">
+          <img src="https://via.placeholder.com/100x100?text=Orange+Meal" alt="Orange Meal">
+          <p>Perdue Simply Smart Organics Gluten Free</p>
+          <p>$24.85 <span class="price-old">$25.6</span></p>
+          <button>🛒 Add</button>
+        </div>
+        <div class="deal-card">
+          <img src="https://via.placeholder.com/100x100?text=Mushroom+Meal" alt="Mushroom">
+          <p>Signature Wood-Fired Mushroom and Caramelized</p>
+          <p>$12.85 <span class="price-old">$18.6</span></p>
+          <button>🛒 Add</button>
+        </div>
+        <div class="deal-card">
+          <img src="https://via.placeholder.com/100x100?text=Lemonade" alt="Lemonade">
+          <p>Simply Lemonade with Raspberry Juice</p>
+          <p>$15.85 <span class="price-old">$18.6</span></p>
+          <button>🛒 Add</button>
+        </div>
+      </div>
+    </section>
   </div>
-
-  <!-- Navbar 2 -->
-  <nav class=" mb-6 flex items-center justify-between px-8 py-4 bg-white shadow">
-    <div class="flex items-center space-x-4">
-      <button class="flex items-center bg-green-600 text-white px-4 py-2 rounded">
-        <img src="Image/Grid.png" class="h-5 w-5 mr-2" alt="Grid Icon" />
-        Browse All Categories
-      </button>
-      <a href="#" class="flex items-center text-gray-700 hover:text-green-600">
-        <img src="Image/icon 1.png" class="h-5 w-5 mr-1" alt="Hot Deals Icon" />
-        Hot Deals
-      </a>
-    </div>
-    <div class="flex space-x-6">
-      <a href="#" class="text-green-600 font-semibold">Home</a>
-      <a href="#" class="text-gray-700 hover:text-green-600">Shop</a>
-      <a href="#" class="text-gray-700 hover:text-green-600">About</a>
-      <a href="#" class="text-gray-700 hover:text-green-600">Blog</a>
-      <a href="#" class="text-gray-700 hover:text-green-600">Contact</a>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="bg-green-100 py-10 px-6">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-6">
-      <div>
-        <p class="text-sm text-red-600 font-bold">100% Organic</p>
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-          Start Shopping At<br />Our Store
-        </h1>
-        <p class="text-gray-600 mt-2">Save up to 50% off on your first order</p>
-      </div>
-      <div class="flex items-center justify-center">
-        <img src="Image/2.png" alt="Organic Foods" class="w-full max-w-xl rounded" />
-      </div>
-    </div>
-  </section>
-<br>
-  <!-- Promo Banners -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto mb-12">
-    <div class="bg-blue-100 p-6 rounded-xl flex flex-col justify-between h-full">
-      <h2 class="text-xl font-semibold mb-4">The best Organic <br />Product Online</h2>
-      <button class="bg-orange-500 text-white px-4 py-2 rounded-full w-max">Shop Now</button>
-      <img src="Image/greenvegie.png" alt="Organic Veggies" class="mt-4">
-    </div>
-    <div class="bg-yellow-100 p-6 rounded-xl flex flex-col justify-between h-full">
-      <h2 class="text-xl font-semibold mb-4">Everyday Fresh & <br />Clean Product</h2>
-      <button class="bg-orange-500 text-white px-4 py-2 rounded-full w-max">Shop Now</button>
-      <img src="Image/ginger.png" alt="Ginger" class="mt-4">
-    </div>
-    <div class="bg-pink-100 p-6 rounded-xl flex flex-col justify-between h-full">
-      <h2 class="text-xl font-semibold mb-4">Make your Breakfast <br />Healthy and Easy</h2>
-      <button class="bg-orange-500 text-white px-4 py-2 rounded-full w-max">Shop Now</button>
-      <img src="Image/cake.png" alt="Cake Slice" class="mt-4">
-    </div>
-  </div>
-
-  <!-- Featured Categories -->
-  <div class="max-w-7xl mx-auto">
-    <h3 class="text-2xl font-bold mb-6">Featured Categories</h3>
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-      <div class="bg-yellow-100 p-4 rounded-xl text-center">
-        <img src="Image/bakery.png" class="mx-auto h-16 mb-2" alt="Bakery">
-        <div class="text-lg font-bold">Bakery</div>
-      </div>
-      <div class="bg-rose-200 p-4 rounded-xl text-center">
-        <img src="Image/butchery.png" class="mx-auto h-16 mb-2" alt="Butchery">
-        <div class="text-lg font-bold">Butchery</div>
-      </div>
-      <div class="bg-lime-100 p-4 rounded-xl text-center">
-        <img src="Image/greengrocer.png" class="mx-auto h-16 mb-2" alt="Greengrocer">
-        <div class="text-lg font-bold">Greengrocer</div>
-      </div>
-      <div class="bg-amber-100 p-4 rounded-xl text-center">
-        <img src="Image/delicatessen.png" class="mx-auto h-16 mb-2" alt="Delicatessen">
-        <div class="text-lg font-bold">Delicatessen</div>
-      </div>
-      <div class="bg-blue-100 p-4 rounded-xl text-center">
-        <img src="Image/fishmonger.png" class="mx-auto h-16 mb-2" alt="Fishmonger">
-        <div class="text-lg font-bold">Fishmonger</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <!-- Footer -->
-  <footer class="bg-gray-300 pt-10 px-5 mt-16">
-    <div class="flex flex-wrap justify-center lg:justify-around gap-6 mb-5">
-      <div class="text-center lg:text-left">
-        <img src="Image/logo2.png" alt="FreshBlink Logo" class="w-36 mx-auto lg:mx-0">
-      </div>
-
-      <div class="min-w-[150px]">
-        <h3 class="text-lg mb-2">Account</h3>
-        <ul class="text-sm text-gray-800 space-y-2">
-          <li><a href="#">Wishlist</a></li>
-          <li><a href="#">Cart</a></li>
-          <li><a href="#">Track Order</a></li>
-          <li><a href="#">Shipping Details</a></li>
-        </ul>
-      </div>
-
-      <div class="min-w-[150px]">
-        <h3 class="text-lg mb-2">Useful Links</h3>
-        <ul class="text-sm text-gray-800 space-y-2">
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Hot Deals</a></li>
-          <li><a href="#">Promotions</a></li>
-          <li><a href="#">New Product</a></li>
-        </ul>
-      </div>
-
-      <div class="min-w-[150px]">
-        <h3 class="text-lg mb-2">Help Center</h3>
-        <ul class="text-sm text-gray-800 space-y-2">
-          <li><a href="#">Payment</a></li>
-          <li><a href="#">Refund</a></li>
-          <li><a href="#">Checkout</a></li>
-          <li><a href="#">Q&amp;A</a></li>
-          <li><a href="#">Shipping</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <hr class="border-t border-gray-600 my-5">
-    <div class="text-center text-sm text-gray-800 mb-3">
-      <p>&copy; 2022, All rights reserved</p>
-    </div>
-    <div class="text-center">
-      <img src="Image/paypal.webp" alt="PayPal" class="w-28 mx-auto">
-    </div>
-  </footer>
-
 </body>
+
 </html>

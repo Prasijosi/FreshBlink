@@ -10,6 +10,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\TraderController;
+use App\Http\Controllers\PayPalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -143,4 +144,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/discounts/create', [AdminController::class, 'createDiscount'])->name('discounts.create');
         Route::post('/discounts', [AdminController::class, 'storeDiscount'])->name('discounts.store');
     });
+});
+
+// PayPal Routes
+Route::prefix('paypal')->group(function () {
+    Route::get('payment', function () {
+        return view('payment.form');
+    })->name('paypal.payment');
+    Route::post('create-payment', [PayPalController::class, 'createPayment'])->name('paypal.create');
+    Route::get('success', [PayPalController::class, 'success'])->name('paypal.success');
+    Route::get('cancel', [PayPalController::class, 'cancel'])->name('paypal.cancel');
 });

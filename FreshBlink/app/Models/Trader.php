@@ -20,4 +20,8 @@ class Trader extends Authenticatable
     'password',
    ];
 
+   public function shop(){
+    return $this->hasMany(Shop::class);
+   }  
+
 }

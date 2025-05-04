@@ -1,35 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Meta tags for character set and responsive design -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
-  <!-- Page title shown on browser tab -->
   <title>Add Product - FreshBlink</title>
 
-  <!-- Link to external CSS for styling -->
-  <link rel="stylesheet" href="styles.css" />
-  
-  <!-- Google Material Icons (used for icons in navbar) -->
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="{{ asset('css/addProductTrader.css') }}" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
   <!-- ========== NAVIGATION BAR ========== -->
   <div class="navbar">
-    <!-- Website Logo -->
     <div class="logo">
-      <a href="#"><img src="images/logo2.png" alt="FreshBlink Logo"></a>
+      <a href="#"><img src="{{ asset('images/logo2.png') }}" alt="FreshBlink Logo"></a>
     </div>
-
-    <!-- Search bar in the middle of navbar -->
     <div class="search-box">
       <input type="text" placeholder="Search Products......." />
       <button><span class="material-icons">search</span></button>
     </div>
-
-    <!-- Navigation actions like wishlist, cart, register and login -->
     <div class="nav-actions">
       <a href="#"><span class="material-icons">favorite_border</span> Saved</a>
       <a href="#"><span class="material-icons">shopping_cart</span> Cart</a>
@@ -40,58 +30,57 @@
 
   <!-- ========== PAGE BREADCRUMB & TITLE ========== -->
   <div class="bottom-bar">
-    <span>Add Product</span> <!-- Page Title -->
-    <span class="breadcrumb">Trader &gt; Add Product</span> <!-- Navigation trail -->
+    <span>Add Product</span>
+    <span class="breadcrumb">Trader &gt; Add Product</span>
   </div>
 
   <!-- ========== ADD PRODUCT FORM ========== -->
   <div class="add-product-container">
-    <form class="add-product-form">
-      <h2>Add New Product</h2> <!-- Form Header -->
+    <!-- Laravel Form: Pratik added CSRF, method, action, enctype -->
+    <form class="add-product-form" method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
+      @csrf <!-- CSRF protection (required by Laravel) -->
 
-      <!-- Product Info Section Header -->
+      <h2>Add New Product</h2>
       <h3>Product Info</h3>
 
-      <!-- Input field for product name -->
+      <!-- Product Name -->
       <label for="productName">Product Name</label>
-      <input type="text" id="productName" placeholder="Enter product name" required>
+      <input type="text" name="name" id="productName" placeholder="Enter product name" required>
 
-      <!-- Textarea for product description -->
+      <!-- Description -->
       <label for="productDesc">Detailed Description</label>
-      <textarea id="productDesc" placeholder="Enter product description" required></textarea>
+      <textarea name="description" id="productDesc" placeholder="Enter product description" required></textarea>
 
-      <!-- Input for available quantity -->
+      <!-- Quantity -->
       <label for="quantity">Quantity</label>
-      <input type="number" id="quantity" placeholder="Available stock" required>
+      <input type="number" name="quantity" id="quantity" placeholder="Available stock" required>
 
-      <!-- Input for minimum order limit -->
+      <!-- Minimum Order -->
       <label for="minOrder">Minimum Order</label>
-      <input type="number" id="minOrder" placeholder="Minimum quantity per order" required>
+      <input type="number" name="min_order" id="minOrder" placeholder="Minimum quantity per order" required>
 
-      <!-- Input for maximum order limit -->
+      <!-- Maximum Order -->
       <label for="maxOrder">Maximum Order</label>
-      <input type="number" id="maxOrder" placeholder="Maximum quantity per order" required>
+      <input type="number" name="max_order" id="maxOrder" placeholder="Maximum quantity per order" required>
 
-      <!-- Input for product price -->
+      <!-- Price -->
       <label for="price">Price</label>
-      <input type="number" id="price" placeholder="Enter price" required>
+      <input type="number" name="price" id="price" placeholder="Enter price" required>
 
-      <!-- Dropdown to select the shop category -->
+      <!-- Shop Dropdown (dynamic) -->
       <label for="shop">Shop</label>
-      <select id="shop" required>
+      <select name="shop_id" id="shop" required>
         <option value="" disabled selected>Select shop</option>
-        <option value="shop1">Butchers</option>
-        <option value="shop2">Greengrocer</option>
-        <option value="shop3">Fishmonger</option>
-        <option value="shop4">Bakery</option>
-        <option value="shop5"></option>
+        @foreach($shops as $shop)
+          <option value="{{ $shop->id }}">{{ $shop->shop_name }}</option>
+        @endforeach
       </select>
 
-      <!-- File input for uploading product image -->
+      <!-- Image Upload -->
       <label for="image">Upload Product Image</label>
-      <input type="file" id="image" required>
+      <input type="file" name="image" id="image" required>
 
-      <!-- Form submission button -->
+      <!-- Submit Button -->
       <button type="submit">Submit</button>
     </form>
   </div>
@@ -99,12 +88,9 @@
   <!-- ========== FOOTER ========== -->
   <footer class="footer">
     <div class="footer-top">
-      <!-- Footer logo -->
       <div class="footer-logo">
-        <img src="images/logo2.png" alt="FreshBlink Logo" />
+        <img src="{{ asset('images/logo2.png') }}" alt="FreshBlink Logo" />
       </div>
-
-      <!-- Footer links: Account -->
       <div class="footer-column">
         <h3>Account</h3>
         <ul>
@@ -114,8 +100,6 @@
           <li><a href="#">Shipping Details</a></li>
         </ul>
       </div>
-
-      <!-- Footer links: Useful links -->
       <div class="footer-column">
         <h3>Useful links</h3>
         <ul>
@@ -126,8 +110,6 @@
           <li><a href="#">New product</a></li>
         </ul>
       </div>
-
-      <!-- Footer links: Help Center -->
       <div class="footer-column">
         <h3>Help Center</h3>
         <ul>
@@ -136,26 +118,18 @@
           <li><a href="#">Checkout</a></li>
           <li><a href="#">Q&amp;A</a></li>
           <li><a href="#">Shipping</a></li>
-          <li><a href="#">Shipping</a></li>
         </ul>
       </div>
     </div>
-
-    <!-- Divider line -->
     <hr />
-
-    <!-- Copyright -->
     <div class="copyright">
-        <p>&copy; 2022, All rights reserved</p>
+      <p>&copy; 2022, All rights reserved</p>
     </div>
-
-    <!-- Payment options (e.g., PayPal logo) -->
     <div class="footer-bottom">
-        <img src="images/paypal.webp" alt="PayPal" />
+      <img src="{{ asset('images/paypal.webp') }}" alt="PayPal" />
     </div>
   </footer>
 
-  <!-- Link to external JavaScript functionality -->
-  <script src="script.js"></script>
+  <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>

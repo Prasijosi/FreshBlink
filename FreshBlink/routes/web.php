@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TraderController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProductController;
+
 
 // Home route
 Route::get('/', function () {
@@ -26,8 +28,17 @@ Route::get('/trader/dashboard', function () {
     return 'Welcome to Trader Dashboard!';
 })->middleware('auth:trader')->name('trader.dashboard');
 
+// Trader Add Product
+
+
+Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
+Route::get('/trader/products', [ProductController::class, 'index'])->name('trader.products.index');
+
+
 
 // Admin: Trader Management Routes
 Route::get('/admin/traders', [AdminController::class, 'index'])->name('admin.traders.index');
 Route::post('/admin/traders/{id}/approve', [AdminController::class, 'approve'])->name('admin.traders.approve');
 Route::post('/admin/traders/{id}/reject', [AdminController::class, 'reject'])->name('admin.traders.reject');
+
+

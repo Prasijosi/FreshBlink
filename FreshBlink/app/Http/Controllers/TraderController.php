@@ -26,10 +26,11 @@ class TraderController extends Controller
             'email' => 'required|string|email|max:255|unique:traders',
             'password' => 'required|string|min:6|confirmed',
             'phone' => 'nullable|string|max:15',
+            'trader_type' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => $validator->errors()], 422);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $trader = Trader::create([
@@ -37,12 +38,41 @@ class TraderController extends Controller
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
             'phone' => $request->input('phone'),
+            'trader_type' => $request->trader_type,
         ]);
 
-        return response()->json(['message' => 'Thank you, you will soon be notified when your account gets approved']);
+        return redirect()->route('trader.login.form')->with('success', 'Thank you! You will be notified once approved.');
     }
 
     public function showRegister(){
         return view('traderblade.register');
+    }
+
+    //Trader Login session starts from here
+
+    public function showLoginForm(){
+        return view('traderblade.traderLogin');
+    }
+    public function login(Request $request){
+        $credential=$request->only('email','password');
+
+        if(Auth::guard('trader')->attempt($credential)){
+            $trader=Auth::guard('trader')->user();
+
+            if($trader->status !=='approved'){
+                Auth::guard('trader')->logout();
+                return redirect()->back()->with('error','Your account is not approved yet');
+            }
+            return view('traderblade.addproduct')->with('success','Logged in sucessfully');
+
+        }
+        return redirect()->back()->with('error', 'Invalid email or password.');
+        
+        // Auth::guard('trader')->login($trader);
+        // return redirect()->intended('/trader/dashboard')->with('success','Logged in successfully');
+    }
+    public function logout(){
+        Auth::guard('trader')->logout();
+        return redirect('/trader/login')->with('success', 'Logged out successfully.');
     }
 }

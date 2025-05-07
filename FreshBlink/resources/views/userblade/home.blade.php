@@ -67,7 +67,9 @@
 
     .hero img {
       max-width: 50%;
-      height: auto;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 12px;
     }
 
     .hero-text {
@@ -114,6 +116,14 @@
       margin-top: 12px;
     }
 
+    .promo-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+
     .categories {
       grid-column: 1 / -1;
       padding: 32px 0;
@@ -144,6 +154,10 @@
     }
 
     .category-box img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
       margin-bottom: 12px;
     }
 
@@ -175,8 +189,10 @@
     }
 
     .product-card img, .deal-card img {
-      width: 100px;
-      height: auto;
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
       margin-bottom: 12px;
     }
 
@@ -221,23 +237,23 @@
         <h1>Start Shopping At Our Store</h1>
         <p style="margin-top: 8px; color: #4b5563;">Save up to 50% off on your first order</p>
       </div>
-      <img src="https://via.placeholder.com/400x200?text=Fruits+%26+Veggies" alt="Fruits and Veggies">
+      <img src="{{ asset('images/vector.png') }}" alt="Fruits and Veggies">
     </section>
 
     <div class="promo">
       <div class="promo-card blue">
         <h2>The best Organic Product Online</h2>
-        <img src="https://via.placeholder.com/100x100?text=Veggies">
+        <img src="{{ asset('images/greenvegie.png') }}">
         <button>Shop Now</button>
       </div>
       <div class="promo-card yellow">
         <h2>Everyday Fresh & Clean Product</h2>
-        <img src="https://via.placeholder.com/100x100?text=Ginger">
+        <img src="{{ asset('images/ginger.png') }}">
         <button>Shop Now</button>
       </div>
       <div class="promo-card pink">
         <h2>Make your Breakfast Healthy and Easy</h2>
-        <img src="https://via.placeholder.com/100x100?text=Cake">
+        <img src="{{ asset('images/cake.png') }}">
         <button>Shop Now</button>
       </div>
     </div>
@@ -246,23 +262,23 @@
       <h2>Featured Categories</h2>
       <div class="category-grid">
         <div class="category-box" style="background-color: #fef3c7;">
-          <img src="https://via.placeholder.com/50x50?text=Bakery">
+          <img src="{{ asset('images/bakery.jpg') }}">
           <p>Bakery</p>
         </div>
         <div class="category-box" style="background-color: #fecaca;">
-          <img src="https://via.placeholder.com/50x50?text=Meat">
+          <img src="{{ asset('images/meat_steak.webp') }}">
           <p>Butchery</p>
         </div>
         <div class="category-box" style="background-color: #bbf7d0;">
-          <img src="https://via.placeholder.com/50x50?text=Greens">
+          <img src="{{ asset('images/vegetable_vector.png') }}">
           <p>Greengrocer</p>
         </div>
         <div class="category-box" style="background-color: #fed7aa;">
-          <img src="https://via.placeholder.com/50x50?text=Delis">
+          <img src="{{ asset('images/sandwitch.jpg') }}">
           <p>Delicatessen</p>
         </div>
         <div class="category-box" style="background-color: #bfdbfe;">
-          <img src="https://via.placeholder.com/50x50?text=Fish">
+          <img src="{{ asset('images/fish.png') }}">
           <p>Fishmonger</p>
         </div>
       </div>
@@ -272,31 +288,31 @@
       <h2>Popular Products</h2>
       <div class="product-grid">
         <div class="product-card">
-          <img src="https://via.placeholder.com/100x100?text=Watermelon" alt="Watermelon">
+          <img src="{{ asset('images/watermelom.png') }}" alt="Watermelon">
           <p>Vegetable<br>Watermelon 500gm</p>
           <p>4$ <span class="price-old">5.99$</span></p>
           <button>🛒 Add</button>
         </div>
         <div class="product-card">
-          <img src="https://via.placeholder.com/100x100?text=Brown+Bread" alt="Bread">
+          <img src="{{ asset('images/bread.png') }}" alt="Bread">
           <p>Bakery<br>Brown Bread</p>
           <p>2.99$ <span class="price-old">3.99$</span></p>
           <button>🛒 Add</button>
         </div>
         <div class="product-card">
-          <img src="https://via.placeholder.com/100x100?text=Apple" alt="Apple">
+          <img src="{{ asset('images/apple.png') }}" alt="Apple">
           <p>Fruits<br>Apple 1000 gm</p>
           <p>2.99$ <span class="price-old">3.99$</span></p>
           <button>🛒 Add</button>
         </div>
         <div class="product-card">
-          <img src="https://via.placeholder.com/100x100?text=Meat" alt="Meat">
+          <img src="{{ asset('images/buff2.png') }}" alt="Meat">
           <p>Butchery<br>Buff Meat 200 gm</p>
           <p>4.99$ <span class="price-old">6.99$</span></p>
           <button>🛒 Add</button>
         </div>
         <div class="product-card">
-          <img src="https://via.placeholder.com/100x100?text=Nut+Bar" alt="Nut Bar">
+          <img src="{{ asset('images/cookies.png') }}" alt="Nut Bar">
           <p>Snacks<br>Nut Bar</p>
           <p>0.99$ <span class="price-old">1.99$</span></p>
           <button>🛒 Add</button>
@@ -308,25 +324,25 @@
       <h2>Deals Of The Day</h2>
       <div class="deal-grid">
         <div class="deal-card">
-          <img src="https://via.placeholder.com/100x100?text=Quinoa+Rice" alt="Quinoa">
+          <img src="{{ asset('images/1.png') }}" alt="Quinoa">
           <p>Seeds of Change Organic Quinoa, Brown, & Red Rice</p>
           <p>$32.85 <span class="price-old">$53.8</span></p>
           <button>🛒 Add</button>
         </div>
         <div class="deal-card">
-          <img src="https://via.placeholder.com/100x100?text=Orange+Meal" alt="Orange Meal">
+          <img src="{{ asset('images/2.png') }}" alt="Orange Meal">
           <p>Perdue Simply Smart Organics Gluten Free</p>
           <p>$24.85 <span class="price-old">$25.6</span></p>
           <button>🛒 Add</button>
         </div>
         <div class="deal-card">
-          <img src="https://via.placeholder.com/100x100?text=Mushroom+Meal" alt="Mushroom">
+          <img src="{{ asset('images/piz.jpg') }}" alt="Mushroom">
           <p>Signature Wood-Fired Mushroom and Caramelized</p>
           <p>$12.85 <span class="price-old">$18.6</span></p>
           <button>🛒 Add</button>
         </div>
         <div class="deal-card">
-          <img src="https://via.placeholder.com/100x100?text=Lemonade" alt="Lemonade">
+          <img src="{{ asset('images/lime.webp') }}" alt="Lemonade">
           <p>Simply Lemonade with Raspberry Juice</p>
           <p>$15.85 <span class="price-old">$18.6</span></p>
           <button>🛒 Add</button>

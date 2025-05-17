@@ -42,12 +42,17 @@ class PayPalService
             'purchase_units' => [[
                 'amount' => [
                     'currency_code' => $currency,
-                    'value' => $amount
-                ]
+                    'value' => number_format($amount, 2, '.', '')
+                ],
+                'description' => 'FreshBlink Order Payment'
             ]],
             'application_context' => [
                 'return_url' => route('paypal.success'),
-                'cancel_url' => route('paypal.cancel')
+                'cancel_url' => route('paypal.cancel'),
+                'brand_name' => 'FreshBlink',
+                'landing_page' => 'NO_PREFERENCE',
+                'user_action' => 'PAY_NOW',
+                'shipping_preference' => 'NO_SHIPPING'
             ]
         ];
 

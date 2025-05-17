@@ -148,10 +148,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // PayPal Routes
 Route::prefix('paypal')->group(function () {
-    Route::get('payment', function () {
-        return view('payment.form');
-    })->name('paypal.payment');
+    Route::get('payment', [PayPalController::class, 'showPaymentForm'])->name('paypal.payment');
     Route::post('create-payment', [PayPalController::class, 'createPayment'])->name('paypal.create');
     Route::get('success', [PayPalController::class, 'success'])->name('paypal.success');
     Route::get('cancel', [PayPalController::class, 'cancel'])->name('paypal.cancel');
 });
+
+// Password Reset Routes
+Route::get('forgot-password', [UserController::class, 'showForgotPassword'])->name('password.request');
+Route::post('forgot-password', [UserController::class, 'forgotPassword'])->name('password.email');
+Route::get('reset-password/{token}', [UserController::class, 'showResetPassword'])->name('password.reset');
+Route::post('reset-password', [UserController::class, 'resetPassword'])->name('password.update');

@@ -23,14 +23,32 @@
 
                 <form method="POST" action="{{ route('paypal.create') }}" class="space-y-4">
                     @csrf
+                    <input type="hidden" name="order_id" value="{{ $order->id }}">
+                    
                     <div class="space-y-2">
-                        <label for="amount" class="block text-sm font-medium text-gray-700">Amount (USD)</label>
-                        <input type="number" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
-                               id="amount" name="amount" value="10.00" step="0.01" min="0.01" required>
+                        <h3 class="text-lg font-medium text-gray-900">Order Summary</h3>
+                        <div class="bg-gray-50 p-4 rounded-md">
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-600">Order Total:</span>
+                                <span class="font-medium">${{ number_format($order->total_order, 2) }}</span>
+                            </div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-gray-600">Items:</span>
+                                <span class="font-medium">{{ $order->no_of_product }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <h3 class="text-lg font-medium text-gray-900">Payment Method</h3>
+                        <div class="flex items-center space-x-2">
+                            <img src="{{ asset('Image/paypal.webp') }}" alt="PayPal" class="h-8">
+                            <span class="text-gray-600">PayPal</span>
+                        </div>
                     </div>
                     
                     <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                        Pay with PayPal
+                        Pay ${{ number_format($order->total_order, 2) }} with PayPal
                     </button>
                 </form>
             </div>

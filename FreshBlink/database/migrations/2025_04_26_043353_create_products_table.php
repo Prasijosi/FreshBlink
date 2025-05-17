@@ -25,8 +25,11 @@ return new class extends Migration
             $table->string('product_image')->nullable();
             $table->decimal('stock_no', 10)->nullable();
             $table->timestamps();
-            
-            $table->foreign('product_category_id')->references('id')->on('product_categories')->onDelete('set null');
+
+            $table->foreign('product_category_id')
+                  ->references('id')
+                  ->on('product_categories')
+                  ->onDelete('set null');
         });
     }
 

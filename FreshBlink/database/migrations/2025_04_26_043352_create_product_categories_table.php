@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reports', function (Blueprint $table) {
+        Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('product_id')->constrained('products');
-            $table->text('report_details')->nullable();
-            $table->boolean('is_of')->default(false);
-            $table->boolean('is_received_by')->default(false);
+            $table->string('product_category_name');
+            $table->text('description')->nullable();
+            $table->string('product_category_image')->nullable();
+            $table->date('created_on')->nullable();
+            $table->date('updated_on')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reports');
+        Schema::dropIfExists('product_categories');
     }
 };

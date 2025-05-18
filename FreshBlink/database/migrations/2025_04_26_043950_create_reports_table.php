@@ -16,8 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('product_id')->constrained('products');
             $table->text('report_details')->nullable();
-            $table->boolean('is_of_product')->default(false);
-            $table->boolean('is_received_by')->default(false);
+            $table->text('is_of_product')->default(false);
             $table->timestamps();
         });
     }

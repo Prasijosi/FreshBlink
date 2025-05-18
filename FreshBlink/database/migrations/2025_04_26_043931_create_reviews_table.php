@@ -15,12 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('product_id')->constrained('products');
-            $table->text('review_details')->nullable();
             $table->date('review_date')->nullable();
             $table->integer('rating')->default(0);
             $table->text('comment')->nullable();
-            $table->boolean('belongs_to')->default(false);
-            $table->boolean('is_given_by')->default(false);
             $table->timestamps();
         });
     }

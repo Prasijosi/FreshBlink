@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('payment_id')->constrained('payments');
+            $table->foreignId('payment_id')->constrained(table: 'payments');
+            $table->foreignId('user_id')->constrained(table: 'users');
             $table->string('invoice_id');
             $table->string('status')->default('pending');
             $table->date('date')->nullable();
-            $table->date('updated_date')->nullable();
             $table->date('due_date')->nullable();
-            $table->boolean('is_received_by')->default(false);
             $table->timestamps();
         });
     }

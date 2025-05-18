@@ -12,23 +12,19 @@ class Review extends Model
     protected $fillable = [
         'user_id',
         'product_id',
-        'review_details',
-        'review_date',
         'rating',
         'comment',
-        'belongs_to',
-        'is_given_by',
+        'is_verified_purchase',
+        'status', // pending, approved, rejected
     ];
 
     protected $casts = [
-        'review_date' => 'date',
         'rating' => 'integer',
-        'belongs_to' => 'boolean',
-        'is_given_by' => 'boolean',
+        'is_verified_purchase' => 'boolean',
     ];
 
     /**
-     * Get the user that wrote the review.
+     * Get the user who wrote the review.
      */
     public function user()
     {
@@ -41,5 +37,21 @@ class Review extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * Scope a query to only include approved reviews.
+     */
+    public function scopeApproved($query)
+    {
+        return $query->where('status', 'approved');
+    }
+
+    /**
+     * Scope a query to only include verified purchase reviews.
+     */
+    public function scopeVerified($query)
+    {
+        return $query->where('is_verified_purchase', true);
     }
 }

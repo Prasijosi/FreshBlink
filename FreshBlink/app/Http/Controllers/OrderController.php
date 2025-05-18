@@ -8,6 +8,7 @@ use App\Models\CollectionSlot;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -59,6 +60,7 @@ class OrderController extends Controller
         $validator = Validator::make($request->all(), [
             'collection_slot_id' => 'required|exists:collection_slots,id',
             'payment_method' => 'required|in:credit_card,paypal,cash',
+            'use_loyalty_points' => 'boolean',
         ]);
         
         if ($validator->fails()) {
@@ -67,6 +69,7 @@ class OrderController extends Controller
         
         $userId = Auth::id();
         $cart = Cart::where('user_id', $userId)->first();
+        $customer = Auth::user()->customer;
         
         if (!$cart || $cart->cartProducts()->count() == 0) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty');
@@ -85,6 +88,20 @@ class OrderController extends Controller
             $total += $item->product->price * $item->quantity;
             $productCount += $item->quantity;
         }
+
+        // Apply loyalty points discount if requested
+        $pointsDiscount = 0;
+        if ($request->use_loyalty_points && $customer->loyalty_points > 0) {
+            // Convert points to discount (1 point = $0.01)
+            $maxDiscount = $customer->loyalty_points * 0.01;
+            $pointsDiscount = min($maxDiscount, $total * 0.3); // Max 30% discount
+            $total -= $pointsDiscount;
+            
+            // Deduct used points
+            $pointsUsed = ceil($pointsDiscount * 100);
+            $customer->loyalty_points -= $pointsUsed;
+            $customer->save();
+        }
         
         // Create order
         $order = Order::create([
@@ -93,6 +110,7 @@ class OrderController extends Controller
             'collection_slot_id' => $request->collection_slot_id,
             'no_of_product' => $productCount,
             'total_order' => $total,
+            'points_discount' => $pointsDiscount,
             'status' => 'pending'
         ]);
         
@@ -127,6 +145,11 @@ class OrderController extends Controller
             'due_date' => now()->addDays(7)
         ]);
         
+        // Award loyalty points (1 point for each dollar spent)
+        $earnedPoints = floor($total);
+        $customer->loyalty_points += $earnedPoints;
+        $customer->save();
+        
         // Clear the cart
         $cart->cartProducts()->delete();
         
@@ -134,7 +157,7 @@ class OrderController extends Controller
         Mail::to($order->user->email)->send(new InvoiceEmail($order));
         
         return redirect()->route('orders.success', $order->id)
-                         ->with('success', 'Order placed successfully');
+                         ->with('success', 'Order placed successfully! You earned ' . $earnedPoints . ' loyalty points.');
     }
 
     // Order success page

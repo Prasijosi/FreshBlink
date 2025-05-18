@@ -28,11 +28,13 @@ class Order extends Model
         'required_slot',
         'is_placed',
         'is_received',
+        'points_discount',
     ];
 
     protected $casts = [
         'total_order' => 'decimal:2',
         'total_price' => 'decimal:2',
+        'points_discount' => 'decimal:2',
         'slot_date' => 'date',
         'time_details' => 'datetime',
         'required_slot' => 'boolean',

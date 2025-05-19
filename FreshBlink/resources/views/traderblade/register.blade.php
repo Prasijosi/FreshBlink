@@ -40,8 +40,13 @@
         <label for="password_confirmation">Confirm Password:</label><br>
         <input type="password" name="password_confirmation" id="password_confirmation" required><br><br>
 
-        <label for="trader_type">Enter your trader type:</label><br>
-        <input type="text" name="trader_type" id="trader_type" required><br><br>
+        <label for="trader_type">Select your trader type:</label><br>
+        <select name="trader_type" id="trader_type" required>
+            <option value="">Select a type</option>
+            @foreach(App\Models\Trader::TRADER_TYPES as $value => $label)
+                <option value="{{ $value }}">{{ $label }}</option>
+            @endforeach
+        </select><br><br>
 
         <label for="phone_number">Phone Number (optional):</label><br>
         <input type="text" name="phone_number" id="phone_number"><br><br>

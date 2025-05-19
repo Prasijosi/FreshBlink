@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TraderStatusUpdateEmail;
 
 class AdminController extends Controller
 {
@@ -45,10 +47,39 @@ class AdminController extends Controller
     }
 
     // Trader management
-    public function index()
+    public function index(Request $request)
     {
-        $traders = Trader::all();
-        return view('adminblade.traders', compact('traders'));
+        $query = Trader::query();
+        
+        // Filter by status
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+        
+        // Filter by trader type
+        if ($request->has('type')) {
+            $query->where('trader_type', $request->type);
+        }
+        
+        // Search by name or email
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+        
+        $traders = $query->latest()->paginate(10);
+        $traderTypes = Trader::distinct()->pluck('trader_type');
+        
+        return view('adminblade.traders', compact('traders', 'traderTypes'));
+    }
+
+    public function showTrader($id)
+    {
+        $trader = Trader::with(['products', 'orders'])->findOrFail($id);
+        return view('adminblade.trader-details', compact('trader'));
     }
 
     public function approve($id)
@@ -56,7 +87,15 @@ class AdminController extends Controller
         $trader = Trader::findOrFail($id);
         $trader->status = 'approved';
         $trader->save();
-        return redirect()->back()->with('success', 'Trader approved');
+
+        // Send email notification
+        try {
+            Mail::to($trader->email)->send(new TraderStatusUpdateEmail($trader, 'approved'));
+        } catch (\Exception $e) {
+            \Log::error('Failed to send trader approval email: ' . $e->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Trader has been approved successfully');
     }
 
     public function reject($id)
@@ -64,7 +103,21 @@ class AdminController extends Controller
         $trader = Trader::findOrFail($id);
         $trader->status = 'rejected';
         $trader->save();
-        return redirect()->back()->with('success', 'Trader rejected');
+
+        // Send email notification
+        try {
+            Mail::to($trader->email)->send(new TraderStatusUpdateEmail($trader, 'rejected'));
+        } catch (\Exception $e) {
+            \Log::error('Failed to send trader rejection email: ' . $e->getMessage());
+        }
+
+        return redirect()->back()->with('success', 'Trader has been rejected');
+    }
+
+    public function getTraderDetails($id)
+    {
+        $trader = Trader::with(['products', 'orders'])->findOrFail($id);
+        return view('adminblade.trader-details-partial', compact('trader'));
     }
 
     // Show admin login form

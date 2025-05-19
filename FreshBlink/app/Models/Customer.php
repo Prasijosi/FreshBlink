@@ -14,16 +14,10 @@ class Customer extends Model
         'notification_preference',
         'loyalty_points',
         'favorite_shop',
-        'gives',
-        'places',
-        'receives',
     ];
 
     protected $casts = [
         'loyalty_points' => 'integer',
-        'gives' => 'boolean',
-        'places' => 'boolean',
-        'receives' => 'boolean',
     ];
 
     /**

@@ -12,6 +12,14 @@ class Trader extends Authenticatable
 {
    use Notifiable;
 
+   const TRADER_TYPES = [
+    'GROCERY_STORE' => 'Grocery Store',
+    'RESTAURANT' => 'Restaurant',
+    'BAKERY' => 'Bakery',
+    'BUTCHER_SHOP' => 'Butcher Shop',
+    'SEAFOOD_MARKET' => 'Seafood Market'
+   ];
+
    protected $fillable = [
     'name',
     'email',
@@ -29,4 +37,12 @@ class Trader extends Authenticatable
     'email_verified_at' => 'datetime',
     'password' => 'hashed',
    ];
+
+   /**
+    * Get the display name for the trader type
+    */
+   public function getTraderTypeDisplayAttribute()
+   {
+       return self::TRADER_TYPES[$this->trader_type] ?? $this->trader_type;
+   }
 }

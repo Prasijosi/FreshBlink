@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->string('admin_permission');
-            $table->string('emergency_contact')->nullable();
-            $table->boolean('receives')->default(false);
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->string('phone')->nullable();
             $table->timestamps();
         });
     }

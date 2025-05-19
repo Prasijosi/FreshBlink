@@ -29,7 +29,7 @@ class TraderController extends Controller
             'email' => 'required|string|email|max:255|unique:traders',
             'password' => 'required|string|min:6|confirmed',
             'phone_number' => 'nullable|string|max:15',
-            'trader_type' => 'required|string|max:255',
+            'trader_type' => 'required|in:GROCERY_STORE,RESTAURANT,BAKERY,BUTCHER_SHOP,SEAFOOD_MARKET',
         ]);
 
         if ($validator->fails()) {

@@ -12,12 +12,21 @@ class Trader extends Authenticatable
 {
    use Notifiable;
 
-   protected $fillable =[
-    'name','email','password','phone_number','status',
+   protected $fillable = [
+    'name',
+    'email',
+    'password',
+    'phone',
+    'status',
+    'trader_type'
    ];
 
-   protected $hidden=[
+   protected $hidden = [
     'password',
    ];
 
+   protected $casts = [
+    'email_verified_at' => 'datetime',
+    'password' => 'hashed',
+   ];
 }

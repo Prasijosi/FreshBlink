@@ -7,21 +7,20 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;
 
 class WelcomeEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $user;
-    public $otp;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($user, $otp)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->otp = $otp;
     }
 
     /**
@@ -30,7 +29,7 @@ class WelcomeEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welcome to FreshBlink - Verify Your Email',
+            subject: 'Welcome to FreshBlink',
         );
     }
 
@@ -43,7 +42,6 @@ class WelcomeEmail extends Mailable
             view: 'emails.welcome',
             with: [
                 'user' => $this->user,
-                'otp' => $this->otp,
             ],
         );
     }

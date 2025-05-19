@@ -17,6 +17,7 @@ use App\Mail\ResetPasswordEmail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -127,9 +128,17 @@ class UserController extends Controller
 
             DB::commit();
 
+            // Send welcome email
+            try {
+                Mail::to($user->email)->send(new WelcomeEmail($user));
+            } catch (\Exception $e) {
+                Log::error('Failed to send welcome email: ' . $e->getMessage());
+                // Continue with registration even if email fails
+            }
+
             Auth::login($user);
 
-            return redirect('dashboard')->with('success', 'Registration successful!');
+            return redirect('dashboard')->with('success', 'Registration successful! Please check your email for a welcome message.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => 'Registration failed. Please try again.'])->withInput($request->except('password', 'password_confirmation'));

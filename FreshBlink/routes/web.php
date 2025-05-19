@@ -17,8 +17,6 @@ use App\Http\Controllers\PayPalController;
 | Web Routes
 |--------------------------------------------------------------------------
 */
-
-// Home route
 // Home route
 Route::get('/', function () {
     return view('userblade.home');
@@ -38,7 +36,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('user.profile.update');
     Route::get('/change-password', [UserController::class, 'showChangePassword'])->name('user.password.change');
     Route::post('/change-password', [UserController::class, 'changePassword'])->name('user.password.update');
-});
+})->name('home');
 
 // Product routes
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
@@ -98,8 +96,23 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Trader routes
-Route::get('/trader/register', [TraderController::class, 'showRegister'])->name('trader.register');
-Route::post('/trader/register', [TraderController::class, 'register'])->name('trader.register.submit');
+Route::prefix('trader')->name('trader.')->group(function () {
+    // Registration routes
+    Route::get('/register', [TraderController::class, 'showRegister'])->name('register');
+    Route::post('/register', [TraderController::class, 'register'])->name('register.submit');
+    
+    // Login routes
+    Route::get('/login', [TraderController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [TraderController::class, 'login'])->name('login.submit');
+    Route::post('/logout', [TraderController::class, 'logout'])->name('logout');
+    
+    // Protected trader routes
+    Route::middleware(['auth:trader'])->group(function () {
+        Route::get('/dashboard', [TraderController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profile', [TraderController::class, 'profile'])->name('profile');
+        Route::put('/profile', [TraderController::class, 'updateProfile'])->name('profile.update');
+    });
+});
 
 // Category routes
 Route::get('/categories', [ProductCategoryController::class, 'index'])->name('categories.index');
@@ -143,6 +156,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/discounts', [AdminController::class, 'manageDiscounts'])->name('discounts');
         Route::get('/discounts/create', [AdminController::class, 'createDiscount'])->name('discounts.create');
         Route::post('/discounts', [AdminController::class, 'storeDiscount'])->name('discounts.store');
+
+        // Trader management
+        Route::get('/traders', [AdminController::class, 'index'])->name('traders');
+        Route::post('/traders/{id}/approve', [AdminController::class, 'approve'])->name('traders.approve');
+        Route::post('/traders/{id}/reject', [AdminController::class, 'reject'])->name('traders.reject');
     });
 });
 

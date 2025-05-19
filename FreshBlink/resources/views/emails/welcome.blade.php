@@ -24,16 +24,6 @@
             background-color: #f9f9f9;
             border-radius: 0 0 5px 5px;
         }
-        .otp-box {
-            background-color: #fff;
-            border: 2px solid #4CAF50;
-            padding: 15px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            margin: 20px 0;
-            border-radius: 5px;
-        }
         .button {
             display: inline-block;
             padding: 10px 20px;
@@ -57,15 +47,21 @@
     </div>
     <div class="content">
         <p>Hello {{ $user->name }},</p>
-        <p>Thank you for registering with FreshBlink. We're excited to have you on board!</p>
+        <p>Thank you for joining FreshBlink! We're excited to have you as part of our community.</p>
         
-        <p>To complete your registration, please use the following OTP to verify your email address:</p>
+        <p>Here's what you can do now:</p>
+        <ul>
+            <li>Browse our wide selection of products</li>
+            <li>Create and manage your wishlists</li>
+            <li>Shop from our trusted sellers</li>
+            <li>Track your orders</li>
+            <li>Write reviews for products you've purchased</li>
+        </ul>
         
-        <div class="otp-box">
-            {{ $otp }}
-        </div>
+        <p>To get started, you can:</p>
+        <a href="{{ url('/products') }}" class="button">Browse Products</a>
         
-        <p>This OTP will expire in 15 minutes. If you didn't request this verification, please ignore this email.</p>
+        <p>If you have any questions or need assistance, our support team is here to help!</p>
         
         <p>Best regards,<br>The FreshBlink Team</p>
     </div>

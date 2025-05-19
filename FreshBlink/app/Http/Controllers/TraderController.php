@@ -29,6 +29,7 @@ class TraderController extends Controller
             'email' => 'required|string|email|max:255|unique:traders',
             'password' => 'required|string|min:6|confirmed',
             'phone_number' => 'nullable|string|max:15',
+            'trader_type' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -40,6 +41,7 @@ class TraderController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone' => $request->phone_number,
+            'trader_type' => $request->trader_type,
             'status' => 'pending', // Set initial status as pending
         ]);
 
@@ -48,14 +50,44 @@ class TraderController extends Controller
             Mail::to($trader->email)->send(new TraderWelcomeEmail($trader));
             return redirect()->route('trader.register')->with('success', 'Registration successful! Please check your email for further instructions.');
         } catch (\Exception $e) {
-            // Log the error but still show success to user
+            // Log the error and show it to the user for debugging
             Log::error('Failed to send trader welcome email: ' . $e->getMessage());
-            return redirect()->route('trader.register')->with('success', 'Registration successful!');
+            return redirect()->route('trader.register')
+                ->with('error', 'Registration successful, but there was an issue sending the welcome email: ' . $e->getMessage());
         }
     }
 
     public function showRegister()
     {
         return view('traderblade.register');
+    }
+
+    //Trader Login session starts from here
+
+    public function showLoginForm()
+    {
+        return view('traderblade.traderLogin');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::guard('trader')->attempt($credentials)) {
+            $trader = Auth::guard('trader')->user();
+
+            if ($trader->status !== 'approved') {
+                Auth::guard('trader')->logout();
+                return redirect()->back()->with('error', 'Your account is not approved yet');
+            }
+            return redirect()->route('trader.dashboard')->with('success', 'Logged in successfully');
+        }
+        return redirect()->back()->with('error', 'Invalid email or password.');
+    }
+
+    public function logout()
+    {
+        Auth::guard('trader')->logout();
+        return redirect('/trader/login')->with('success', 'Logged out successfully.');
     }
 }

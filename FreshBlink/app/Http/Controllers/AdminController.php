@@ -10,6 +10,7 @@ use App\Models\ProductCategory;
 use App\Models\Order;
 use App\Models\Report;
 use App\Models\Discount;
+use App\Models\Trader;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -41,6 +42,29 @@ class AdminController extends Controller
             'recentOrders',
             'pendingReports'
         ));
+    }
+
+    // Trader management
+    public function index()
+    {
+        $traders = Trader::all();
+        return view('adminblade.traders', compact('traders'));
+    }
+
+    public function approve($id)
+    {
+        $trader = Trader::findOrFail($id);
+        $trader->status = 'approved';
+        $trader->save();
+        return redirect()->back()->with('success', 'Trader approved');
+    }
+
+    public function reject($id)
+    {
+        $trader = Trader::findOrFail($id);
+        $trader->status = 'rejected';
+        $trader->save();
+        return redirect()->back()->with('success', 'Trader rejected');
     }
 
     // Show admin login form
@@ -233,14 +257,6 @@ class AdminController extends Controller
         }
         
         $category = ProductCategory::findOrFail($id);
-        
-        // Check if category has products
-        $hasProducts = Product::where('product_category_id', $id)->exists();
-        
-        if ($hasProducts) {
-            return back()->with('error', 'Cannot delete category with existing products');
-        }
-        
         $category->delete();
         
         return redirect()->route('admin.categories')
@@ -254,7 +270,7 @@ class AdminController extends Controller
             return redirect()->route('admin.login');
         }
         
-        $reports = Report::with(['user', 'product'])->paginate(15);
+        $reports = Report::with(['user', 'shop'])->latest()->paginate(15);
         return view('admin.reports.index', compact('reports'));
     }
 
@@ -265,7 +281,7 @@ class AdminController extends Controller
             return redirect()->route('admin.login');
         }
         
-        $report = Report::with(['user', 'product'])->findOrFail($id);
+        $report = Report::with(['user', 'shop'])->findOrFail($id);
         return view('admin.reports.show', compact('report'));
     }
 
@@ -276,24 +292,25 @@ class AdminController extends Controller
             return redirect()->route('admin.login');
         }
         
+        $report = Report::findOrFail($id);
+        
         $validator = Validator::make($request->all(), [
-            'status' => 'required|in:pending,resolved,rejected',
-            'admin_response' => 'required|string|max:500',
+            'status' => 'required|in:pending,resolved,dismissed',
+            'admin_notes' => 'required|string',
         ]);
         
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
         
-        $report = Report::findOrFail($id);
         $report->update([
             'status' => $request->status,
-            'admin_response' => $request->admin_response,
-            'resolved_at' => $request->status != 'pending' ? now() : null,
+            'admin_notes' => $request->admin_notes,
+            'resolved_at' => now(),
         ]);
         
         return redirect()->route('admin.reports')
-                         ->with('success', 'Report updated successfully');
+                         ->with('success', 'Report status updated successfully');
     }
 
     // Manage discounts
@@ -303,7 +320,7 @@ class AdminController extends Controller
             return redirect()->route('admin.login');
         }
         
-        $discounts = Discount::with('user')->paginate(15);
+        $discounts = Discount::latest()->paginate(15);
         return view('admin.discounts.index', compact('discounts'));
     }
 
@@ -325,35 +342,31 @@ class AdminController extends Controller
         }
         
         $validator = Validator::make($request->all(), [
-            'discount_name' => 'required|string|max:255',
-            'discount_amount' => 'required|numeric|min:0|max:100',
-            'user_id' => 'nullable|exists:users,id',
-            'expiry_date' => 'required|date|after:today',
+            'code' => 'required|string|max:50|unique:discounts',
+            'type' => 'required|in:percentage,fixed',
+            'value' => 'required|numeric|min:0',
+            'min_purchase' => 'required|numeric|min:0',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
+            'usage_limit' => 'required|integer|min:0',
         ]);
         
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
         
-        Discount::create([
-            'discount_name' => $request->discount_name,
-            'discount_amount' => $request->discount_amount,
-            'user_id' => $request->user_id,
-            'created_date' => now(),
-            'expiry_date' => $request->expiry_date,
-        ]);
+        Discount::create($request->all());
         
         return redirect()->route('admin.discounts')
                          ->with('success', 'Discount created successfully');
     }
 
-    // Admin logout
+    // Logout
     public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
         return redirect()->route('admin.login');
     }
 } 

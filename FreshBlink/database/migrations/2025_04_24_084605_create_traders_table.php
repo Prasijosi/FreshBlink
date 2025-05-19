@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone')->nullable();
             $table->enum('status', ['pending', 'approved','rejected'])->default('pending');
+            $table->string('trader_type');
             $table->timestamps();
-        });
+        }); 
     }
 
     /**

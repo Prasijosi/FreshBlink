@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('product_id')->constrained('products');
-            $table->date('review_date')->nullable();
-            $table->integer('rating')->default(0);
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->integer('rating')->unsigned();
             $table->text('comment')->nullable();
+            $table->boolean('is_verified_purchase')->default(false);
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }
@@ -29,4 +30,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('reviews');
     }
-};
+}; 

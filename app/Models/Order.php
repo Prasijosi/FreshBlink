@@ -28,6 +28,8 @@ class Order extends Model
         'required_slot',
         'is_placed',
         'is_received',
+        'points_earned',
+        'points_redeemed',
         'points_discount',
     ];
 
@@ -40,6 +42,8 @@ class Order extends Model
         'required_slot' => 'boolean',
         'is_placed' => 'boolean',
         'is_received' => 'boolean',
+        'points_earned' => 'integer',
+        'points_redeemed' => 'integer',
     ];
 
     /**
@@ -83,4 +87,16 @@ class Order extends Model
     {
         return $this->hasOne(Payment::class);
     }
-}
+
+    /**
+     * Calculate final total after applying loyalty points discount
+     */
+    public function getFinalTotal()
+    {
+        $total = $this->total_order;
+        if ($this->points_discount > 0) {
+            $total -= $this->points_discount;
+        }
+        return max(0, $total);
+    }
+} 

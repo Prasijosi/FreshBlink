@@ -16,10 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->string('notification_preference')->nullable();
             $table->integer('loyalty_points')->default(0);
+            $table->foreignId('discount_id')->constrained('discounts');
             $table->string('favorite_shop')->nullable();
-            $table->boolean('gives')->default(false);
-            $table->boolean('places')->default(false);
-            $table->boolean('receives')->default(false);
             $table->timestamps();
         });
     }

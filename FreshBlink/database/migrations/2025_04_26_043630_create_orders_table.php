@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('order_product')->nullable(); // Relation to order_products table
             $table->integer('no_of_product')->nullable();
             $table->decimal('total_price', 10, 2)->nullable();
+            $table->decimal('points_discount', 10, 2)->default(0);
             $table->string('order_type')->nullable();
             $table->date('slot_date')->nullable();
             $table->time('time_details')->nullable();

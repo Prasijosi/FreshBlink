@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;    
+use Illuminate\Http\Request;
 use App\Models\Trader;
+use App\Models\Shop;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -41,38 +42,52 @@ class TraderController extends Controller
             'trader_type' => $request->trader_type,
         ]);
 
-        return redirect()->route('trader.login.form')->with('success', 'Thank you! You will be notified once approved.');
+        return redirect()->route('login')->with('success', 'Thank you! You will be notified once approved.');
     }
 
-    public function showRegister(){
+    public function showRegister()
+    {
         return view('traderblade.register');
     }
 
     //Trader Login session starts from here
 
-    public function showLoginForm(){
+    public function showLoginForm()
+    {
         return view('traderblade.traderLogin');
     }
-    public function login(Request $request){
-        $credential=$request->only('email','password');
+    public function login(Request $request)
+    {
+        $credential = $request->only('email', 'password');
 
-        if(Auth::guard('trader')->attempt($credential)){
-            $trader=Auth::guard('trader')->user();
+        if (Auth::guard('trader')->attempt($credential)) {
+            $trader = Auth::guard('trader')->user();
 
-            if($trader->status !=='approved'){
+            if ($trader->status !== 'approved') {
                 Auth::guard('trader')->logout();
-                return redirect()->back()->with('error','Your account is not approved yet');
+                return redirect()->back()->with('error', 'Your account is not approved yet');
             }
-            return view('traderblade.addproduct')->with('success','Logged in sucessfully');
-
+            return view('traderblade.traderhome')->with('success', 'Logged in sucessfully');
         }
         return redirect()->back()->with('error', 'Invalid email or password.');
-        
+
         // Auth::guard('trader')->login($trader);
         // return redirect()->intended('/trader/dashboard')->with('success','Logged in successfully');
     }
-    public function logout(){
+    public function logout()
+    {
         Auth::guard('trader')->logout();
         return redirect('/trader/login')->with('success', 'Logged out successfully.');
+    }
+
+    //Shop funcitonality
+
+    public function home()
+    {
+        $traderId = Auth::guard('trader')->user()->id;
+
+        $shops = Shop::where('trader_id', $traderId)->get();
+
+        return view('traderblade.traderhome', compact('shops'));
     }
 }

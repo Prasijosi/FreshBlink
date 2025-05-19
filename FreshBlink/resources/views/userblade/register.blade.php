@@ -38,31 +38,42 @@
 
   <!-- main section -->
   <div class="bg-white p-6 sm:p-8 rounded-lg shadow-md w-[90%] sm:w-[550px] mx-auto mt-10">
-    <form class="flex flex-col">
+    <form method="POST" action="{{ route('register.submit') }}" class="flex flex-col">
+      @csrf
       <div class="text-center mb-5">
         <img src="Image/logo2.png" alt="FreshBlink Logo" class="w-36 mx-auto">
       </div>
 
-      <label for="username" class="text-sm mb-1">Username*</label>
-      <input type="text" id="username" placeholder="Enter your username" required class="p-2 mb-4 border border-gray-300 rounded text-sm">
+      @if($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <ul>
+            @foreach($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+
+      <label for="name" class="text-sm mb-1">Full Name*</label>
+      <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Enter your full name" required class="p-2 mb-4 border border-gray-300 rounded text-sm">
 
       <label for="email" class="text-sm mb-1">Email Address*</label>
-      <input type="email" id="email" placeholder="Enter your email" required class="p-2 mb-4 border border-gray-300 rounded text-sm">
+      <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Enter your email" required class="p-2 mb-4 border border-gray-300 rounded text-sm">
 
       <label for="password" class="text-sm mb-1">Password*</label>
-      <input type="password" id="password" placeholder="Enter your password" required class="p-2 mb-4 border border-gray-300 rounded text-sm">
+      <input type="password" id="password" name="password" placeholder="Enter your password" required class="p-2 mb-4 border border-gray-300 rounded text-sm">
 
-      <label for="confirm-password" class="text-sm mb-1">Confirm Password*</label>
-      <input type="password" id="confirm-password" placeholder="Confirm your password" required class="p-2 mb-4 border border-gray-300 rounded text-sm">
+      <label for="password_confirmation" class="text-sm mb-1">Confirm Password*</label>
+      <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Confirm your password" required class="p-2 mb-4 border border-gray-300 rounded text-sm">
 
       <div class="flex items-center gap-2 mb-4 text-sm">
-        <input type="checkbox" id="agree">
+        <input type="checkbox" id="agree" name="agree" required>
         <label for="agree">I agree to the terms and conditions</label>
       </div>
 
       <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
         <button type="submit" class="bg-green-600 text-white px-5 py-2 rounded w-full sm:w-auto">Register</button>
-        <a href="#" class="text-sm text-gray-600">Already have an account? Login</a>
+        <a href="{{ route('login') }}" class="text-sm text-gray-600">Already have an account? Login</a>
       </div>
     </form>
   </div>

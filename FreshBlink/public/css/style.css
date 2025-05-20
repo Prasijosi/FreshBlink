@@ -1,0 +1,485 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff;
+  }
+  
+  /* Top Navbar */
+  .top-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    border-bottom: 1px solid #ccc;
+    background-color: white;
+  }
+  
+  .logo img {
+    height: 50px;
+  }
+  
+  .search-box {
+    flex: 1;
+    margin: 0 30px;
+    display: flex;
+  }
+  
+  .search-box input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+  }
+  
+  .search-box button {
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+  }
+  
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .nav-actions a, .nav-actions button {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+  }
+  
+  .nav-actions img {
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 5px;
+  }
+  
+  .register-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Secondary Navbar */
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 200px;
+    background-color: #fff;
+  }
+  
+  
+  .categories-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  
+  .nav-links a {
+    margin: 0 20px;
+    text-decoration: none;
+    color: #000000;
+    font-weight: 500;
+  }
+  
+  .nav-links a.active {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  /* Hero Section */
+  .hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: url('Image/rectangle.png') no-repeat center center;
+    background-size: cover;
+    background-color: #d4f5d2;
+    padding: 80px 40px;
+    margin: 30px;
+    border-radius: 12px;
+    position: relative;
+    gap: 40px;
+  }
+  
+  .hero-text {
+    max-width: 40%;
+  }
+  
+  .tagline {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .highlight {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .hero-text h1 {
+    font-size: 3rem;
+  }
+  
+  
+  .subtext {
+    font-size: 18px;
+    color: #555;
+  }
+  
+  .hero-images {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+  }
+  
+  .meat-image {
+    width: 150px;
+    height: auto;
+  }
+  
+  .vegetables {
+    height: 360px;
+    width: auto;
+  }
+  
+  
+  .promo-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100%;
+    padding: 40px 60px;
+    gap: 30px;
+    box-sizing: border-box;
+  }
+  
+  .promo-card {
+    flex: 4;
+    position: relative;
+    padding: 80px 50px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08);
+  }
+  
+  .promo-content {
+    z-index: 2;
+  }
+  
+  .promo-card h3 {
+    font-size: 30px;
+    font-weight: bold;
+    color: #1e1e1e;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+  .product-card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .shop-now {
+    background-color: #ff3a3a;
+      color: white;
+      padding: 12px 22px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: bold;
+      display: inline-block;
+  }
+  
+  .promo-image {
+    position: absolute;
+      right: 26px;
+      bottom: 10px;
+      height: 205px;
+      object-fit: contain;
+      z-index: 1;
+  }
+  
+  /* Background colors */
+  .card-blue {
+    background-color: #e4edf5;
+  }
+  
+  .card-beige {
+    background-color: #f7ebd9;
+  }
+  
+  .card-pink {
+    background-color: #fce0e5;
+  }
+  /* === Featured Categories === */
+  .featured-section {
+    padding: 40px 60px;
+    background-color: #fff;
+  }
+  
+  .featured-heading {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #1c1c1c;
+  }
+  
+  .categories {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .category-box {
+    flex: 1;
+    min-width: 315px;
+    max-width: 270px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 30px 20px;
+    text-align: center;
+    box-sizing: border-box;
+    transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 270px; /* fixed height to ensure equal vertical space */
+  }
+  
+  .category-box img {
+    width: auto;
+    max-height: 120px; /* consistent height for all images */
+    object-fit: contain;
+    margin-bottom: 20px;
+  }
+  
+  .category-box p {
+    font-size: 22px;
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+  }
+  
+  
+  .category-bakery {
+    background-color: #fbe5c7;
+  }
+  
+  .category-butchery {
+    background-color: #fbd4d1;
+  }
+  
+  .category-greengrocer {
+    background-color: #e6ecc4;
+  }
+  
+  .category-delicatessen {
+    background-color: #fbe5cc;
+  }
+  
+  .category-fishmonger {
+    background-color: #e8edf6;
+  }
+  
+  
+  .popular-products {
+    padding: 40px 60px;
+    background-color: #fff;
+  }
+  
+  .product-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .product-card {
+    flex: 0 1 calc(20% - 20px);
+    background-color: #efefef;
+    padding: 30px 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 320px;
+  }
+  
+  .product-card img {
+    max-width: 100%;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 15px;
+  }
+  
+  .product-card p {
+    margin: 5px 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  .price {
+    color: #28a745;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 14px;
+    margin-left: 8px;
+  }
+  
+  .add-btn {
+    margin-top: auto;
+    padding: 8px 16px;
+    background-color: #ff3a3a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  /* Responsive Adjustments */
+  @media (max-width: 1024px) {
+    .navbar {
+      flex-direction: column;
+      padding: 15px 20px;
+      gap: 10px;
+    }
+  
+    .promo-section {
+      flex-direction: column;
+      padding: 20px;
+    }
+  
+    .categories {
+      justify-content: center;
+    }
+  
+    .product-grid {
+      justify-content: center;
+    }
+  
+    .product-card {
+      flex: 0 1 calc(45% - 20px);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero {
+      flex-direction: column;
+      padding: 40px 20px;
+      text-align: center;
+    }
+  
+    .hero-text {
+      max-width: 100%;
+    }
+  
+    .hero-images {
+      justify-content: center;
+    }
+  
+    .promo-card {
+      padding: 40px 20px;
+      text-align: center;
+      align-items: center;
+    }
+  
+    .promo-card h3 {
+      font-size: 22px;
+    }
+  
+    .promo-image {
+      position: static;
+      height: 160px;
+      margin-top: 20px;
+    }
+  
+    .category-box {
+      min-width: 100%;
+      max-width: 100%;
+    }
+  
+    .product-card {
+      flex: 0 1 calc(100% - 20px);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .featured-heading {
+      text-align: center;
+      font-size: 20px;
+    }
+  
+    .search-box input,
+    .search-box button {
+      font-size: 14px;
+    }
+  
+    .hero-text h1 {
+      font-size: 2rem;
+    }
+  
+    .tagline {
+      font-size: 16px;
+    }
+  
+    .subtext {
+      font-size: 14px;
+    }
+  
+    .promo-card h3 {
+      font-size: 18px;
+    }
+  
+    .shop-now {
+      font-size: 14px;
+      padding: 10px 18px;
+    }
+  
+    .add-btn {
+      font-size: 14px;
+      padding: 6px 12px;
+    }
+  
+    footer .flex {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    footer ul {
+      padding: 0;
+    }
+  }

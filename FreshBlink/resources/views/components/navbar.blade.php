@@ -2,7 +2,7 @@
 <div class="flex flex-col md:flex-row justify-between items-center px-5 py-3 border-b border-gray-300 bg-white gap-3 md:gap-0">
     <!-- Logo -->
     <div class="w-40">
-        <a href="{{ route('home') }}"><img src="{{ asset('Image/logo2.png') }}" alt="Logo"></a>
+        <a href="/"><img src="{{ asset('Image/logo2.png') }}" alt="Logo"></a>
     </div>
 
     <!-- Search Box -->

@@ -10,30 +10,7 @@
 </head>
 <body class="bg-gray-100 text-sm sm:text-base">
 
-  <!-- Navbar -->
-  <header class="bg-white shadow">
-    <div class="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-300">
-      <a href="#"><img src="/Users/manjusha/Desktop/practice/images/ logo.png" alt="FreshBlink Logo" class="w-28 sm:w-40"></a>
-      <div class="w-full sm:w-auto flex flex-col sm:flex-row items-center gap-2 mt-2 sm:mt-0">
-        <div class="flex w-full sm:w-auto">
-          <input type="text" placeholder="Search Products..." class="w-full sm:w-64 px-3 py-2 border rounded-l bg-green-50 focus:outline-none" />
-          <button class="px-3 py-2 bg-green-600 text-white rounded-r">
-            <span class="material-icons">search</span>
-          </button>
-        </div>
-        <div class="flex items-center gap-4 text-sm mt-2 sm:mt-0">
-          <a href="#" class="flex items-center hover:text-green-600">
-            <span class="material-icons mr-1">favorite_border</span> Saved
-          </a>
-          <a href="#" class="flex items-center hover:text-green-600">
-            <span class="material-icons mr-1">shopping_cart</span> Cart
-          </a>
-          <a href="#" class="hover:text-green-600">Register</a>
-          <button class="bg-green-600 text-white px-4 py-2 rounded">Login</button>
-        </div>
-      </div>
-    </div>
-  </header>
+  @include('components.navbar')
 
   <!-- Cart Section -->
   <main class="px-4 sm:px-8 mt-6 space-y-6">
@@ -175,50 +152,7 @@
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-white mt-10 p-4 sm:p-6 shadow">
-    <div class="max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-sm text-gray-700">
-      <div class="flex justify-center sm:justify-start">
-        <div class="w-28 h-16 sm:w-32 sm:h-20 bg-gray-200 flex items-center justify-center">Image</div>
-      </div>
-      <div>
-        <h4 class="font-semibold mb-2">Account</h4>
-        <ul class="space-y-1 text-blue-500">
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="font-semibold mb-2">Useful Links</h4>
-        <ul class="space-y-1 text-blue-500">
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 class="font-semibold mb-2">Help Center</h4>
-        <ul class="space-y-1 text-blue-500">
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="flex flex-wrap justify-between items-center text-xs text-gray-500 mt-6 border-t pt-4">
-      <span>© 2025 Company Name</span>
-      <div class="space-x-4 text-lg text-gray-600">
-        <a href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook-f hover:text-blue-600"></i></a>
-        <a href="https://www.linkedin.com" target="_blank"><i class="fab fa-linkedin-in hover:text-blue-500"></i></a>
-        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram hover:text-pink-500"></i></a>
-        <a href="https://x.com/i/flow/login" target="_blank"><i class="fab fa-twitter hover:text-blue-400"></i></a>
-      </div>
-    </div>
-  </footer>
+  @include('components.footer')
 
 </body>
 </html>

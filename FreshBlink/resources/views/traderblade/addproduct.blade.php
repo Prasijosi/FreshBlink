@@ -83,7 +83,7 @@
 
       <!-- Category Dropdown -->
       <label for="category_id">Category</label>
-      <select name="category_id" id="category_id" required>
+      <select name="product_category_id" id="product_category_id" required>
         <option value="" disabled selected>Select category</option>
         @foreach($categories as $category)
         <option value="{{ $category->id }}">{{ $category->name }}</option>

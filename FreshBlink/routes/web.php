@@ -68,3 +68,7 @@ Route::middleware([AuthenticateTrader::class])->group(function () {
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 });
+
+Route::middleware(['auth:trader'])->group(function () {
+    Route::resource('products', ProductController::class);
+});

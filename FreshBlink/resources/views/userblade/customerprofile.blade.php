@@ -12,7 +12,7 @@
 
   <!-- Navbar -->
   <div class="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-300 bg-white">
-    <a href="#"><img src="/Users/manjusha/Desktop/practice/images/ logo.png" alt="FreshBlink Logo" class="w-36 sm:w-40"></a>
+    <a href="#"><img src="images/ logo.png" alt="FreshBlink Logo" class="w-36 sm:w-40"></a>
     <div class="flex items-center gap-2">
       <input type="text" placeholder="Search Products..." class="px-3 py-2 border rounded-l bg-green-50 w-40 sm:w-64" />
       <button class="px-3 py-2 bg-green-600 text-white rounded-r">
@@ -32,16 +32,16 @@
   <!-- Slide Buttons (Mobile Only for Recent Orders) -->
   <button
     id="slideBtnLeft"
-    class="fixed left-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white px-3 py-2 rounded-full shadow-lg sm:hidden z-10"
+    class="fixed left-2 top-1/2 transform -translate-y-1/2 bg-green-600 text-white px-3 py-2 rounded-full shadow-lg sm:hidden z-10"
   >
     &#8592;
   </button>
 
   <button
     id="slideBtnRight"
-    class="fixed right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white px-3 py-2 rounded-full shadow-lg sm:hidden z-10"
+    class="fixed right-2 top-1/2 transform -translate-y-1/2 bg-green-600 text-white px-3 py-2 rounded-full shadow-lg sm:hidden z-10"
   >
-    ➤
+    &#8594;
   </button>
 
   <!-- Main Content -->
@@ -145,7 +145,7 @@
       </div>
     </div>
     <div class="flex flex-wrap justify-between items-center text-xs text-gray-500 mt-6 border-t pt-4">
-      <span>© 2025 FreshBlink</span>
+      <span>© 2025 Company Name</span>
       <div class="space-x-4 text-lg text-gray-600">
         <a href="https://www.facebook.com" target="_blank" aria-label="Facebook">
           <i class="fab fa-facebook-f hover:text-blue-600"></i>
@@ -163,6 +163,6 @@
     </div>
   </footer>
 
-  <script src="{{ asset('js/profile.js') }}"></script>
+  <script src="profile.js"></script>
 </body>
 </html>

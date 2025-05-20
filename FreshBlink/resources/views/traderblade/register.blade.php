@@ -13,12 +13,18 @@
     @endif
 
     @if($errors->any())
-        <ul style="color: red;">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+    <div id="errorModal" style="display:block; position:fixed; z-index:1000; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5);">
+        <div style="background:#fff; margin:10% auto; padding:20px; border-radius:8px; width:90%; max-width:400px; position:relative;">
+            <h3 style="color:red;">Validation Errors</h3>
+            <ul style="color:red;">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button onclick="document.getElementById('errorModal').style.display='none'" style="margin-top:10px;">Close</button>
+        </div>
+    </div>
+@endif
 
     <form method="POST" action="{{ url('/trader/register') }}">
         @csrf
@@ -33,6 +39,14 @@
 
         <label for="password_confirmation">Confirm Password:</label><br>
         <input type="password" name="password_confirmation" id="password_confirmation" required><br><br>
+
+        <label for="trader_type">Select your trader type:</label><br>
+        <select name="trader_type" id="trader_type" required>
+            <option value="">Select a type</option>
+            @foreach(App\Models\Trader::TRADER_TYPES as $value => $label)
+                <option value="{{ $value }}">{{ $label }}</option>
+            @endforeach
+        </select><br><br>
 
         <label for="phone_number">Phone Number (optional):</label><br>
         <input type="text" name="phone_number" id="phone_number"><br><br>

@@ -39,30 +39,41 @@
   </div>
   <!-- Login Form -->
   <div class="bg-white p-6 sm:p-8 rounded-lg shadow-md w-[90%] sm:w-[500px] mx-auto mt-10">
-    <form class="flex flex-col">
+    <form method="POST" action="{{ route('login.submit') }}" class="flex flex-col">
+      @csrf
       <div class="text-center mb-5">
         <img src="Image/logo2.png" alt="FreshBlink Logo" class="w-36 mx-auto">
         <h2 class="text-lg font-semibold mt-2">Welcome Back!</h2>
       </div>
 
+      @if($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <ul>
+            @foreach($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+
       <label for="email" class="text-sm mb-1">Email Address*</label>
-      <input type="email" id="email" placeholder="Enter your email" required class="p-2 mb-4 border border-gray-300 rounded text-sm">
+      <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Enter your email" required class="p-2 mb-4 border border-gray-300 rounded text-sm">
 
       <label for="password" class="text-sm mb-1">Password*</label>
-      <input type="password" id="password" placeholder="Enter your password" required class="p-2 mb-4 border border-gray-300 rounded text-sm">
+      <input type="password" id="password" name="password" placeholder="Enter your password" required class="p-2 mb-4 border border-gray-300 rounded text-sm">
 
       <div class="flex justify-between items-center mb-4 text-sm">
         <div class="flex items-center gap-2">
-          <input type="checkbox" id="remember" class="accent-green-600">
+          <input type="checkbox" id="remember" name="remember" class="accent-green-600">
           <label for="remember">Remember me</label>
         </div>
-        <a href="#" class="text-green-600 hover:underline">Forgot password?</a>
+        <a href="{{ route('password.request') }}" class="text-green-600 hover:underline">Forgot password?</a>
       </div>
 
       <button type="submit" class="bg-green-600 text-white px-5 py-2 rounded">Login</button>
 
       <p class="text-sm text-center mt-4 text-gray-600">Don't have an account? 
-        <a href="#" class="text-green-600 font-medium hover:underline">Register</a>
+        <a href="{{ route('register') }}" class="text-green-600 font-medium hover:underline">Register</a>
       </p>
     </form>
   </div>

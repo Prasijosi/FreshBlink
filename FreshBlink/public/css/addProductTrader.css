@@ -141,7 +141,7 @@ body {
 }
 
 .add-product-form button {
-  background-color: #4CAF50;
+  background-color: #4DAF22;
   color: white;
   padding: 0.75rem;
   border: none;
@@ -282,7 +282,7 @@ body {
 .search-box button:hover,
 .login-btn:hover,
 .add-product-form button:hover {
-  background-color: #388e3c;
+  background-color: #4DAF22;
   transform: scale(1.02);
 }
 

@@ -10,7 +10,7 @@
     <div class="min-h-screen flex items-center justify-center">
         <div class="bg-white p-6 sm:p-8 rounded-lg shadow-md w-[90%] sm:w-[500px]">
             <div class="text-center mb-5">
-                <img src="{{ asset('Image/logo2.png') }}" alt="FreshBlink Logo" class="w-36 mx-auto">
+                <img src="/images/logo2.png" alt="FreshBlink Logo" class="w-36 mx-auto">
                 <h2 class="text-lg font-semibold mt-2">Reset Password</h2>
             </div>
 

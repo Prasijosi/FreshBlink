@@ -21,7 +21,7 @@ class WishlistController extends Controller
                               ->where('user_id', Auth::id())
                               ->get();
         
-        return view('wishlists.index', compact('wishlists'));
+        return view('userblade.wishlist', compact('wishlists'));
     }
 
     // Show a specific wishlist

@@ -85,7 +85,7 @@
   <!-- ======================= NAVBAR ======================= -->
   <div class="navbar">
     <div class="logo">
-      <a href="#"><img src="images/logo2.png" alt="FreshBlink Logo"></a>
+      <a href="#"><img src="/images/logo2.png" alt="FreshBlink Logo"></a>
     </div>
     <div class="search-box">
       <input type="text" placeholder="Search Products......." />
@@ -111,7 +111,7 @@
       <button class="download-btn">
         <span class="material-icons">arrow_back</span> Download Invoice
       </button>
-      <img src="images/logo2.png" alt="FreshBlink Logo" class="invoice-logo"/>
+      <img src="/images/logo2.png" alt="FreshBlink Logo" class="invoice-logo"/>
     </div>
 
     <h2>INVOICE</h2>
@@ -161,7 +161,7 @@
   <footer class="footer">
     <div class="footer-top">
       <div class="footer-logo">
-        <img src="images/logo2.png" alt="FreshBlink Logo" />
+        <img src="/images/logo2.png" alt="FreshBlink Logo" />
       </div>
       <div class="footer-column">
         <h3>Account</h3>
@@ -198,7 +198,7 @@
       <p>&copy; 2022, All rights reserved</p>
     </div>
     <div class="footer-bottom">
-      <img src="images/paypal.webp" alt="PayPal" />
+      <img src="/images/paypal.webp" alt="PayPal" />
     </div>
   </footer>
 

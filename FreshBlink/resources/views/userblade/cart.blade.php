@@ -13,7 +13,7 @@
   <!-- Navbar -->
   <header class="bg-white shadow">
     <div class="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-300">
-      <a href="#"><img src="images/logo.png" alt="FreshBlink Logo" class="w-28 sm:w-40"></a>
+      <a href="#"><img src="/images/logo.png" alt="FreshBlink Logo" class="w-28 sm:w-40"></a>
       <div class="w-full sm:w-auto flex flex-col sm:flex-row items-center gap-2 mt-2 sm:mt-0">
         <div class="flex w-full sm:w-auto">
           <input type="text" placeholder="Search Products..." class="w-full sm:w-64 px-3 py-2 border rounded-l bg-green-50 focus:outline-none" />
@@ -55,7 +55,7 @@
           <tbody class="divide-y">
             <tr class="cart-item desktop-item" data-price="15">
               <td class="p-2 flex items-center gap-3">
-                <img src="images/tomato.jpeg" class="w-12 h-12 border rounded" />
+                <img src="/images/tomato.jpeg" class="w-12 h-12 border rounded" />
                 <span>Tomato 1 kg</span>
               </td>
               <td class="p-2 text-center">$15</td>
@@ -71,7 +71,7 @@
             </tr>
             <tr class="cart-item desktop-item" data-price="20">
               <td class="p-2 flex items-center gap-3">
-                <img src="images/apple.jpg" class="w-12 h-12 border rounded" />
+                <img src="/images/apple.jpg" class="w-12 h-12 border rounded" />
                 <span>Apple 2 kg</span>
               </td>
               <td class="p-2 text-center">$20</td>
@@ -123,7 +123,7 @@
       <!-- Item 1 -->
       <div class="cart-item mobile-item bg-white p-3 rounded-lg shadow grid grid-cols-5 items-center text-center text-xs" data-price="15">
         <div class="col-span-2 flex items-center gap-2">
-          <img src="images/tomato.jpeg" class="w-10 h-10 border rounded" />
+          <img src="/images/tomato.jpeg" class="w-10 h-10 border rounded" />
           <span class="text-left">Tomato</span>
         </div>
         <div>
@@ -140,7 +140,7 @@
       <!-- Item 2 -->
       <div class="cart-item mobile-item bg-white p-3 rounded-lg shadow grid grid-cols-5 items-center text-center text-xs" data-price="20">
         <div class="col-span-2 flex items-center gap-2">
-          <img src="images/apple.jpg" class="w-10 h-10 border rounded" />
+          <img src="/images/apple.jpg" class="w-10 h-10 border rounded" />
           <span class="text-left">Apple</span>
         </div>
         <div>
@@ -226,6 +226,6 @@
   </footer>
 
   <!-- Link to external JS -->
-  <script src="cart.js"></script>
+  <script src="/js/cart.js"></script>
 </body>
 </html>

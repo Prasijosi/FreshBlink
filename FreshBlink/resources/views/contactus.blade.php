@@ -11,22 +11,22 @@
   <!-- Navbar -->
   <header class="flex flex-wrap items-center justify-between gap-6 px-6 py-4 border-b bg-white">
     <div class="logo">
-      <img src="../images/logo.png" alt="Logo" class="w-40">
+      <img src="/images/logo.png" alt="Logo" class="w-40">
     </div>
 
     <div class="flex flex-1 max-w-md mx-auto items-center">
       <input type="text" placeholder="Search Products...." class="w-full px-4 py-2 border border-gray-300 rounded-l bg-green-50">
       <button class="bg-lime-600 px-3 py-2 rounded-r text-white">
-        <img src="icons/search.png" alt="Search" class="w-4 h-4">
+        <img src="/images/icons/search.png" alt="Search" class="w-4 h-4">
       </button>
     </div>
 
     <div class="flex items-center gap-4 flex-wrap">
       <a href="#" class="flex items-center text-sm text-black gap-1">
-        <img src="icons/saved.png" alt="Saved Icon" class="w-4 h-4"> Saved
+        <img src="/images/icons/saved.png" alt="Saved Icon" class="w-4 h-4"> Saved
       </a>
       <a href="#" class="flex items-center text-sm text-black gap-1">
-        <img src="icons/cart.png" alt="Cart Icon" class="w-4 h-4"> Cart
+        <img src="/images/icons/cart.png" alt="Cart Icon" class="w-4 h-4"> Cart
       </a>
       <a href="#" class="text-sm">Register</a>
       <button class="bg-lime-600 text-white px-4 py-2 rounded text-sm">Login</button>
@@ -39,13 +39,13 @@
     <div class="flex-1 min-w-[250px]">
       <h2 class="text-3xl font-semibold mb-6">Contact Us</h2>
       <p class="flex items-center text-lg mb-4">
-        <img src="icons/location.png" alt="Location Icon" class="w-5 mr-3"> Location
+        <img src="/images/icons/location.png" alt="Location Icon" class="w-5 mr-3"> Location
       </p>
       <p class="flex items-center text-lg mb-4">
-        <img src="icons/emaiil.png" alt="Email Icon" class="w-5 mr-3"> www.freshblink.com
+        <img src="/images/icons/emaiil.png" alt="Email Icon" class="w-5 mr-3"> www.freshblink.com
       </p>
       <p class="flex items-center text-lg">
-        <img src="icons/phone.png" alt="Phone Icon" class="w-5 mr-3"> Contact
+        <img src="/images/icons/phone.png" alt="Phone Icon" class="w-5 mr-3"> Contact
       </p>
     </div>
 
@@ -68,7 +68,7 @@
   <footer class="bg-gray-200 mt-16 px-6 pt-10 pb-4 text-sm text-gray-700">
     <div class="flex flex-col md:flex-row justify-center gap-10 mb-6">
       <div class="footer-logo text-center md:text-left">
-        <img src="../images/logo.png" alt="Logo" class="w-28 mb-4 mx-auto md:mx-0">
+        <img src="/images/logo.png" alt="Logo" class="w-28 mb-4 mx-auto md:mx-0">
       </div>
 
       <div>

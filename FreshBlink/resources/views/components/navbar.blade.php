@@ -1,3 +1,4 @@
+<<<<<<< HEAD
   <!-- Navbar -->
   <header class="bg-white shadow">
     <div class="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-300">
@@ -20,5 +21,12 @@
           <button class="bg-green-600 text-white px-4 py-2 rounded">Login</button>
         </div>
       </div>
+=======
+<!-- Top Navbar -->
+<div class="flex flex-col md:flex-row justify-between items-center px-5 py-3 border-b border-gray-300 bg-white gap-3 md:gap-0">
+    <!-- Logo -->
+    <div class="w-40">
+        <a href="/"><img src="/images/logo2.png" alt="Logo"></a>
+>>>>>>> 8dc90d6028104f76fa1bc9b03791bd0513833879
     </div>
   </header>

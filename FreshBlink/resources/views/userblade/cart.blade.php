@@ -1,40 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cart - FreshBlink</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart Page</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
+
 <body class="bg-gray-100 text-sm sm:text-base">
 
   <!-- Navbar -->
-  <header class="bg-white shadow">
-    <div class="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-300">
-      <a href="#"><img src="/images/logo.png" alt="FreshBlink Logo" class="w-28 sm:w-40"></a>
-      <div class="w-full sm:w-auto flex flex-col sm:flex-row items-center gap-2 mt-2 sm:mt-0">
-        <div class="flex w-full sm:w-auto">
-          <input type="text" placeholder="Search Products..." class="w-full sm:w-64 px-3 py-2 border rounded-l bg-green-50 focus:outline-none" />
-          <button class="px-3 py-2 bg-green-600 text-white rounded-r">
-            <span class="material-icons">search</span>
-          </button>
-        </div>
-        <div class="flex items-center gap-4 text-sm mt-2 sm:mt-0">
-          <a href="#" class="flex items-center hover:text-green-600">
-            <span class="material-icons mr-1">favorite_border</span> Saved
-          </a>
-          <a href="#" class="flex items-center hover:text-green-600">
-            <span class="material-icons mr-1">shopping_cart</span> Cart
-          </a>
-          <a href="#" class="hover:text-green-600">Register</a>
-          <button class="bg-green-600 text-white px-4 py-2 rounded">Login</button>
-        </div>
-      </div>
-    </div>
-  </header>
+  @guest
+  {{-- Show this if the user is NOT logged in --}}
+  @include('components.navbar')
+  @endguest
+
+  @auth
+  {{-- Show this if the user IS logged in --}}
+  @include('userblade.loggedin')
+  @endauth
 
   <!-- Cart Section -->
   <main class="px-4 sm:px-8 mt-6 space-y-6">
@@ -332,4 +320,5 @@
     });
   </script>
 </body>
+
 </html>

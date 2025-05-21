@@ -29,4 +29,18 @@
         <a href="/"><img src="/images/logo2.png" alt="Logo"></a>
 >>>>>>> 8dc90d6028104f76fa1bc9b03791bd0513833879
     </div>
-  </header>
+
+    <!-- Search Box -->
+    <div class="flex w-full md:flex-1 max-w-2xl mx-0 md:mx-5">
+        <input type="text" placeholder="Search Products......." class="w-full px-3 py-2 border border-gray-300 border-r-0 bg-green-50 rounded-l">
+        <button class="bg-green-600 text-white px-3 py-2 rounded-r"><span class="material-icons">search</span></button>
+    </div>
+
+    <!-- Nav Actions -->
+    <div class="flex flex-wrap justify-center md:justify-end items-center gap-6 md:gap-12 w-full md:w-auto">
+        <a href="#" class="text-black text-sm flex items-center gap-1"><span class="material-icons">favorite_border</span> Saved</a>
+        <a href="#" class="text-black text-sm flex items-center gap-1"><span class="material-icons">shopping_cart</span> Cart</a>
+        <a href="/login" class="text-black text-sm">Login</a>
+        <a href="/register"><button class="bg-green-600 text-white px-4 py-2 rounded">Register</button></a> 
+    </div>
+</div> 

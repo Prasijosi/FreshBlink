@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>{{ isset($category) ? $category->name : 'Categories' }} - FreshBlink</title>
@@ -8,7 +9,20 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
+
 <body class="font-sans bg-gray-100">
+
+  <!-- Navbar -->
+  @guest
+  {{-- Show this if the user is NOT logged in --}}
+  @include('components.navbar')
+  @endguest
+
+  @auth
+  {{-- Show this if the user IS logged in --}}
+  @include('userblade.loggedin')
+  @endauth
+
 
   <!-- Category Menu -->
   <div class="bg-white py-3 flex justify-center gap-4 sm:gap-8 border-b border-gray-300 flex-wrap text-sm sm:text-base font-semibold">
@@ -154,4 +168,5 @@
     });
   </script>
 </body>
+
 </html>

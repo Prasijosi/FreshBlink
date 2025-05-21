@@ -17,27 +17,7 @@
 <body>
 
   <!-- ========== NAVIGATION BAR ========== -->
-  <div class="navbar">
-    <!-- Website Logo -->
-    <div class="logo">
-      <a href="#"><img src="/images/logo.png" alt="FreshBlink Logo"></a>
-    </div>
-
-    <!-- Search bar in the middle of navbar -->
-    <div class="search-box">
-      <input type="text" placeholder="Search Products......." />
-      <button><span class="material-icons">search</span></button>
-    </div>
-
-    <!-- Navigation actions like wishlist, cart, register and login -->
-    <div class="nav-actions">
-      <a href="#"><span class="material-icons">favorite_border</span> Saved</a>
-      <a href="#"><span class="material-icons">shopping_cart</span> Cart</a>
-      <a href="#">Register</a>
-      <button class="login-btn">Login</button>
-    </div>
-  </div>
-
+    @include('traderblade.tradernav')
   <!-- ========== PAGE BREADCRUMB & TITLE ========== -->
   <div class="bottom-bar">
     <span>Add Product</span> <!-- Page Title -->

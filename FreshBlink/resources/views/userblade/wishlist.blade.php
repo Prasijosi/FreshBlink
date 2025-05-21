@@ -1,32 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Wishlist</title>
-   
+
   <link rel="stylesheet" href="Wishlist.css" />
 
 </head>
+
 <body>
 
   <!-- Navbar -->
-    <header class="navbar">
-    <div class="logo">
-      <img src="/images/logo.png" alt="Logo" />
-    </div>
-    <div class="search-box">
-      <input type="text" placeholder="Search Products..." />
-      <button><img src="/images/icons/search.png" alt="Search" class="icon"></button>
-    </div>
-    
-    <div class="nav-actions">
-       <a href="#"><img src="/images/icons/saved.png" alt="Saved Icon" class="icon"> Saved</a>
-       <a href="#"><img src="/images/icons/cart.png" alt="Cart Icon" class="icon"> Cart</a>
-       <a href="#">Register</a>
-    <button class="login-btn">Login</button>
-  </div>
-  </header>
+  @guest
+  {{-- Show this if the user is NOT logged in --}}
+  @include('components.navbar')
+  @endguest
+
+  @auth
+  {{-- Show this if the user IS logged in --}}
+  @include('userblade.loggedin')
+  @endauth
+
 
   <!-- Wishlist Section -->
   <section class="wishlist-container">
@@ -36,7 +32,7 @@
       <!-- Item 1 -->
       <div class="wishlist-item">
         <div class="wishlist-item-img">
-          <img src="images/product1.jpg" alt="Product 1">
+          <img src="/images/egg.jpg" alt="Product 1">
         </div>
         <div class="wishlist-item-details">
           <div class="wishlist-item-name">Wireless Headphones</div>
@@ -51,7 +47,7 @@
       <!-- Item 2 -->
       <div class="wishlist-item">
         <div class="wishlist-item-img">
-          <img src="images/product2.jpg" alt="Product 2">
+          <img src="/images/apple.jpg" alt="Product 2">
         </div>
         <div class="wishlist-item-details">
           <div class="wishlist-item-name">Smart Watch</div>
@@ -66,7 +62,7 @@
       <!-- Item 3 -->
       <div class="wishlist-item">
         <div class="wishlist-item-img">
-          <img src="images/product3.jpg" alt="Product 3">
+          <img src="/images/milk.jpg" alt="Product 3">
         </div>
         <div class="wishlist-item-details">
           <div class="wishlist-item-name">Bluetooth Speaker</div>
@@ -120,6 +116,7 @@
       <p class="copyright">© 2025 Freshblink</p>
     </div>
   </footer>
-<script src="/js/wishlist.js"></script>
+  <script src="/js/wishlist.js"></script>
 </body>
+
 </html>

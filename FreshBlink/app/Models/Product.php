@@ -21,10 +21,15 @@ class Product extends Model
         'max_order',
         'product_image',
         'stock_no',
+        'allergy_info',
+        'allergen_free',
+        'may_contain_allergens',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
+        'allergen_free' => 'boolean',
+        'may_contain_allergens' => 'boolean',
     ];
 
     /**

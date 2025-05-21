@@ -160,4 +160,66 @@ class CartController extends Controller
         // Clear the session cart after transfer
         session()->forget('cart');
     }
+
+    // Add item to cart
+    public function addToCart(Request $request, $id)
+    {
+        $request->validate([
+            'quantity' => 'required|integer|min:1'
+        ]);
+
+        $product = Product::findOrFail($id);
+        $quantity = $request->quantity;
+
+        // Check product availability
+        if ($product->quantity < $quantity) {
+            return back()->with('error', 'Requested quantity exceeds available stock');
+        }
+
+        if (Auth::check()) {
+            $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
+
+            // Check if adding this product would exceed the limit
+            if ($cart->hasReachedLimit() && !$cart->products()->where('product_id', $id)->exists()) {
+                return back()->with('error', 'Cart limit of ' . Cart::MAX_PRODUCTS . ' products reached');
+            }
+
+            $cartProduct = $cart->cartProducts()->where('product_id', $id)->first();
+
+            if ($cartProduct) {
+                // Update existing product quantity
+                $newQuantity = $cartProduct->quantity + $quantity;
+                if ($product->quantity < $newQuantity) {
+                    return back()->with('error', 'Total quantity exceeds available stock');
+                }
+                $cartProduct->update(['quantity' => $newQuantity]);
+            } else {
+                // Add new product to cart
+                $cart->cartProducts()->create([
+                    'product_id' => $id,
+                    'quantity' => $quantity
+                ]);
+            }
+        } else {
+            // Handle guest cart in session
+            $cart = session()->get('cart', []);
+            
+            if (count($cart) >= Cart::MAX_PRODUCTS && !isset($cart[$id])) {
+                return back()->with('error', 'Cart limit of ' . Cart::MAX_PRODUCTS . ' products reached');
+            }
+
+            if (isset($cart[$id])) {
+                $cart[$id]['quantity'] += $quantity;
+            } else {
+                $cart[$id] = [
+                    'quantity' => $quantity,
+                    'product' => $product
+                ];
+            }
+
+            session()->put('cart', $cart);
+        }
+
+        return back()->with('success', 'Product added to cart successfully');
+    }
 } 

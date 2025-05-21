@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('collection_slots', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders');
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->date('slot_date');
-            $table->time('time_details');
+            $table->string('time_slot');
+            $table->boolean('is_made_for')->default(false);
             $table->boolean('required_slot')->default(false);
             $table->timestamps();
         });

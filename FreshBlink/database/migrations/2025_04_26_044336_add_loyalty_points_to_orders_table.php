@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::table('orders', function (Blueprint $table) {
             $table->integer('points_earned')->default(0);
             $table->integer('points_redeemed')->default(0);
-            $table->decimal('points_discount', 10, 2)->default(0);
         });
     }
 
@@ -26,8 +25,7 @@ return new class extends Migration
         Schema::table('orders', function (Blueprint $table) {
             $table->dropColumn([
                 'points_earned',
-                'points_redeemed',
-                'points_discount'
+                'points_redeemed'
             ]);
         });
     }

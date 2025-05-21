@@ -9,6 +9,8 @@ class Cart extends Model
 {
     use HasFactory;
 
+    const MAX_PRODUCTS = 20;
+
     protected $fillable = [
         'user_id',
         'total_price',
@@ -46,5 +48,21 @@ class Cart extends Model
     public function order()
     {
         return $this->hasOne(Order::class);
+    }
+
+    /**
+     * Check if the cart has reached its maximum product limit.
+     */
+    public function hasReachedLimit(): bool
+    {
+        return $this->products()->count() >= self::MAX_PRODUCTS;
+    }
+
+    /**
+     * Get the remaining number of products that can be added to the cart.
+     */
+    public function getRemainingProductSlots(): int
+    {
+        return max(0, self::MAX_PRODUCTS - $this->products()->count());
     }
 }

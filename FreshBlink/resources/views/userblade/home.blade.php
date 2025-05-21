@@ -82,30 +82,31 @@
     </section>
     <!-- Featured Categories -->
     <section class="featured-section">
-        <h2 class="featured-heading">Featured Categories</h2>
-        <div class="categories">
-            <div class="category-box category-bakery">
-                <img src="/images/bakery_vector.png" alt="Bakery">
-                <p>Bakery</p>
-            </div>
-            <div class="category-box category-butchery">
-                <img src="/images/meat_steak.webp" alt="Butchery">
-                <p>Butchery</p>
-            </div>
-            <div class="category-box category-greengrocer">
-                <img src="/images/vegetable_vector.png" alt="Greengrocer">
-                <p>Greengrocer</p>
-            </div>
-            <div class="category-box category-delicatessen">
-                <img src="/images/vector.png" alt="Delicatessen">
-                <p>Delicatessen</p>
-            </div>
-            <div class="category-box category-fishmonger">
-                <img src="/images/seer_fish.png" alt="Fishmonger">
-                <p>Fishmonger</p>
-            </div>
-        </div>
-    </section>
+    <h2 class="featured-heading">Featured Categories</h2>
+    <div class="categories">
+        <a href="/bakery" class="category-box category-bakery">
+            <img src="/images/bakery_vector.png" alt="Bakery">
+            <p>Bakery</p>
+        </a>
+        <a href="/butchery" class="category-box category-butchery">
+            <img src="/images/meat_steak.webp" alt="Butchery">
+            <p>Butchery</p>
+        </a>
+        <a href="/greengrocer" class="category-box category-greengrocer">
+            <img src="/images/vegetable_vector.png" alt="Greengrocer">
+            <p>Greengrocer</p>
+        </a>
+        <a href="/delicatessen" class="category-box category-delicatessen">
+            <img src="/images/vector.png" alt="Delicatessen">
+            <p>Delicatessen</p>
+        </a>
+        <a href="/fishmonger" class="category-box category-fishmonger">
+            <img src="/images/seer_fish.png" alt="Fishmonger">
+            <p>Fishmonger</p>
+        </a>
+    </div>
+</section>
+
     <!-- Popular Products -->
     <section class="popular-products">
         <h2 class="featured-heading">Popular Products</h2>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Traders Page</title>
@@ -7,24 +8,20 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 </head>
+
 <body class="font-sans bg-gray-100">
 
   <!-- Navbar -->
-  <div class="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-300 bg-white">
-    <a href="#"><img src="/images/logo.png" alt="FreshBlink Logo" class="w-36 sm:w-40"></a>
-    <div class="flex items-center gap-2">
-      <input type="text" placeholder="Search Products..." class="px-3 py-2 border rounded-l bg-green-50 w-40 sm:w-64" />
-      <button class="px-3 py-2 bg-green-600 text-white rounded-r">
-        <span class="material-icons">search</span>
-      </button>
-    </div>
-    <div class="hidden sm:flex items-center gap-4 text-sm">
-      <a href="#" class="flex items-center hover:text-green-600"><span class="material-icons mr-1">favorite_border</span> Saved</a>
-      <a href="#" class="flex items-center hover:text-green-600"><span class="material-icons mr-1">shopping_cart</span> Cart</a>
-      <a href="#" class="hover:text-green-600">Register</a>
-      <button class="bg-green-600 text-white px-4 py-1 rounded">Login</button>
-    </div>
-  </div>
+  @guest
+  {{-- Show this if the user is NOT logged in --}}
+  @include('components.navbar')
+  @endguest
+
+  @auth
+  {{-- Show this if the user IS logged in --}}
+  @include('userblade.loggedin')
+  @endauth
+
 
   <!-- Category Menu -->
   <div class="bg-white py-3 flex justify-center gap-4 sm:gap-8 border-b border-gray-300 flex-wrap text-sm sm:text-base font-semibold">
@@ -100,4 +97,5 @@
 
   <script src="traders.js"></script>
 </body>
+
 </html>

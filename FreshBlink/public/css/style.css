@@ -113,7 +113,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: url('Image/rectangle.png') no-repeat center center;
+    background: url('/images/rectangle.png') no-repeat center center;
     background-size: cover;
     background-color: #d4f5d2;
     padding: 80px 40px;
@@ -154,13 +154,15 @@
   }
   
   .meat-image {
-    width: 150px;
-    height: auto;
+    /* width: 150px;
+    height: auto; */
   }
   
   .vegetables {
-    height: 360px;
-    width: auto;
+    /* height: 50vh; */
+    /* width: auto; */
+    /* width: fit-content; */
+    
   }
   
   

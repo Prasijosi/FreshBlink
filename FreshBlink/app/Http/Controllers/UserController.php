@@ -193,18 +193,23 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
             'contact_details' => 'required|string|min:10',
             'address' => 'required|string|min:5',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        User::where('id', $user->id)->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'contact_details' => $request->contact_details,
-            'address' => $request->address,
-        ]);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->contact_details = $request->contact_details;
+        $user->address = $request->address;
+
+        if ($request->hasFile('profile_image')) {
+            $user->updateProfileImage($request->file('profile_image'));
+        }
+
+        $user->save();
 
         if ($request->has('notification_preference')) {
             Customer::where('user_id', $user->id)->update([

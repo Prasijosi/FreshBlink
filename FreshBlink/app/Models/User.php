@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -25,6 +26,7 @@ class User extends Authenticatable
         'date_of_birth',
         'contact_details',
         'address',
+        'profile_image',
         'has',
         'is_active',
         'remember_token',
@@ -149,5 +151,40 @@ class User extends Authenticatable
     public function isCustomer()
     {
         return $this->user_role === 'customer';
+    }
+
+    /**
+     * Update the user's profile image.
+     *
+     * @param \Illuminate\Http\UploadedFile $image
+     * @return string
+     */
+    public function updateProfileImage($image)
+    {
+        if ($this->profile_image) {
+            // Delete old image if exists
+            Storage::delete('public/profile-images/' . $this->profile_image);
+        }
+
+        $filename = time() . '_' . $image->getClientOriginalName();
+        $image->storeAs('public/profile-images', $filename);
+        
+        $this->profile_image = $filename;
+        $this->save();
+
+        return $filename;
+    }
+
+    /**
+     * Get the profile image URL.
+     *
+     * @return string
+     */
+    public function getProfileImageUrl()
+    {
+        if ($this->profile_image) {
+            return Storage::url('profile-images/' . $this->profile_image);
+        }
+        return '/images/default-profile.jpg';
     }
 }

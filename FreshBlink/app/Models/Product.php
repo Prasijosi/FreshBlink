@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -90,5 +91,40 @@ class Product extends Model
         return $this->belongsToMany(Cart::class, 'cart_products')
             ->withPivot('no_of_product', 'total_price')
             ->withTimestamps();
+    }
+
+    /**
+     * Update the product's image.
+     *
+     * @param \Illuminate\Http\UploadedFile $image
+     * @return string
+     */
+    public function updateProductImage($image)
+    {
+        if ($this->product_image) {
+            // Delete old image if exists
+            Storage::delete('public/product-images/' . $this->product_image);
+        }
+
+        $filename = time() . '_' . $image->getClientOriginalName();
+        $image->storeAs('public/product-images', $filename);
+        
+        $this->product_image = $filename;
+        $this->save();
+
+        return $filename;
+    }
+
+    /**
+     * Get the product image URL.
+     *
+     * @return string
+     */
+    public function getProductImageUrl()
+    {
+        if ($this->product_image) {
+            return Storage::url('product-images/' . $this->product_image);
+        }
+        return '/images/default-product.jpg';
     }
 }

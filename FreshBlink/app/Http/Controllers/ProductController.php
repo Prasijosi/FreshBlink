@@ -47,7 +47,7 @@ class ProductController extends Controller
         $products = $query->paginate(12);
         $categories = ProductCategory::all();
         
-        return view('products.index', compact('products', 'categories'));
+        return view('userblade.category', compact('products', 'categories'));
     }
 
     // Display product details
@@ -70,7 +70,7 @@ class ProductController extends Controller
                                     ->exists();
         }
         
-        return view('products.show', compact('product', 'relatedProducts', 'reviews', 'inWishlist'));
+        return view('userblade.product_detail', compact('product', 'relatedProducts', 'reviews', 'inWishlist'));
     }
 
     // Search products

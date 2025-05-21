@@ -15,7 +15,8 @@ return new class extends Migration
             $table->string('user_role')->default('customer'); // customer, trader, admin
             $table->date('date_of_birth')->nullable();
             $table->string('contact_details')->nullable();
-            $table->string('address')->nullable();
+            $table->text('address')->nullable();
+            $table->string('profile_image')->nullable();
             $table->boolean('has')->default(false); // For schema relations
         });
     }
@@ -31,6 +32,7 @@ return new class extends Migration
                 'date_of_birth',
                 'contact_details',
                 'address',
+                'profile_image',
                 'has'
             ]);
         });

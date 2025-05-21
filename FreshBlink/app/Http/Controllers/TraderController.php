@@ -1,5 +1,6 @@
-namespace App\Http\Controllers;
+<?php
 
+namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -16,10 +17,147 @@ use App\Models\Trader;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 
-class ProductController extends Controller
+class TraderController extends BaseController
 {
-    // -------------------- USER SIDE --------------------
+    use AuthorizesRequests, ValidatesRequests;
+
+    public function __construct()
+    {
+        $this->middleware('guest:trader')->except(['logout', 'dashboard', 'profile', 'updateProfile']);
+        $this->middleware('auth:trader')->only(['dashboard', 'profile', 'updateProfile']);
+    }
+
+    public function showRegister()
+    {
+        return view('traderblade.register');
+    }
+
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'trader_type' => 'required|string|in:' . implode(',', array_keys(Trader::TRADER_TYPES)),
+            'phone' => 'nullable|string|max:20',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        // Create user
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+        ]);
+
+        // Create trader
+        $trader = Trader::create([
+            'user_id' => $user->id,
+            'trader_type' => $request->trader_type,
+            'trader_status' => 'pending',
+        ]);
+
+        // Log in the trader
+        Auth::guard('trader')->login($trader);
+
+        return redirect()->route('trader.dashboard')
+            ->with('success', 'Registration successful! Please wait for admin approval.');
+    }
+
+    public function showLoginForm()
+    {
+        return view('traderblade.login');
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::guard('trader')->attempt($credentials)) {
+            $request->session()->regenerate();
+            
+            $trader = Auth::guard('trader')->user();
+            if ($trader->trader_status !== 'approved') {
+                Auth::guard('trader')->logout();
+                return back()->withErrors([
+                    'email' => 'Your account is pending approval. Please wait for admin approval.',
+                ])->withInput();
+            }
+
+            return redirect()->intended(route('trader.dashboard'));
+        }
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->withInput();
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('trader')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('trader.login');
+    }
+
+    public function dashboard()
+    {
+        $trader = Auth::guard('trader')->user();
+        $shops = Shop::where('trader_id', $trader->user_id)->get();
+        $products = Product::whereIn('shop_id', $shops->pluck('id'))->get();
+        $orders = Order::whereIn('shop_id', $shops->pluck('id'))->latest()->take(5)->get();
+
+        return view('traderblade.dashboard', compact('shops', 'products', 'orders'));
+    }
+
+    public function profile()
+    {
+        $trader = Auth::guard('trader')->user();
+        return view('traderblade.profile', compact('trader'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $trader = Auth::guard('trader')->user();
+        
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        // Update user info
+        $user = $trader->user;
+        $user->name = $request->name;
+        $user->phone = $request->phone;
+        $user->save();
+
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('images/traders'), $imageName);
+            $trader->image = 'images/traders/' . $imageName;
+            $trader->save();
+        }
+
+        return back()->with('success', 'Profile updated successfully');
+    }
 
     public function index(Request $request)
     {
@@ -184,8 +322,6 @@ class ProductController extends Controller
         return back()->with('success', 'Review submitted successfully');
     }
 
-    // -------------------- TRADER SIDE --------------------
-
     public function traderIndex()
     {
         $trader = Auth::guard('trader')->user();
@@ -196,7 +332,7 @@ class ProductController extends Controller
             ->get();
 
         $shops = Shop::where('trader_id', $trader->id)->get();
-        $categories = Category::all();
+        $categories = ProductCategory::all();
 
         return view('traderblade.index', compact('products', 'shops', 'categories'));
     }
@@ -205,7 +341,7 @@ class ProductController extends Controller
     {
         $traderId = Auth::guard('trader')->user()->id;
         $shops = Shop::where('trader_id', $traderId)->get();
-        $categories = Category::all();
+        $categories = ProductCategory::all();
 
         return view('traderblade.addproduct', compact('shops', 'categories'));
     }

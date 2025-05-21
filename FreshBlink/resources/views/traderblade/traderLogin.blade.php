@@ -1,32 +1,71 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Trader Login</title>
-</head>
-<body>
+@extends('layouts.app')
 
-    <h2>Trader Login</h2>
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">{{ __('Trader Login') }}</div>
 
-    @if(session('error'))
-        <p style="color:red;">{{ session('error') }}</p>
-    @endif
+                <div class="card-body">
+                    @if(session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
 
-    @if(session('success'))
-    <script>
-        alert("{{ session('success') }}");
-    </script>
-    @endif
+                    @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
 
-    <form method="POST" action="{{ url('/trader/login') }}">
-        @csrf
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+                    <form method="POST" action="{{ route('trader.login.submit') }}">
+                        @csrf
 
-        <label>Password:</label><br>
-        <input type="password" name="password" required><br><br>
+                        <div class="form-group row">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
-        <button type="submit">Login</button>
-    </form>
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
-</body>
-</html>
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Login') }}
+                                </button>
+
+                                <a class="btn btn-link" href="{{ route('trader.register') }}">
+                                    {{ __('Register as Trader') }}
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

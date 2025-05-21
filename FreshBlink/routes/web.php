@@ -97,6 +97,13 @@ Route::get('/shops/{id}', [ShopController::class, 'show'])->name('shops.show');
 Route::get('/shops/{shopId}/category/{categoryId}', [ShopController::class, 'filterByCategory'])->name('shops.category');
 Route::get('/shops/{id}/search', [ShopController::class, 'search'])->name('shops.search');
 
+// shop management user 
+Route::view('/bakery','userblade.bakery');
+Route::view('/butchery','userblade.butchery');
+Route::view('/delicatessen','userblade.delicatessen');
+Route::view('/greengrocer','userblade.greengrocer');
+Route::view('/fishmonger','userblade.fishmonger');
+
 // Shop management (trader) routes
 Route::middleware(['auth'])->group(function () {
     Route::get('/shops/create', [ShopController::class, 'create'])->name('shops.create');

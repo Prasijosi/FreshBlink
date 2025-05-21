@@ -6,7 +6,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Trader Approval Panel</h3>
+                    <h3 class="card-title">Trader Management</h3>
                     <div class="card-tools">
                         <div class="btn-group">
                             <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
@@ -47,8 +47,8 @@
                                     <tr>
                                         <td>{{ $trader->user->name }}</td>
                                         <td>{{ $trader->user->email }}</td>
-                                        <td>{{ $trader->user->phone ?? '-' }}</td>
-                                        <td>{{ ucfirst($trader->trader_type) }}</td>
+                                        <td>{{ $trader->user->phone ?? 'N/A' }}</td>
+                                        <td>{{ $trader->trader_type_display }}</td>
                                         <td>
                                             <span class="badge badge-{{ $trader->trader_status === 'approved' ? 'success' : ($trader->trader_status === 'rejected' ? 'danger' : 'warning') }}">
                                                 {{ ucfirst($trader->trader_status) }}
@@ -59,17 +59,20 @@
                                             @if($trader->trader_status === 'pending')
                                                 <form action="{{ route('admin.traders.approve', $trader->user_id) }}" method="POST" style="display:inline-block;">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-check"></i> Approve</button>
+                                                    <button type="submit" class="btn btn-success btn-sm">
+                                                        <i class="fas fa-check"></i> Approve
+                                                    </button>
                                                 </form>
                                                 <form action="{{ route('admin.traders.reject', $trader->user_id) }}" method="POST" style="display:inline-block;">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-times"></i> Reject</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-times"></i> Reject
+                                                    </button>
                                                 </form>
-                                            @else
-                                                <button type="button" class="btn btn-info btn-sm" onclick="viewTraderDetails({{ $trader->user_id }})">
-                                                    <i class="fas fa-eye"></i> View Details
-                                                </button>
                                             @endif
+                                            <a href="{{ route('admin.traders.show', $trader->user_id) }}" class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i> View Details
+                                            </a>
                                         </td>
                                     </tr>
                                 @empty

@@ -4,25 +4,25 @@
         <table class="table table-bordered">
             <tr>
                 <th>Name</th>
-                <td>{{ $trader->name }}</td>
+                <td>{{ $trader->user->name }}</td>
             </tr>
             <tr>
                 <th>Email</th>
-                <td>{{ $trader->email }}</td>
+                <td>{{ $trader->user->email }}</td>
             </tr>
             <tr>
                 <th>Phone</th>
-                <td>{{ $trader->phone }}</td>
+                <td>{{ $trader->user->phone ?? 'N/A' }}</td>
             </tr>
             <tr>
                 <th>Trader Type</th>
-                <td>{{ ucfirst($trader->trader_type) }}</td>
+                <td>{{ $trader->trader_type_display }}</td>
             </tr>
             <tr>
                 <th>Status</th>
                 <td>
-                    <span class="badge badge-{{ $trader->status === 'approved' ? 'success' : ($trader->status === 'rejected' ? 'danger' : 'warning') }}">
-                        {{ ucfirst($trader->status) }}
+                    <span class="badge badge-{{ $trader->trader_status === 'approved' ? 'success' : ($trader->trader_status === 'rejected' ? 'danger' : 'warning') }}">
+                        {{ ucfirst($trader->trader_status) }}
                     </span>
                 </td>
             </tr>
@@ -35,6 +35,10 @@
     <div class="col-md-6">
         <h5>Statistics</h5>
         <table class="table table-bordered">
+            <tr>
+                <th>Total Shops</th>
+                <td>{{ $trader->shops->count() }}</td>
+            </tr>
             <tr>
                 <th>Total Products</th>
                 <td>{{ $trader->products->count() }}</td>
@@ -126,22 +130,23 @@
         </div>
     </div>
 </div>
-<!-- 
 
-temporarily commented out
-
-@if($trader->status === 'pending')
+@if($trader->trader_status === 'pending')
     <div class="row mt-3">
         <div class="col-12">
             <h5>Actions</h5>
-            <button type="button" class="btn btn-success btn-sm" 
-                    onclick="confirmAction('{{ route('admin.traders.approve', $trader->id) }}', 'approve')">
-                <i class="fas fa-check"></i> Approve Trader
-            </button>
-            <button type="button" class="btn btn-danger btn-sm" 
-                    onclick="confirmAction('{{ route('admin.traders.reject', $trader->id) }}', 'reject')">
-                <i class="fas fa-times"></i> Reject Trader
-            </button>
+            <form action="{{ route('admin.traders.approve', $trader->user_id) }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="btn btn-success btn-sm">
+                    <i class="fas fa-check"></i> Approve Trader
+                </button>
+            </form>
+            <form action="{{ route('admin.traders.reject', $trader->user_id) }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="btn btn-danger btn-sm">
+                    <i class="fas fa-times"></i> Reject Trader
+                </button>
+            </form>
         </div>
     </div>
-@endif  -->
+@endif

@@ -43,7 +43,7 @@
     <!-- Profile Sidebar -->
     <aside class="bg-white p-4 rounded shadow col-span-1 flex flex-col items-center text-center">
       <label for="profilePicInput" class="cursor-pointer">
-        <img id="profilePic" src="/images/Customer.jpg"
+        <img id="profilePic" src="{{ Auth::user()->getProfileImageUrl() }}"
           alt="Profile Picture"
           class="w-24 h-24 rounded-full mb-2 object-cover border border-gray-300 hover:opacity-80 transition" />
         <input type="file" id="profilePicInput" accept="image/*" class="hidden" />
@@ -74,10 +74,11 @@
       <!-- Account Info -->
       <div class="bg-white p-4 rounded shadow">
         <h2 class="font-semibold mb-4">Account Information</h2>
-        <form action="{{ route('user.profile.update') }}" method="POST" id="profileForm">
+        <form action="{{ route('user.profile.update') }}" method="POST" id="profileForm" enctype="multipart/form-data">
           @csrf
           @method('PUT')
           <div class="space-y-4">
+
             <div>
               <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
               <input type="text" name="name" id="name" value="{{ $user->name }}" required
@@ -164,6 +165,28 @@
       </div>
     </section>
   </main>
+
+  <script>
+    function previewImage(input) {
+      const preview = document.getElementById('imagePreview');
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.classList.remove('hidden');
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    // Initialize preview with current image
+    document.addEventListener('DOMContentLoaded', function() {
+      const preview = document.getElementById('imagePreview');
+      if (preview.src) {
+        preview.classList.remove('hidden');
+      }
+    });
+  </script>
 
   <!-- Footer -->
   <footer class="bg-white mt-8 p-6 shadow">

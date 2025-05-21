@@ -1,69 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Welcome to FreshBlink Trader Program</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            border-radius: 5px 5px 0 0;
-        }
-        .content {
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 0 0 5px 5px;
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #666;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Welcome to FreshBlink Trader Program!</h1>
+@extends('emails.layouts.base')
+
+@section('title', 'Welcome to FreshBlink Trader Program')
+
+@section('header', 'Welcome to FreshBlink Trader Program!')
+
+@section('content')
+    <p>Hello {{ $trader->name }},</p>
+    
+    <p>Welcome to the FreshBlink Trader Program! We're excited to have you join our community of trusted local sellers. Together, we'll bring fresh, quality products to customers in your area.</p>
+    
+    <div class="points-info">
+        <h3>📋 Application Status</h3>
+        <p>Your application is currently under review. Our team will evaluate your submission and get back to you within 24-48 hours.</p>
     </div>
-    <div class="content">
-        <p>Hello {{ $trader->name }},</p>
-        <p>Thank you for registering as a trader with FreshBlink. We're excited to have you join our marketplace!</p>
-        
-        <p>Your application is currently under review. Our team will evaluate your submission and get back to you soon.</p>
-        
-        <p>Here's what you can expect next:</p>
-        <ul>
-            <li>Our team will review your application within 24-48 hours</li>
-            <li>You'll receive an email notification once your account is approved</li>
-            <li>After approval, you can start setting up your shop and listing products</li>
-        </ul>
-        
-        <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
-        
-        <p>Best regards,<br>The FreshBlink Team</p>
-    </div>
-    <div class="footer">
-        <p>© {{ date('Y') }} FreshBlink. All rights reserved.</p>
-    </div>
-</body>
-</html> 
+    
+    <p>Here's what you can expect next:</p>
+    <ul>
+        <li>Our team will review your application within 24-48 hours</li>
+        <li>You'll receive an email notification once your account is approved</li>
+        <li>After approval, you can start setting up your shop profile</li>
+        <li>Add your products and manage your inventory</li>
+        <li>Start receiving orders from customers</li>
+    </ul>
+    
+    <p>To prepare for your shop launch, you can:</p>
+    <ul>
+        <li>Gather high-quality product photos</li>
+        <li>Prepare detailed product descriptions</li>
+        <li>Set your pricing strategy</li>
+        <li>Plan your delivery or pickup options</li>
+    </ul>
+    
+    <p>If you have any questions or need assistance, our support team is here to help!</p>
+    
+    <p>Best regards,<br>The FreshBlink Team</p>
+@endsection 

@@ -74,7 +74,7 @@ class TraderController extends BaseController
 
     public function showLoginForm()
     {
-        return view('traderblade.login');
+        return view('userblade.login');
     }
 
     public function login(Request $request)

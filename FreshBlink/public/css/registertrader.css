@@ -1,5 +1,5 @@
 /* ========== RESET & BASE ========== */
-*, *::before, *::after {
+*::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -46,7 +46,7 @@
   
   .search-box button {
     padding: 8px 10px;
-    background-color: #4DAF22;
+    background-color: #28a745;
     border: none;
     color: white;
     cursor: pointer;
@@ -69,7 +69,7 @@
   }
   
   .login-btn {
-    background-color: #4DAF22;
+    background-color: #28a745;
     color: white;
     padding: 8px 16px;
     border: none;
@@ -77,17 +77,6 @@
     cursor: pointer;
   }
   
-  /* ========== BREADCRUMB ========== */
-  .bottom-bar {
-    background-color: #4DAF22;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 20px;
-    font-size: 0.875rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
   
   /* ========== FORM CONTAINER ========== */
   .form-container {
@@ -128,7 +117,7 @@
   }
   
   .submit-btn {
-    background-color: #4DAF22;
+    background-color: #28a745;
     color: white;
     border: none;
     padding: 12px 24px;
@@ -140,7 +129,7 @@
   }
   
   .submit-btn:hover {
-    background-color: #388e3c;
+    background-color: #28a745;
   }
   
   /* ========== FOOTER ========== */
@@ -280,17 +269,17 @@
 .search-box button:hover,
 .login-btn:hover,
 .submit-btn:hover {
-  background-color: #388e3c;
+  background-color: #28a745;
   transform: scale(1.02);
 }
 
 .nav-actions a:hover {
-  color: #4DAF22;
+  color: #28a745;
   transform: scale(1.05);
   transition: 0.2s ease;
 }
 
 .footer-column ul li a:hover {
-  color: #4DAF22;
+  color: #28a745;
   text-decoration: underline;
 }

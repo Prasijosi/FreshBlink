@@ -12,21 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('traders', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('phone')->nullable();
-            $table->enum('status', ['pending', 'approved','rejected'])->default('pending');
-            $table->enum('trader_type', [
-                'GROCERY_STORE',
-                'RESTAURANT',
-                'BAKERY',
-                'BUTCHER_SHOP',
-                'SEAFOOD_MARKET'
-            ]);
+            $table->unsignedBigInteger('user_id')->primary();
+            $table->string('trader_type');
+            $table->string('trader_status')->default('pending');
+            $table->string('image')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
-        }); 
+        });
     }
 
     /**

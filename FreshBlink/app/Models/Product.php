@@ -25,6 +25,7 @@ class Product extends Model
         'allergy_info',
         'allergen_free',
         'may_contain_allergens',
+        'image',
     ];
 
     protected $casts = [

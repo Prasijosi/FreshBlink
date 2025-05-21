@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- Meta tags for character set and responsive design -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <!-- Page title shown on browser tab -->
   <title>Add Product - FreshBlink</title>
 
@@ -14,6 +15,7 @@
   <!-- Google Material Icons (used for icons in navbar) -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
+
 <body>
 
   <!-- ========== NAVIGATION BAR ========== -->
@@ -26,54 +28,54 @@
 
   <!-- ========== ADD PRODUCT FORM ========== -->
   <div class="add-product-container">
-    <form class="add-product-form">
-      <h2>Add New Product</h2> <!-- Form Header -->
+    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="add-product-form">
+      @csrf
+      <h2>Add New Product</h2>
 
-      <!-- Product Info Section Header -->
       <h3>Product Info</h3>
 
-      <!-- Input field for product name -->
       <label for="productName">Product Name</label>
-      <input type="text" id="productName" placeholder="Enter product name" required>
+      <input type="text" id="productName" name="name" placeholder="Enter product name" required>
 
-      <!-- Textarea for product description -->
       <label for="productDesc">Detailed Description</label>
-      <textarea id="productDesc" placeholder="Enter product description" required></textarea>
+      <textarea id="productDesc" name="description" placeholder="Enter product description" required></textarea>
 
-      <!-- Input for available quantity -->
       <label for="quantity">Quantity</label>
-      <input type="number" id="quantity" placeholder="Available stock" required>
+      <input type="number" id="quantity" name="quantity" placeholder="Available stock" required>
 
-      <!-- Input for minimum order limit -->
       <label for="minOrder">Minimum Order</label>
-      <input type="number" id="minOrder" placeholder="Minimum quantity per order" required>
+      <input type="number" id="minOrder" name="min_order" placeholder="Minimum quantity per order" required>
 
-      <!-- Input for maximum order limit -->
       <label for="maxOrder">Maximum Order</label>
-      <input type="number" id="maxOrder" placeholder="Maximum quantity per order" required>
+      <input type="number" id="maxOrder" name="max_order" placeholder="Maximum quantity per order" required>
 
-      <!-- Input for product price -->
       <label for="price">Price</label>
-      <input type="number" id="price" placeholder="Enter price" required>
+      <input type="number" id="price" name="price" placeholder="Enter price" required>
 
-      <!-- Dropdown to select the shop category -->
+      <!-- Shop Dropdown (Trader's Shops) -->
       <label for="shop">Shop</label>
-      <select id="shop" required>
+      <select id="shop" name="shop_id" required>
         <option value="" disabled selected>Select shop</option>
-        <option value="shop1">Butchers</option>
-        <option value="shop2">Greengrocer</option>
-        <option value="shop3">Fishmonger</option>
-        <option value="shop4">Bakery</option>
-        <option value="shop5"></option>
+        @foreach($shops as $shop)
+        <option value="{{ $shop->id }}">{{ $shop->name }}</option>
+        @endforeach
       </select>
 
-      <!-- File input for uploading product image -->
-      <label for="image">Upload Product Image</label>
-      <input type="file" id="image" required>
+      <!-- Category Dropdown -->
+      <label for="category_id">Category</label>
+      <select name="product_category_id" id="product_category_id" required>
+        <option value="" disabled selected>Select category</option>
+        @foreach($categories as $category)
+        <option value="{{ $category->id }}">{{ $category->name }}</option>
+        @endforeach
+      </select>
 
-      <!-- Form submission button -->
+      <label for="image">Upload Product Image</label>
+      <input type="file" id="image" name="image" required>
+
       <button type="submit">Submit</button>
     </form>
+
   </div>
 
   <!-- ========== FOOTER ========== -->
@@ -126,7 +128,7 @@
 
     <!-- Copyright -->
     <div class="copyright">
-        <p>&copy; 2022, All rights reserved</p>
+      <p>&copy; 2022, All rights reserved</p>
     </div>
 
     <!-- Payment options (e.g., PayPal logo) -->
@@ -138,4 +140,5 @@
   <!-- Link to external JavaScript functionality -->
   <script src="/js/addProductTrader.js"></script>
 </body>
+
 </html>

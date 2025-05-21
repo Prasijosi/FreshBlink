@@ -9,11 +9,14 @@ class Customer extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'user_id';
+
     protected $fillable = [
         'user_id',
         'notification_preference',
         'loyalty_points',
         'favorite_shop',
+        'image',
     ];
 
     protected $casts = [
@@ -25,6 +28,6 @@ class Customer extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

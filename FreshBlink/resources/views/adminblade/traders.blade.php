@@ -45,33 +45,31 @@
                             <tbody>
                                 @forelse($traders as $trader)
                                     <tr>
-                                        <td>{{ $trader->name }}</td>
-                                        <td>{{ $trader->email }}</td>
-                                        <td>{{ $trader->phone }}</td>
+                                        <td>{{ $trader->user->name }}</td>
+                                        <td>{{ $trader->user->email }}</td>
+                                        <td>{{ $trader->user->phone ?? '-' }}</td>
                                         <td>{{ ucfirst($trader->trader_type) }}</td>
                                         <td>
-                                            <span class="badge badge-{{ $trader->status === 'approved' ? 'success' : ($trader->status === 'rejected' ? 'danger' : 'warning') }}">
-                                                {{ ucfirst($trader->status) }}
+                                            <span class="badge badge-{{ $trader->trader_status === 'approved' ? 'success' : ($trader->trader_status === 'rejected' ? 'danger' : 'warning') }}">
+                                                {{ ucfirst($trader->trader_status) }}
                                             </span>
                                         </td>
                                         <td>{{ $trader->created_at->format('M d, Y H:i') }}</td>
                                         <td>
-                                            <!-- temporarily commented out -->
-                                            <!-- @if($trader->status === 'pending')
-                                                <button type="button" class="btn btn-success btn-sm" 
-                                                        onclick="confirmAction('{{ route('admin.traders.approve', $trader->id) }}', 'approve')">
-                                                    <i class="fas fa-check"></i> Approve
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm" 
-                                                        onclick="confirmAction('{{ route('admin.traders.reject', $trader->id) }}', 'reject')">
-                                                    <i class="fas fa-times"></i> Reject
-                                                </button> -->
-                                            <!-- @else
-                                                <button type="button" class="btn btn-info btn-sm" 
-                                                        onclick="viewTraderDetails({{ $trader->id }})">
+                                            @if($trader->trader_status === 'pending')
+                                                <form action="{{ route('admin.traders.approve', $trader->user_id) }}" method="POST" style="display:inline-block;">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-check"></i> Approve</button>
+                                                </form>
+                                                <form action="{{ route('admin.traders.reject', $trader->user_id) }}" method="POST" style="display:inline-block;">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-times"></i> Reject</button>
+                                                </form>
+                                            @else
+                                                <button type="button" class="btn btn-info btn-sm" onclick="viewTraderDetails({{ $trader->user_id }})">
                                                     <i class="fas fa-eye"></i> View Details
                                                 </button>
-                                            @endif -->
+                                            @endif
                                         </td>
                                     </tr>
                                 @empty

@@ -13,12 +13,17 @@ return new class extends Migration
     {
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->string('shop_name');
+            $table->unsignedBigInteger('trader_id');
+            $table->foreign('trader_id')->references('user_id')->on('traders')->onDelete('cascade');
+            $table->string('name');
             $table->text('description')->nullable();
             $table->string('address');
+            $table->string('phone');
             $table->string('email');
-            $table->date('created_on')->nullable();
+            $table->string('opening_hours');
+            $table->string('closing_hours');
+            $table->enum('status', ['active', 'inactive', 'suspended'])->default('active');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

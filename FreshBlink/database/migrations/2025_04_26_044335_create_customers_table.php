@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->unsignedBigInteger('user_id')->primary();
             $table->string('notification_preference')->nullable();
             $table->integer('loyalty_points')->default(0);
-            $table->foreignId('discount_id')->nullable()->constrained('discounts');
             $table->string('favorite_shop')->nullable();
+            $table->string('image')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -1,93 +1,233 @@
-<?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;    
-use App\Models\Trader;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use App\Mail\TraderWelcomeEmail;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
+use App\Models\Product;
+use App\Models\ProductCategory;
+use App\Models\Category;
+use App\Models\Wishlist;
+use App\Models\WishlistProduct;
+use App\Models\Review;
+use App\Models\Cart;
+use App\Models\CartProduct;
+use App\Models\Shop;
+use App\Models\Trader;
+use App\Models\Order;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-class TraderController extends Controller
+class ProductController extends Controller
 {
-    /**
-     * Handles the registration of a new trader.
-     *
-     * This function validates the incoming request data, creates a new trader
-     * record in the database, and returns a success message.
-     *
-     * @param Request $request The HTTP request containing trader registration data.
-     * @return \Illuminate\Http\JsonResponse JSON response with success or error message.
-     */
-    public function register(Request $request)
+    // -------------------- USER SIDE --------------------
+
+    public function index(Request $request)
     {
+        $query = Product::query();
+
+        if ($request->has('category')) {
+            $query->where('product_category_id', $request->category);
+        }
+
+        if ($request->has('shop')) {
+            $query->where('shop_id', $request->shop);
+        }
+
+        if ($request->has('min_price')) {
+            $query->where('price', '>=', $request->min_price);
+        }
+
+        if ($request->has('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        if ($request->has('search')) {
+            $query->where('product_name', 'like', '%' . $request->search . '%')
+                  ->orWhere('description', 'like', '%' . $request->search . '%');
+        }
+
+        $products = $query->paginate(12);
+        $categories = ProductCategory::all();
+
+        return view('userblade.category', compact('products', 'categories'));
+    }
+
+    public function show($id)
+    {
+        $product = Product::findOrFail($id);
+        $relatedProducts = Product::where('product_category_id', $product->product_category_id)
+                                  ->where('id', '!=', $id)
+                                  ->limit(4)
+                                  ->get();
+        $reviews = Review::where('product_id', $id)->latest()->get();
+
+        $inWishlist = false;
+        if (Auth::check()) {
+            $inWishlist = Wishlist::where('user_id', Auth::id())
+                                  ->whereHas('wishlistProducts', function($query) use ($id) {
+                                      $query->where('product_id', $id);
+                                  })->exists();
+        }
+
+        return view('userblade.product_detail', compact('product', 'relatedProducts', 'reviews', 'inWishlist'));
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->get('keyword');
+        $products = Product::where('product_name', 'like', '%' . $keyword . '%')
+                           ->orWhere('description', 'like', '%' . $keyword . '%')
+                           ->paginate(12);
+
+        return view('products.search', compact('products', 'keyword'));
+    }
+
+    public function addToWishlist($id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please login to add products to wishlist');
+        }
+
+        $user = Auth::user();
+        $wishlist = Wishlist::firstOrCreate([
+            'user_id' => $user->id,
+            'wishlist_name' => 'My Wishlist'
+        ]);
+
+        $exists = $wishlist->wishlistProducts()->where('product_id', $id)->exists();
+
+        if (!$exists) {
+            $wishlist->wishlistProducts()->create(['product_id' => $id]);
+            return back()->with('success', 'Product added to wishlist');
+        }
+
+        return back()->with('info', 'Product already in wishlist');
+    }
+
+    public function removeFromWishlist($id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $wishlist = Wishlist::where('user_id', Auth::id())->first();
+
+        if ($wishlist) {
+            $wishlist->wishlistProducts()->where('product_id', $id)->delete();
+            return back()->with('success', 'Product removed from wishlist');
+        }
+
+        return back()->with('error', 'Product not found in wishlist');
+    }
+
+    public function addToCart(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        $quantity = $request->quantity ?? 1;
+
+        if ($product->quantity < $quantity) {
+            return back()->with('error', 'Not enough stock available');
+        }
+
+        if (!Auth::check()) {
+            $cart = session()->get('cart', []);
+            if (isset($cart[$id])) {
+                $cart[$id]['quantity'] += $quantity;
+            } else {
+                $cart[$id] = [
+                    'product_id' => $id,
+                    'product_name' => $product->product_name,
+                    'quantity' => $quantity,
+                    'price' => $product->price,
+                    'image' => $product->product_image,
+                ];
+            }
+            session()->put('cart', $cart);
+            return back()->with('success', 'Product added to cart');
+        }
+
+        $cart = Cart::firstOrCreate(['user_id' => Auth::id()]);
+        $cartProduct = $cart->cartProducts()->where('product_id', $id)->first();
+
+        if ($cartProduct) {
+            $cartProduct->update(['quantity' => $cartProduct->quantity + $quantity]);
+        } else {
+            $cart->cartProducts()->create(['product_id' => $id, 'quantity' => $quantity]);
+        }
+
+        return back()->with('success', 'Product added to cart');
+    }
+
+    public function submitReview(Request $request, $id)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please login to submit a review');
+        }
+
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:traders',
-            'password' => 'required|string|min:6|confirmed',
-            'phone_number' => 'nullable|string|max:15',
-            'trader_type' => 'required|in:GROCERY_STORE,RESTAURANT,BAKERY,BUTCHER_SHOP,SEAFOOD_MARKET',
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string|max:500',
         ]);
 
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
 
-        $trader = Trader::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone' => $request->phone_number,
-            'trader_type' => $request->trader_type,
-            'status' => 'pending', // Set initial status as pending
+        Review::create([
+            'user_id' => Auth::id(),
+            'product_id' => $id,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+            'review_date' => now(),
         ]);
 
-        // Send welcome email
-        try {
-            Mail::to($trader->email)->send(new TraderWelcomeEmail($trader));
-            return redirect()->route('trader.register')->with('success', 'Registration successful! Please check your email for further instructions.');
-        } catch (\Exception $e) {
-            // Log the error and show it to the user for debugging
-            Log::error('Failed to send trader welcome email: ' . $e->getMessage());
-            return redirect()->route('trader.register')
-                ->with('error', 'Registration successful, but there was an issue sending the welcome email: ' . $e->getMessage());
-        }
+        return back()->with('success', 'Review submitted successfully');
     }
 
-    public function showRegister()
+    // -------------------- TRADER SIDE --------------------
+
+    public function traderIndex()
     {
-        return view('traderblade.register');
+        $trader = Auth::guard('trader')->user();
+
+        $products = Product::with(['shop', 'category'])
+            ->where('user_id', $trader->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $shops = Shop::where('trader_id', $trader->id)->get();
+        $categories = Category::all();
+
+        return view('traderblade.index', compact('products', 'shops', 'categories'));
     }
 
-    //Trader Login session starts from here
-
-    public function showLoginForm()
+    public function traderCreate()
     {
-        return view('traderblade.traderLogin');
+        $traderId = Auth::guard('trader')->user()->id;
+        $shops = Shop::where('trader_id', $traderId)->get();
+        $categories = Category::all();
+
+        return view('traderblade.addproduct', compact('shops', 'categories'));
     }
 
-    public function login(Request $request)
+    public function traderStore(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $validated = $request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'quantity' => 'required|integer',
+            'description' => 'nullable|string',
+            'min_order' => 'required|integer',
+            'max_order' => 'nullable|integer',
+            'stock_no' => 'nullable|string',
+            'shop_id' => 'required|exists:shops,id',
+            'product_category_id' => 'required|exists:categories,id',
+        ]);
 
-        if (Auth::guard('trader')->attempt($credentials)) {
-            $trader = Auth::guard('trader')->user();
+        $validated['user_id'] = Auth::guard('trader')->id();
 
-            if ($trader->status !== 'approved') {
-                Auth::guard('trader')->logout();
-                return redirect()->back()->with('error', 'Your account is not approved yet');
-            }
-            return redirect()->route('trader.dashboard')->with('success', 'Logged in successfully');
-        }
-        return redirect()->back()->with('error', 'Invalid email or password.');
-    }
+        Product::create($validated);
 
-    public function logout()
-    {
-        Auth::guard('trader')->logout();
-        return redirect('/trader/login')->with('success', 'Logged out successfully.');
+        return redirect()->route('trader.products')->with('success', 'Product saved successfully!');
     }
 }

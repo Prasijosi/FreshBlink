@@ -2,47 +2,59 @@
 
 namespace App\Models;
 
-// use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-use Illuminate\Auth\Middleware\Authenticate;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-
-class Trader extends Authenticatable
+class Trader extends Model
 {
-   use Notifiable;
+    const TRADER_TYPES = [
+        'GROCERY_STORE' => 'Grocery Store',
+        'RESTAURANT' => 'Restaurant',
+        'BAKERY' => 'Bakery',
+        'BUTCHER_SHOP' => 'Butcher Shop',
+        'SEAFOOD_MARKET' => 'Seafood Market'
+    ];
 
-   const TRADER_TYPES = [
-    'GROCERY_STORE' => 'Grocery Store',
-    'RESTAURANT' => 'Restaurant',
-    'BAKERY' => 'Bakery',
-    'BUTCHER_SHOP' => 'Butcher Shop',
-    'SEAFOOD_MARKET' => 'Seafood Market'
-   ];
+    protected $primaryKey = 'user_id';
+    protected $fillable = [
+        'user_id',
+        'trader_type',
+        'trader_status',
+        'image',
+    ];
 
-   protected $fillable = [
-    'name',
-    'email',
-    'password',
-    'phone',
-    'status',
-    'trader_type'
-   ];
+    protected $casts = [
+        'status' => 'string',
+        'trader_type' => 'string'
+    ];
 
-   protected $hidden = [
-    'password',
-   ];
+    // Relationships
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
-   protected $casts = [
-    'email_verified_at' => 'datetime',
-    'password' => 'hashed',
-   ];
+    public function shops(): HasMany
+    {
+        return $this->hasMany(Shop::class, 'trader_id', 'user_id');
+    }
 
-   /**
-    * Get the display name for the trader type
-    */
-   public function getTraderTypeDisplayAttribute()
-   {
-       return self::TRADER_TYPES[$this->trader_type] ?? $this->trader_type;
-   }
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Get the display name for the trader type
+     */
+    public function getTraderTypeDisplayAttribute(): string
+    {
+        return self::TRADER_TYPES[$this->trader_type] ?? $this->trader_type;
+    }
 }

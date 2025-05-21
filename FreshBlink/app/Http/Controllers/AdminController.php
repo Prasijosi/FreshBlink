@@ -53,7 +53,7 @@ class AdminController extends Controller
         
         // Filter by status
         if ($request->has('status')) {
-            $query->where('status', $request->status);
+            $query->where('trader_status', $request->status);
         }
         
         // Filter by trader type
@@ -64,7 +64,7 @@ class AdminController extends Controller
         // Search by name or email
         if ($request->has('search')) {
             $search = $request->search;
-            $query->where(function($q) use ($search) {
+            $query->whereHas('user', function($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('email', 'like', "%{$search}%");
             });
@@ -82,35 +82,21 @@ class AdminController extends Controller
         return view('adminblade.trader-details', compact('trader'));
     }
 
-    public function approve($id)
+    public function approve($user_id)
     {
-        $trader = Trader::findOrFail($id);
-        $trader->status = 'approved';
+        $trader = Trader::findOrFail($user_id);
+        $trader->trader_status = 'approved';
         $trader->save();
-
-        // Send email notification
-        try {
-            Mail::to($trader->email)->send(new TraderStatusUpdateEmail($trader, 'approved'));
-        } catch (\Exception $e) {
-            \Log::error('Failed to send trader approval email: ' . $e->getMessage());
-        }
-
+        // Optionally notify trader via email
         return redirect()->back()->with('success', 'Trader has been approved successfully');
     }
 
-    public function reject($id)
+    public function reject($user_id)
     {
-        $trader = Trader::findOrFail($id);
-        $trader->status = 'rejected';
+        $trader = Trader::findOrFail($user_id);
+        $trader->trader_status = 'rejected';
         $trader->save();
-
-        // Send email notification
-        try {
-            Mail::to($trader->email)->send(new TraderStatusUpdateEmail($trader, 'rejected'));
-        } catch (\Exception $e) {
-            \Log::error('Failed to send trader rejection email: ' . $e->getMessage());
-        }
-
+        // Optionally notify trader via email
         return redirect()->back()->with('success', 'Trader has been rejected');
     }
 

@@ -2,11 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\WishlistController;
-use App\Http\Controllers\ShopController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\TraderController;
@@ -14,6 +12,9 @@ use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -118,10 +119,24 @@ Route::prefix('trader')->name('trader.')->group(function () {
     Route::post('/logout', [TraderController::class, 'logout'])->name('logout');
     
     // Protected trader routes
-    Route::middleware(['auth:trader'])->group(function () {
+    Route::middleware(['auth', 'role:trader'])->group(function () {
         Route::get('/dashboard', [TraderController::class, 'dashboard'])->name('dashboard');
         Route::get('/profile', [TraderController::class, 'profile'])->name('profile');
         Route::put('/profile', [TraderController::class, 'updateProfile'])->name('profile.update');
+        
+        // Shop management
+        Route::resource('shops', ShopController::class);
+        Route::get('/shops/{shop}/products', [ShopController::class, 'products'])->name('shops.products');
+        Route::get('/shops/{shop}/orders', [ShopController::class, 'orders'])->name('shops.orders');
+        
+        // Product management
+        Route::resource('products', ProductController::class);
+        Route::post('/products/{product}/toggle-status', [ProductController::class, 'toggleStatus'])->name('products.toggle-status');
+        
+        // Order management
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+        Route::put('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
     });
 });
 

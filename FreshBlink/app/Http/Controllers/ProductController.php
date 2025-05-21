@@ -150,7 +150,7 @@ class ProductController extends Controller
                     'product_name' => $product->product_name,
                     'quantity' => $quantity,
                     'price' => $product->price,
-                    'image' => $product->product_image,
+                    'image' => $product->image,
                 ];
             }
             
@@ -206,4 +206,4 @@ class ProductController extends Controller
         
         return back()->with('success', 'Review submitted successfully');
     }
-} 
+}

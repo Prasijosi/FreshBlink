@@ -9,11 +9,13 @@ class Admin extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'user_id';
+
     protected $fillable = [
         'user_id',
         'admin_permission',
         'emergency_contact',
-        'receives',
+        'image',
     ];
 
     protected $casts = [
@@ -25,6 +27,6 @@ class Admin extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

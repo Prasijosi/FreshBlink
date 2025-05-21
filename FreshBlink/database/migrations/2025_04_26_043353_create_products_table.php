@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('max_order')->nullable();
             $table->string('product_image')->nullable();
             $table->decimal('stock_no', 10)->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
 
             $table->foreign('product_category_id')

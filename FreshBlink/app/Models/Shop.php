@@ -4,37 +4,59 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Product;
 
 class Shop extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'shop_name',
+        'trader_id',
+        'name',
         'description',
         'address',
+        'phone',
         'email',
-        'created_on',
+        'opening_hours',
+        'closing_hours',
+        'status',
+        'image',
     ];
 
     protected $casts = [
-        'created_on' => 'date',
+        'status' => 'string'
     ];
 
-    /**
-     * Get the user that owns the shop.
-     */
-    public function user()
+    public function trader(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Trader::class, 'trader_id', 'user_id');
     }
 
-    /**
-     * Get the products for the shop.
-     */
-    public function products()
+    public function products(): HasMany
     {
         return $this->hasMany(Product::class);
     }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    public function getFullAddressAttribute(): string
+    {
+        return $this->address;
+    }
+
+    public function getOperatingHoursAttribute(): string
+    {
+        return "{$this->opening_hours} - {$this->closing_hours}";
+    }
 }
+

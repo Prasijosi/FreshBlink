@@ -22,12 +22,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'user_role',
+        'phone',
+        'role', // 'admin', 'trader', 'customer'
+        'status',
         'date_of_birth',
         'contact_details',
         'address',
-        'profile_image',
-        'has',
+        'image',
         'is_active',
         'remember_token',
     ];
@@ -134,7 +135,7 @@ class User extends Authenticatable
      */
     public function isAdmin()
     {
-        return $this->user_role === 'admin';
+        return $this->role === 'admin';
     }
 
     /**
@@ -142,7 +143,7 @@ class User extends Authenticatable
      */
     public function isTrader()
     {
-        return $this->user_role === 'trader';
+        return $this->role === 'trader';
     }
 
     /**
@@ -150,7 +151,7 @@ class User extends Authenticatable
      */
     public function isCustomer()
     {
-        return $this->user_role === 'customer';
+        return $this->role === 'customer';
     }
 
     /**
@@ -161,15 +162,15 @@ class User extends Authenticatable
      */
     public function updateProfileImage($image)
     {
-        if ($this->profile_image) {
+        if ($this->image) {
             // Delete old image if exists
-            Storage::delete('public/profile-images/' . $this->profile_image);
+            Storage::delete('public/profile-images/' . $this->image);
         }
 
         $filename = time() . '_' . $image->getClientOriginalName();
         $image->storeAs('public/profile-images', $filename);
         
-        $this->profile_image = $filename;
+        $this->image = $filename;
         $this->save();
 
         return $filename;
@@ -182,8 +183,8 @@ class User extends Authenticatable
      */
     public function getProfileImageUrl()
     {
-        if ($this->profile_image) {
-            return Storage::url('profile-images/' . $this->profile_image);
+        if ($this->image) {
+            return Storage::url('profile-images/' . $this->image);
         }
         return '/images/default-profile.jpg';
     }

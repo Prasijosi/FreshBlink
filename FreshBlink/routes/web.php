@@ -12,6 +12,7 @@ use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\TraderController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,8 @@ Route::middleware(['auth'])->group(function () {
     
     // Loyalty points routes
     Route::get('/loyalty-points', [CustomerController::class, 'showLoyaltyPoints'])->name('customer.loyalty-points');
-    Route::post('/redeem-points', [CustomerController::class, 'applyPointsDiscount'])->name('customer.redeem-points');
+    Route::post('/loyalty-points/redeem', [CustomerController::class, 'redeemPoints'])->name('customer.redeem-points');
+    Route::get('/loyalty-points/history', [CustomerController::class, 'pointsHistory'])->name('customer.points-history');
 })->name('home');
 
 // Product routes
@@ -182,3 +184,14 @@ Route::get('forgot-password', [UserController::class, 'showForgotPassword'])->na
 Route::post('forgot-password', [UserController::class, 'forgotPassword'])->name('password.email');
 Route::get('reset-password/{token}', [UserController::class, 'showResetPassword'])->name('password.reset');
 Route::post('reset-password', [UserController::class, 'resetPassword'])->name('password.update');
+
+// Reviews Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+    Route::get('/reviews/create/{product_id}', [ReviewController::class, 'create'])->name('reviews.create');
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::get('/reviews/{review}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
+    Route::put('/reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+    Route::get('/reviews/product/{product_id}', [ReviewController::class, 'productReviews'])->name('reviews.product');
+});

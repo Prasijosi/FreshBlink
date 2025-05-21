@@ -14,30 +14,27 @@ class ReviewController extends Controller
     /**
      * Store a new review.
      */
-    public function store(Request $request, $productId)
+    public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'rating' => 'required|integer|between:1,5',
-            'comment' => 'required|string|min:10|max:500',
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string|min:10|max:1000',
         ]);
 
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
-        }
-
-        $product = Product::findOrFail($productId);
+        $product = Product::findOrFail($request->product_id);
         
         // Check if user has purchased the product
         $hasPurchased = Order::where('user_id', Auth::id())
-            ->whereHas('orderProducts', function($query) use ($productId) {
-                $query->where('product_id', $productId);
+            ->whereHas('orderProducts', function($query) use ($request) {
+                $query->where('product_id', $request->product_id);
             })
             ->where('status', 'completed')
             ->exists();
 
         // Check if user has already reviewed the product
         $existingReview = Review::where('user_id', Auth::id())
-            ->where('product_id', $productId)
+            ->where('product_id', $request->product_id)
             ->first();
 
         if ($existingReview) {
@@ -46,7 +43,7 @@ class ReviewController extends Controller
 
         $review = Review::create([
             'user_id' => Auth::id(),
-            'product_id' => $productId,
+            'product_id' => $request->product_id,
             'rating' => $request->rating,
             'comment' => $request->comment,
             'is_verified_purchase' => $hasPurchased,
@@ -63,20 +60,16 @@ class ReviewController extends Controller
     /**
      * Update an existing review.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Review $review)
     {
-        $review = Review::where('id', $id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
-
-        $validator = Validator::make($request->all(), [
-            'rating' => 'required|integer|between:1,5',
-            'comment' => 'required|string|min:10|max:500',
-        ]);
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+        if ($review->user_id !== Auth::id()) {
+            abort(403);
         }
+
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string|min:10|max:1000',
+        ]);
 
         $review->update([
             'rating' => $request->rating,
@@ -84,59 +77,60 @@ class ReviewController extends Controller
             'status' => $review->is_verified_purchase ? 'approved' : 'pending'
         ]);
 
-        return back()->with('success', 'Review updated successfully');
+        return redirect()->route('reviews.index')
+            ->with('success', 'Review updated successfully');
     }
 
     /**
      * Delete a review.
      */
-    public function destroy($id)
+    public function destroy(Review $review)
     {
-        $review = Review::where('id', $id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        if ($review->user_id !== Auth::id()) {
+            abort(403);
+        }
 
         $review->delete();
 
-        return back()->with('success', 'Review deleted successfully');
+        return redirect()->route('reviews.index')
+            ->with('success', 'Review deleted successfully');
     }
 
     /**
      * Show reviews for a product.
      */
-    public function index($productId)
+    public function productReviews($product_id)
     {
-        $product = Product::with(['reviews' => function($query) {
-            $query->approved()
-                ->with('user')
-                ->latest();
-        }])->findOrFail($productId);
+        $product = Product::findOrFail($product_id);
+        $reviews = $product->reviews()->with('user')->latest()->paginate(10);
+        
+        return view('reviews.product', compact('product', 'reviews'));
+    }
 
-        $userReview = null;
-        if (Auth::check()) {
-            $userReview = Review::where('product_id', $productId)
-                ->where('user_id', Auth::id())
-                ->first();
-        }
-
-        return view('reviews.index', compact('product', 'userReview'));
+    /**
+     * Show reviews for the authenticated user.
+     */
+    public function index()
+    {
+        $reviews = Auth::user()->reviews()->with('product')->latest()->paginate(10);
+        return view('reviews.index', compact('reviews'));
     }
 
     /**
      * Show review form.
      */
-    public function create($productId)
+    public function create($product_id)
     {
-        $product = Product::findOrFail($productId);
+        $product = Product::findOrFail($product_id);
 
         // Check if user has already reviewed the product
         if (Auth::check()) {
             $existingReview = Review::where('user_id', Auth::id())
-                ->where('product_id', $productId)
+                ->where('product_id', $product_id)
                 ->first();
 
             if ($existingReview) {
-                return redirect()->route('reviews.index', $productId)
+                return redirect()->route('reviews.index')
                     ->with('error', 'You have already reviewed this product');
             }
         }
@@ -147,11 +141,11 @@ class ReviewController extends Controller
     /**
      * Show edit form for a review.
      */
-    public function edit($id)
+    public function edit(Review $review)
     {
-        $review = Review::where('id', $id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        if ($review->user_id !== Auth::id()) {
+            abort(403);
+        }
 
         return view('reviews.edit', compact('review'));
     }

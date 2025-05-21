@@ -12,7 +12,7 @@
 
   <!-- Navbar -->
   <div class="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-300 bg-white">
-    <a href="#"><img src="images/ logo.png" alt="FreshBlink Logo" class="w-36 sm:w-40"></a>
+    <a href="#"><img src="/images/ logo.png" alt="FreshBlink Logo" class="w-36 sm:w-40"></a>
     <div class="flex items-center gap-2">
       <input type="text" placeholder="Search Products..." class="px-3 py-2 border rounded-l bg-green-50 w-40 sm:w-64" />
       <button class="px-3 py-2 bg-green-600 text-white rounded-r">
@@ -50,7 +50,7 @@
     <!-- Profile Sidebar -->
     <aside class="bg-white p-4 rounded shadow col-span-1 flex flex-col items-center text-center">
       <label for="profilePicInput" class="cursor-pointer">
-        <img id="profilePic" src="images/Customer.jpg"
+        <img id="profilePic" src="/images/Customer.jpg"
              alt="Profile Picture"
              class="w-24 h-24 rounded-full mb-2 object-cover border border-gray-300 hover:opacity-80 transition" />
         <input type="file" id="profilePicInput" accept="image/*" class="hidden" />
@@ -163,6 +163,6 @@
     </div>
   </footer>
 
-  <script src="profile.js"></script>
+  <script src="/js/profile.js"></script>
 </body>
 </html>

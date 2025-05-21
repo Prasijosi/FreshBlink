@@ -56,7 +56,8 @@
                                         </td>
                                         <td>{{ $trader->created_at->format('M d, Y H:i') }}</td>
                                         <td>
-                                            @if($trader->status === 'pending')
+                                            <!-- temporarily commented out -->
+                                            <!-- @if($trader->status === 'pending')
                                                 <button type="button" class="btn btn-success btn-sm" 
                                                         onclick="confirmAction('{{ route('admin.traders.approve', $trader->id) }}', 'approve')">
                                                     <i class="fas fa-check"></i> Approve
@@ -64,13 +65,13 @@
                                                 <button type="button" class="btn btn-danger btn-sm" 
                                                         onclick="confirmAction('{{ route('admin.traders.reject', $trader->id) }}', 'reject')">
                                                     <i class="fas fa-times"></i> Reject
-                                                </button>
-                                            @else
+                                                </button> -->
+                                            <!-- @else
                                                 <button type="button" class="btn btn-info btn-sm" 
                                                         onclick="viewTraderDetails({{ $trader->id }})">
                                                     <i class="fas fa-eye"></i> View Details
                                                 </button>
-                                            @endif
+                                            @endif -->
                                         </td>
                                     </tr>
                                 @empty

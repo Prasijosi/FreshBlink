@@ -13,16 +13,16 @@
   <!-- Navbar -->
     <header class="navbar">
     <div class="logo">
-      <img src="../images/ logo.png" alt="Logo" />
+      <img src="/images/logo.png" alt="Logo" />
     </div>
     <div class="search-box">
       <input type="text" placeholder="Search Products..." />
-      <button><img src="icons/search.png" alt="Search" class="icon"></button>
+      <button><img src="/images/icons/search.png" alt="Search" class="icon"></button>
     </div>
     
     <div class="nav-actions">
-       <a href="#"><img src="icons/saved.png" alt="Saved Icon" class="icon"> Saved</a>
-       <a href="#"><img src="icons/cart.png" alt="Cart Icon" class="icon"> Cart</a>
+       <a href="#"><img src="/images/icons/saved.png" alt="Saved Icon" class="icon"> Saved</a>
+       <a href="#"><img src="/images/icons/cart.png" alt="Cart Icon" class="icon"> Cart</a>
        <a href="#">Register</a>
     <button class="login-btn">Login</button>
   </div>
@@ -85,7 +85,7 @@
   <footer class="footer">
     <div class="footer-top">
       <div class="footer-logo">
-        <img src="../images/ logo.png" alt="Logo" />
+        <img src="/images/logo.png" alt="Logo" />
       </div>
       <div class="footer-column">
         <h3>Account</h3>
@@ -120,6 +120,6 @@
       <p class="copyright">© 2025 Freshblink</p>
     </div>
   </footer>
-<script src="wishlist.js"></script>
+<script src="/js/wishlist.js"></script>
 </body>
 </html>

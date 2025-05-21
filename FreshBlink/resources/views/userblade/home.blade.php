@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FreshBlink - Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/css/style.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
@@ -14,7 +14,7 @@
   <div class="flex flex-col md:flex-row justify-between items-center px-5 py-3 border-b border-gray-300 bg-white gap-3 md:gap-0">
     <!-- Logo -->
     <div class="w-40">
-      <a href="home.html"><img src="Image/logo2.png" alt="Logo"></a>
+      <a href="home.html"><img src="/images/logo2.png" alt="Logo"></a>
     </div>
 
     <!-- Search Box -->
@@ -34,7 +34,7 @@
   <!-- Secondary Navbar -->
   <header class="navbar">
     <button class="categories-btn">
-      <img src="Image/Grid.png" alt=""> Browse All Categories
+      <img src="/images/Grid.png" alt=""> Browse All Categories
     </button>
     <nav class="nav-links">
       <a href="home.html" class="active">Home</a>
@@ -51,8 +51,8 @@
     <p class="subtext">Save up to 50% off on your first order</p>
   </div>
   <div class="hero-images">
-    <img src="image/1.png" alt="Meat" class="meat-image" />
-    <img src="image/2.png" alt="Vegetables" class="vegetables" />
+    <img src="/images/1.png" alt="Meat" class="meat-image" />
+    <img src="/images/2.png" alt="Vegetables" class="vegetables" />
   </div>
 </section>
 
@@ -64,7 +64,7 @@
         <h3>The best Organic<br />Product Online</h3>
         <a href="#" class="shop-now">Shop Now</a>
       </div>
-      <img src="Image/greenvegie.png" alt="Vegetables" class="promo-image">
+      <img src="/images/greenvegie.png" alt="Vegetables" class="promo-image">
     </div>
 
     <div class="promo-card card-beige">
@@ -72,7 +72,7 @@
         <h3>Everyday Fresh &<br />Clean Product</h3>
         <a href="#" class="shop-now">Shop Now</a>
       </div>
-      <img src="Image/ginger.png" alt="Ginger" class="promo-image">
+      <img src="/images/ginger.png" alt="Ginger" class="promo-image">
     </div>
 
     <div class="promo-card card-pink">
@@ -80,7 +80,7 @@
         <h3>Make your Breakfast<br />Healthy and Easy</h3>
         <a href="#" class="shop-now">Shop Now</a>
       </div>
-      <img src="Image/cake.png" alt="Cake" class="promo-image">
+      <img src="/images/cake.png" alt="Cake" class="promo-image">
     </div>
   </section>
 
@@ -89,23 +89,23 @@
     <h2 class="featured-heading">Featured Categories</h2>
     <div class="categories">
       <div class="category-box category-bakery">
-        <img src="Image/bakery_vector.png" alt="Bakery">
+        <img src="/images/bakery_vector.png" alt="Bakery">
         <p>Bakery</p>
       </div>
       <div class="category-box category-butchery">
-        <img src="Image/meat_steak.webp" alt="Butchery">
+        <img src="/images/meat_steak.webp" alt="Butchery">
         <p>Butchery</p>
       </div>
       <div class="category-box category-greengrocer">
-        <img src="Image/vegetable_vector.png" alt="Greengrocer">
+        <img src="/images/vegetable_vector.png" alt="Greengrocer">
         <p>Greengrocer</p>
       </div>
       <div class="category-box category-delicatessen">
-        <img src="Image/vector.png" alt="Delicatessen">
+        <img src="/images/vector.png" alt="Delicatessen">
         <p>Delicatessen</p>
       </div>
       <div class="category-box category-fishmonger">
-        <img src="Image/seer_fish.png" alt="Fishmonger">
+        <img src="/images/seer_fish.png" alt="Fishmonger">
         <p>Fishmonger</p>
       </div>
     </div>
@@ -116,31 +116,31 @@
     <h2 class="featured-heading">Popular Products</h2>
     <div class="product-grid">
       <div class="product-card">
-        <img src="Image/watermelom.png" alt="Watermelon">
+        <img src="/images/watermelom.png" alt="Watermelon">
         <p>Watermelon 500gm</p>
         <p class="price">$4 <span class="old-price">$5.99</span></p>
         <button class="add-btn">Add</button>
       </div>
       <div class="product-card">
-        <img src="Image/grainbread.png" alt="Brown Bread">
+        <img src="/images/grainbread.png" alt="Brown Bread">
         <p>Brown Bread</p>
         <p class="price">$2.99 <span class="old-price">$3.99</span></p>
         <button class="add-btn">Add</button>
       </div>
       <div class="product-card">
-        <img src="Image/apple.png" alt="Apple">
+        <img src="/images/apple.png" alt="Apple">
         <p>Apple 1000gm</p>
         <p class="price">$2.99 <span class="old-price">$3.99</span></p>
         <button class="add-btn">Add</button>
       </div>
       <div class="product-card">
-        <img src="Image/buff2.png" alt="Buff Meat">
+        <img src="/images/buff2.png" alt="Buff Meat">
         <p>Buff Meat 200gm</p>
         <p class="price">$4.99 <span class="old-price">$6.99</span></p>
         <button class="add-btn">Add</button>
       </div>
       <div class="product-card">
-        <img src="Image/snacks-PL_mob.png" alt="Nut Bar">
+        <img src="/images/snacks-PL_mob.png" alt="Nut Bar">
         <p>Nut Bar</p>
         <p class="price">$0.99 <span class="old-price">$1.99</span></p>
         <button class="add-btn">Add</button>
@@ -151,7 +151,7 @@
   <footer class="bg-gray-300 pt-10 px-5 mt-16">
     <div class="flex flex-wrap justify-center lg:justify-around gap-6 mb-5">
       <div class="text-center lg:text-left">
-        <img src="Image/logo2.png" alt="FreshBlink Logo" class="w-36 mx-auto lg:mx-0">
+        <img src="/images/logo2.png" alt="FreshBlink Logo" class="w-36 mx-auto lg:mx-0">
       </div>
 
       <div class="min-w-[150px]">
@@ -194,7 +194,7 @@
       <p>&copy; 2022, All rights reserved</p>
     </div>
     <div class="text-center">
-      <img src="Image/paypal.webp" alt="PayPal" class="w-28 mx-auto">
+      <img src="/images/paypal.webp" alt="PayPal" class="w-28 mx-auto">
     </div>
   </footer>
 

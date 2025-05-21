@@ -20,7 +20,7 @@
   <div class="navbar">
     <!-- Website Logo -->
     <div class="logo">
-      <a href="#"><img src="{{asset('public/images/logo.png')}}" alt="FreshBlink Logo"></a>
+      <a href="#"><img src="/images/logo.png" alt="FreshBlink Logo"></a>
     </div>
 
     <!-- Search bar in the middle of navbar -->
@@ -101,7 +101,7 @@
     <div class="footer-top">
       <!-- Footer logo -->
       <div class="footer-logo">
-        <img src="images/logo2.png" alt="FreshBlink Logo" />
+        <img src="/images/logo2.png" alt="FreshBlink Logo" />
       </div>
 
       <!-- Footer links: Account -->
@@ -151,11 +151,11 @@
 
     <!-- Payment options (e.g., PayPal logo) -->
     <div class="footer-bottom">
-        <img src="images/paypal.webp" alt="PayPal" />
+        <img src="/images/paypal.webp" alt="PayPal" />
     </div>
   </footer>
 
   <!-- Link to external JavaScript functionality -->
-  <script src="addProductTrader.js"></script>
+  <script src="/js/addProductTrader.js"></script>
 </body>
 </html>

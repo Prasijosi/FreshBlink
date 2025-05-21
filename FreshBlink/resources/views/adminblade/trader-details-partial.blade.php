@@ -126,6 +126,9 @@
         </div>
     </div>
 </div>
+<!-- 
+
+temporarily commented out
 
 @if($trader->status === 'pending')
     <div class="row mt-3">
@@ -141,4 +144,4 @@
             </button>
         </div>
     </div>
-@endif 
+@endif  -->

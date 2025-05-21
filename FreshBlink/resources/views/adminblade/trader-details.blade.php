@@ -67,7 +67,8 @@
                         </div>
                     </div>
 
-                    @if($trader->status === 'pending')
+                    <!-- temporarily commented out -->
+                    <!-- @if($trader->status === 'pending')
                         <div class="row mt-4">
                             <div class="col-12">
                                 <h4>Actions</h4>
@@ -80,7 +81,7 @@
                                     <i class="fas fa-times"></i> Reject Trader
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                     @endif
 
                     <div class="row mt-4">

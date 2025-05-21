@@ -14,7 +14,7 @@
    <div class="flex flex-col md:flex-row justify-between items-center px-5 py-3 border-b border-gray-300 bg-white gap-3 md:gap-0">
     <!-- Logo -->
     <div class="w-40">
-      <a href=""><img src="Image/logo2.png" alt="Logo"></a>
+      <a href=""><img src="/images/logo2.png" alt="Logo"></a>
     </div>
 
     <!-- Search Box -->
@@ -42,7 +42,7 @@
     <form method="POST" action="{{ route('login.submit') }}" class="flex flex-col">
       @csrf
       <div class="text-center mb-5">
-        <img src="Image/logo2.png" alt="FreshBlink Logo" class="w-36 mx-auto">
+        <img src="/images/logo2.png" alt="FreshBlink Logo" class="w-36 mx-auto">
         <h2 class="text-lg font-semibold mt-2">Welcome Back!</h2>
       </div>
 
@@ -82,7 +82,7 @@
   <footer class="bg-gray-300 pt-10 px-5 mt-16">
     <div class="flex flex-wrap justify-center lg:justify-around gap-6 mb-5">
       <div class="text-center lg:text-left">
-        <img src="Image/logo2.png" alt="FreshBlink Logo" class="w-36 mx-auto lg:mx-0">
+        <img src="/images/logo2.png" alt="FreshBlink Logo" class="w-36 mx-auto lg:mx-0">
       </div>
 
       <div class="min-w-[150px]">
@@ -125,7 +125,7 @@
       <p>&copy; 2022, All rights reserved</p>
     </div>
     <div class="text-center">
-      <img src="Image/paypal.webp" alt="PayPal" class="w-28 mx-auto">
+      <img src="/images/paypal.webp" alt="PayPal" class="w-28 mx-auto">
     </div>
   </footer>
 

@@ -13,7 +13,7 @@
   <!-- Navbar -->
   <div class="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-300 bg-white">
     <a href="#" class="flex-shrink-0">
-      <img src="/Users/manjusha/Desktop/practice/images/ logo.png" alt="FreshBlink Logo" class="w-28 sm:w-40" />
+      <img src="/images/logo.png" alt="FreshBlink Logo" class="w-28 sm:w-40" />
     </a>
 
     <!-- Centered Navigation -->
@@ -25,7 +25,7 @@
  
 
     <div class="relative mt-3 sm:mt-0 flex-shrink-0">
-      <img id="navProfilePic" src="images/Customer.jpg" alt="Customer" class="w-10 h-10 rounded-full object-cover border border-gray-300 hover:opacity-80 transition" />
+      <img id="navProfilePic" src="/images/Customer.jpg" alt="Customer" class="w-10 h-10 rounded-full object-cover border border-gray-300 hover:opacity-80 transition" />
     </div>
   </div>
 

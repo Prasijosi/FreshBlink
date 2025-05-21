@@ -10,91 +10,104 @@
 </head>
 <body class="bg-gray-100 text-sm sm:text-base">
 
-  @include('components.navbar')
+  <!-- Navbar -->
+  <header class="bg-white shadow">
+    <div class="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-300">
+      <a href="#"><img src="images/logo.png" alt="FreshBlink Logo" class="w-28 sm:w-40"></a>
+      <div class="w-full sm:w-auto flex flex-col sm:flex-row items-center gap-2 mt-2 sm:mt-0">
+        <div class="flex w-full sm:w-auto">
+          <input type="text" placeholder="Search Products..." class="w-full sm:w-64 px-3 py-2 border rounded-l bg-green-50 focus:outline-none" />
+          <button class="px-3 py-2 bg-green-600 text-white rounded-r">
+            <span class="material-icons">search</span>
+          </button>
+        </div>
+        <div class="flex items-center gap-4 text-sm mt-2 sm:mt-0">
+          <a href="#" class="flex items-center hover:text-green-600">
+            <span class="material-icons mr-1">favorite_border</span> Saved
+          </a>
+          <a href="#" class="flex items-center hover:text-green-600">
+            <span class="material-icons mr-1">shopping_cart</span> Cart
+          </a>
+          <a href="#" class="hover:text-green-600">Register</a>
+          <button class="bg-green-600 text-white px-4 py-2 rounded">Login</button>
+        </div>
+      </div>
+    </div>
+  </header>
 
   <!-- Cart Section -->
   <main class="px-4 sm:px-8 mt-6 space-y-6">
-    @if(session('success'))
-      <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-        <span class="block sm:inline">{{ session('success') }}</span>
-      </div>
-    @endif
 
-    @if(session('error'))
-      <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-        <span class="block sm:inline">{{ session('error') }}</span>
+    <!-- Desktop View -->
+    <div class="hidden sm:flex gap-4">
+      <!-- Cart Items -->
+      <div class="w-2/3 bg-white p-4 rounded-lg shadow overflow-x-auto">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-gray-200">
+            <tr>
+              <th class="p-2">Product</th>
+              <th class="p-2 text-center">Price</th>
+              <th class="p-2 text-center">Quantity</th>
+              <th class="p-2 text-center">Total</th>
+              <th class="p-2 text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y">
+            <tr class="cart-item desktop-item" data-price="15">
+              <td class="p-2 flex items-center gap-3">
+                <img src="images/tomato.jpeg" class="w-12 h-12 border rounded" />
+                <span>Tomato 1 kg</span>
+              </td>
+              <td class="p-2 text-center">$15</td>
+              <td class="p-2 text-center">
+                <div class="flex justify-center items-center gap-2">
+                  <button class="bg-gray-300 px-2 py-1 rounded qty-btn">−</button>
+                  <span class="item-qty">1</span>
+                  <button class="bg-gray-300 px-2 py-1 rounded qty-btn">+</button>
+                </div>
+              </td>
+              <td class="p-2 text-center item-total">$15.00</td>
+              <td class="p-2 text-center text-red-600">🗑️</td>
+            </tr>
+            <tr class="cart-item desktop-item" data-price="20">
+              <td class="p-2 flex items-center gap-3">
+                <img src="images/apple.jpg" class="w-12 h-12 border rounded" />
+                <span>Apple 2 kg</span>
+              </td>
+              <td class="p-2 text-center">$20</td>
+              <td class="p-2 text-center">
+                <div class="flex justify-center items-center gap-2">
+                  <button class="bg-gray-300 px-2 py-1 rounded qty-btn">−</button>
+                  <span class="item-qty">1</span>
+                  <button class="bg-gray-300 px-2 py-1 rounded qty-btn">+</button>
+                </div>
+              </td>
+              <td class="p-2 text-center item-total">$20.00</td>
+              <td class="p-2 text-center text-red-600">🗑️</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    @endif
 
-    @if(count($cartItems) > 0)
-      <!-- Desktop View -->
-      <div class="hidden sm:flex gap-4">
-        <!-- Cart Items -->
-        <div class="w-2/3 bg-white p-4 rounded-lg shadow overflow-x-auto">
-          <table class="w-full text-left text-sm">
-            <thead class="bg-gray-200">
-              <tr>
-                <th class="p-2">Product</th>
-                <th class="p-2 text-center">Price</th>
-                <th class="p-2 text-center">Quantity</th>
-                <th class="p-2 text-center">Total</th>
-                <th class="p-2 text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y">
-              @foreach($cartItems as $item)
-              <tr>
-                <td class="p-2 flex items-center gap-3">
-                  <img src="{{ asset($item->product->product_image) }}" class="w-12 h-12 border rounded object-cover" />
-                  <span>{{ $item->product->product_name }}</span>
-                </td>
-                <td class="p-2 text-center">${{ number_format($item->product->price, 2) }}</td>
-                <td class="p-2 text-center">
-                  <form action="{{ route('cart.update') }}" method="POST" class="flex justify-center items-center gap-2">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $item->product->id }}">
-                    <button type="submit" name="quantity" value="{{ $item->quantity - 1 }}" class="bg-gray-300 px-2 py-1 rounded" {{ $item->quantity <= 1 ? 'disabled' : '' }}>-</button>
-                    <span>{{ $item->quantity }}</span>
-                    <button type="submit" name="quantity" value="{{ $item->quantity + 1 }}" class="bg-gray-300 px-2 py-1 rounded">+</button>
-                  </form>
-                </td>
-                <td class="p-2 text-center">${{ number_format($item->product->price * $item->quantity, 2) }}</td>
-                <td class="p-2 text-center">
-                  <form action="{{ route('cart.remove', $item->product->id) }}" method="POST" class="inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="text-red-600 hover:text-red-800">🗑️</button>
-                  </form>
-                </td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
+      <!-- Summary -->
+      <div class="w-1/3 bg-white p-6 rounded-lg shadow h-fit">
+        <h2 class="text-xl font-semibold mb-4">Summary</h2>
+        <div class="flex justify-between mb-2">
+          <span>Subtotal</span><span class="summary-subtotal">$35.00</span>
         </div>
-
-        <!-- Summary -->
-        <div class="w-1/3 bg-white p-6 rounded-lg shadow h-fit">
-          <h2 class="text-xl font-semibold mb-4">Summary</h2>
-          <div class="flex justify-between mb-2">
-            <span>Subtotal</span>
-            <span>${{ number_format($total, 2) }}</span>
-          </div>
-          <div class="flex justify-between mb-2">
-            <span>Shipping</span>
-            <span>Free</span>
-          </div>
-          <div class="flex justify-between mb-2">
-            <span>Discount</span>
-            <span>$0</span>
-          </div>
-          <hr class="my-2" />
-          <div class="flex justify-between font-bold text-lg">
-            <span>Total</span>
-            <span>${{ number_format($total, 2) }}</span>
-          </div>
-          <a href="{{ route('paypal.payment') }}" class="block w-full mt-4 bg-green-600 text-white py-2 rounded hover:bg-green-700 text-center">Proceed to Checkout with PayPal</a>
+        <div class="flex justify-between mb-2">
+          <span>Shipping</span><span>Free</span>
         </div>
+        <div class="flex justify-between mb-2">
+          <span>Discount</span><span>$0</span>
+        </div>
+        <hr class="my-2" />
+        <div class="flex justify-between font-bold text-lg">
+          <span>Total</span><span class="summary-total">$35.00</span>
+        </div>
+        <button class="w-full mt-4 bg-green-600 text-white py-2 rounded hover:bg-green-700">Proceed to Checkout</button>
       </div>
+    </div>
 
       <!-- Mobile View -->
       <div class="sm:hidden space-y-4">
@@ -107,53 +120,55 @@
           <span>Act</span>
         </div>
 
-        @foreach($cartItems as $item)
-        <div class="bg-white p-3 rounded-lg shadow grid grid-cols-5 items-center text-center text-xs">
-          <div class="col-span-2 flex items-center gap-2">
-            <img src="{{ asset($item->product->product_image) }}" class="w-10 h-10 border rounded object-cover" />
-            <span class="text-left">{{ $item->product->product_name }}</span>
-          </div>
-          <div>
-            <form action="{{ route('cart.update') }}" method="POST" class="flex items-center justify-center gap-1">
-              @csrf
-              <input type="hidden" name="product_id" value="{{ $item->product->id }}">
-              <button type="submit" name="quantity" value="{{ $item->quantity - 1 }}" class="bg-gray-300 px-2 py-1 rounded" {{ $item->quantity <= 1 ? 'disabled' : '' }}>-</button>
-              <span>{{ $item->quantity }}</span>
-              <button type="submit" name="quantity" value="{{ $item->quantity + 1 }}" class="bg-gray-300 px-2 py-1 rounded">+</button>
-            </form>
-          </div>
-          <div>${{ number_format($item->product->price * $item->quantity, 2) }}</div>
-          <div>
-            <form action="{{ route('cart.remove', $item->product->id) }}" method="POST" class="inline">
-              @csrf
-              @method('DELETE')
-              <button type="submit" class="text-red-600 hover:text-red-800">🗑️</button>
-            </form>
+      <!-- Item 1 -->
+      <div class="cart-item mobile-item bg-white p-3 rounded-lg shadow grid grid-cols-5 items-center text-center text-xs" data-price="15">
+        <div class="col-span-2 flex items-center gap-2">
+          <img src="images/tomato.jpeg" class="w-10 h-10 border rounded" />
+          <span class="text-left">Tomato</span>
+        </div>
+        <div>
+          <div class="flex items-center justify-center gap-1">
+            <button class="bg-gray-300 px-2 py-1 rounded qty-btn">−</button>
+            <span class="item-qty">1</span>
+            <button class="bg-gray-300 px-2 py-1 rounded qty-btn">+</button>
           </div>
         </div>
-        @endforeach
+        <div class="item-total">$15.00</div>
+        <div class="text-red-600">🗑️</div>
+      </div>
 
-        <!-- Summary -->
-        <div class="bg-white p-4 rounded-lg shadow space-y-2 mt-4">
-          <h3 class="text-base font-semibold">Summary</h3>
-          <div class="flex justify-between"></div>
-            <span>Subtotal</span>
-            <span>${{ number_format($total, 2) }}</span>
+      <!-- Item 2 -->
+      <div class="cart-item mobile-item bg-white p-3 rounded-lg shadow grid grid-cols-5 items-center text-center text-xs" data-price="20">
+        <div class="col-span-2 flex items-center gap-2">
+          <img src="images/apple.jpg" class="w-10 h-10 border rounded" />
+          <span class="text-left">Apple</span>
+        </div>
+        <div>
+          <div class="flex items-center justify-center gap-1">
+            <button class="bg-gray-300 px-2 py-1 rounded qty-btn">−</button>
+            <span class="item-qty">1</span>
+            <button class="bg-gray-300 px-2 py-1 rounded qty-btn">+</button>
           </div>
-          <div class="flex justify-between">
-            <span>Shipping</span>
-            <span>Free</span>
-          </div>
-          <div class="flex justify-between">
-            <span>Discount</span>
-            <span>$0</span>
-          </div>
-          <hr />
-          <div class="flex justify-between font-bold text-base">
-            <span>Total</span>
-            <span>${{ number_format($total, 2) }}</span>
-          </div>
-          <a href="{{ route('paypal.payment') }}" class="block w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 mt-2 text-center">Checkout with PayPal</a>
+        </div>
+        <div class="item-total">$20.00</div>
+        <div class="text-red-600">🗑️</div>
+      </div>
+
+      <!-- Summary -->
+      <div class="bg-white p-4 rounded-lg shadow space-y-2 mt-4">
+        <h3 class="text-base font-semibold">Summary</h3>
+        <div class="flex justify-between">
+          <span>Subtotal</span><span class="summary-subtotal">$35.00</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Shipping</span><span>Free</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Discount</span><span>$0</span>
+        </div>
+        <hr />
+        <div class="flex justify-between font-bold text-base">
+          <span>Total</span><span class="summary-total">$35.00</span>
         </div>
       </div>
     @else
@@ -167,7 +182,52 @@
     @endif
   </main>
 
-  @include('components.footer')
+  <!-- Footer -->
+  <footer class="bg-white mt-10 p-4 sm:p-6 shadow">
+    <div class="max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 text-sm text-gray-700">
+      <div class="flex justify-center sm:justify-start">
+        <div class="w-28 h-16 sm:w-32 sm:h-20 bg-gray-200 flex items-center justify-center">Image</div>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-2">Account</h4>
+        <ul class="space-y-1 text-blue-500">
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-2">Useful Links</h4>
+        <ul class="space-y-1 text-blue-500">
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-2">Help Center</h4>
+        <ul class="space-y-1 text-blue-500">
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="flex flex-wrap justify-between items-center text-xs text-gray-500 mt-6 border-t pt-4">
+      <span>©️ 2025 Company Name</span>
+      <div class="space-x-4 text-lg text-gray-600">
+        <a href="#"><i class="fab fa-facebook-f hover:text-blue-600"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in hover:text-blue-500"></i></a>
+        <a href="#"><i class="fab fa-instagram hover:text-pink-500"></i></a>
+        <a href="#"><i class="fab fa-twitter hover:text-blue-400"></i></a>
+      </div>
+    </div>
+  </footer>
 
+  <!-- Link to external JS -->
+  <script src="cart.js"></script>
 </body>
 </html>

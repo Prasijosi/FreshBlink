@@ -9,7 +9,7 @@
   <title>Add Product - FreshBlink</title>
 
   <!-- Link to external CSS for styling -->
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/css/addProductTrader.css" />
   
   <!-- Google Material Icons (used for icons in navbar) -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -20,7 +20,7 @@
   <div class="navbar">
     <!-- Website Logo -->
     <div class="logo">
-      <a href="#"><img src="images/logo2.png" alt="FreshBlink Logo"></a>
+      <a href="#"><img src="{{asset('public/images/logo.png')}}" alt="FreshBlink Logo"></a>
     </div>
 
     <!-- Search bar in the middle of navbar -->
@@ -156,6 +156,6 @@
   </footer>
 
   <!-- Link to external JavaScript functionality -->
-  <script src="script.js"></script>
+  <script src="addProductTrader.js"></script>
 </body>
 </html>

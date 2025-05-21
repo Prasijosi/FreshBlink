@@ -9,7 +9,22 @@
 </head>
 <body class="font-sans bg-gray-100">
 
-  @include('components.navbar')
+  <!-- Navbar -->
+  <div class="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-300 bg-white">
+    <a href="#"><img src="images/logo.png" alt="FreshBlink Logo" class="w-36 sm:w-40"></a>
+    <div class="flex items-center gap-2">
+      <input type="text" placeholder="Search Products..." class="px-3 py-2 border rounded-l bg-green-50 w-40 sm:w-64" />
+      <button class="px-3 py-2 bg-green-600 text-white rounded-r">
+        <span class="material-icons">search</span>
+      </button>
+    </div>
+    <div class="hidden sm:flex items-center gap-4 text-sm">
+      <a href="#" class="flex items-center hover:text-green-600"><span class="material-icons mr-1">favorite_border</span> Saved</a>
+      <a href="#" class="flex items-center hover:text-green-600"><span class="material-icons mr-1">shopping_cart</span> Cart</a>
+      <a href="#" class="hover:text-green-600">Register</a>
+      <button class="bg-green-600 text-white px-4 py-1 rounded">Login</button>
+    </div>
+  </div>
 
   <!-- Category Menu -->
   <div class="bg-white py-3 flex justify-center gap-4 sm:gap-8 border-b border-gray-300 flex-wrap text-sm sm:text-base font-semibold">
@@ -24,19 +39,65 @@
   <h1 class="text-center my-8 text-3xl font-semibold underline">Traders</h1>
 
   <!-- PRODUCT GRID (shown on md+) -->
-  <div id="grid" class="hidden md:grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-[5%] pb-8 max-w-[70rem] mx-auto"></div>
+  <div id="grid" class="hidden md:grid gap-4 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-6 sm:px-12 pb-8 max-w-6xl mx-auto"></div>
 
   <!-- PRODUCT SLIDER (shown below md) -->
   <div class="relative block md:hidden px-4 pb-8">
     <div id="slider" class="overflow-hidden">
       <div id="slides" class="flex transition-transform duration-300"></div>
     </div>
-    <button id="prevBtn" class="absolute top-1/2 left-2 -translate-y-1/2 bg-white p-2 rounded-full shadow">‹</button>
-    <button id="nextBtn" class="absolute top-1/2 right-2 -translate-y-1/2 bg-white p-2 rounded-full shadow">›</button>
+    <button id="prevBtn" class="absolute top-1/2 left-3 -translate-y-1/2 bg-green-600 p-2 rounded-full shadow">&#8592;</button>
+    <button id="nextBtn" class="absolute top-1/2 right-3 -translate-y-1/2 bg-green-600 p-2 rounded-full shadow"> &#8594;</button>
   </div>
 
-  @include('components.footer')
+  <!-- ========== FOOTER ========== -->
+  <footer class="bg-white mt-12 px-6 pt-10 pb-6 text-sm text-gray-700 border-t">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 max-w-screen-xl mx-auto">
+      <div>
+        <img src="images/logo.png" alt="FreshBlink Logo" class="w-32 mb-4" />
+      </div>
 
-  <script src="{{ asset('js/category.js') }}"></script>
+      <div>
+        <h3 class="font-bold mb-2">Account</h3>
+        <ul class="space-y-1">
+          <li><a href="#" class="hover:text-green-600">Wishlist</a></li>
+          <li><a href="#" class="hover:text-green-600">Cart</a></li>
+          <li><a href="#" class="hover:text-green-600">Track Order</a></li>
+          <li><a href="#" class="hover:text-green-600">Shipping Details</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-bold mb-2">Useful links</h3>
+        <ul class="space-y-1">
+          <li><a href="#" class="hover:text-green-600">About Us</a></li>
+          <li><a href="#" class="hover:text-green-600">Contact us</a></li>
+          <li><a href="#" class="hover:text-green-600">Hot Deals</a></li>
+          <li><a href="#" class="hover:text-green-600">Promotions</a></li>
+          <li><a href="#" class="hover:text-green-600">New product</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="font-bold mb-2">Help Center</h3>
+        <ul class="space-y-1">
+          <li><a href="#" class="hover:text-green-600">Payment</a></li>
+          <li><a href="#" class="hover:text-green-600">Refund</a></li>
+          <li><a href="#" class="hover:text-green-600">Checkout</a></li>
+          <li><a href="#" class="hover:text-green-600">Q&amp;A</a></li>
+          <li><a href="#" class="hover:text-green-600">Shipping</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="my-6" />
+
+    <div class="flex flex-col sm:flex-row justify-between items-center max-w-screen-xl mx-auto">
+      <p class="text-xs text-gray-500 mb-2 sm:mb-0">&copy; 2022, All rights reserved</p>
+      <img src="images/paypal.webp" alt="PayPal" class="w-24" />
+    </div>
+  </footer>
+
+  <script src="traders.js"></script>
 </body>
 </html>

@@ -97,8 +97,14 @@ class UserController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'agree' => 'required'
         ], [
+            'name.required' => 'Please enter your full name.',
+            'name.max' => 'Your name cannot exceed 255 characters.',
+            'email.required' => 'Please enter your email address.',
+            'email.email' => 'Please enter a valid email address.',
             'email.unique' => 'This email is already registered. Please use a different email or try to login.',
+            'password.required' => 'Please enter a password.',
             'password.min' => 'The password must be at least 8 characters.',
+            'password.confirmed' => 'The password confirmation does not match.',
             'agree.required' => 'You must agree to the terms and conditions.'
         ]);
 
@@ -141,7 +147,23 @@ class UserController extends Controller
             return redirect('dashboard')->with('success', 'Registration successful! Please check your email for a welcome message.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors(['error' => 'Registration failed. Please try again.'])->withInput($request->except('password', 'password_confirmation'));
+            Log::error('Registration failed: ' . $e->getMessage());
+            
+            // Check for specific database errors
+            if (str_contains($e->getMessage(), 'Duplicate entry')) {
+                return back()->withErrors(['email' => 'This email is already registered. Please use a different email or try to login.'])
+                    ->withInput($request->except('password', 'password_confirmation'));
+            }
+            
+            // Check for database connection issues
+            if (str_contains($e->getMessage(), 'Connection refused') || str_contains($e->getMessage(), 'Could not connect')) {
+                return back()->withErrors(['error' => 'Unable to connect to the database. Please try again later.'])
+                    ->withInput($request->except('password', 'password_confirmation'));
+            }
+            
+            // Generic error message for other cases
+            return back()->withErrors(['error' => 'Registration failed due to a technical issue. Please try again or contact support if the problem persists.'])
+                ->withInput($request->except('password', 'password_confirmation'));
         }
     }
 

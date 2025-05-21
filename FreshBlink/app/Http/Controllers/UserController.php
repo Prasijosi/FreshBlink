@@ -173,7 +173,7 @@ class UserController extends Controller
         $user = Auth::user();
         $customer = $user->customer;
         
-        return view('userblade.profile', compact('user', 'customer'));
+        return view('userblade.customerprofile', compact('user', 'customer'));
     }
 
     // Show edit profile form
@@ -234,41 +234,25 @@ class UserController extends Controller
     // Process change password
     public function changePassword(Request $request)
     {
-        // Custom validation rules
-        Validator::extend('uppercase', function ($attribute, $value, $parameters, $validator) {
-            return preg_match('/[A-Z]/', $value);
-        });
-        
-        Validator::extend('lowercase', function ($attribute, $value, $parameters, $validator) {
-            return preg_match('/[a-z]/', $value);
-        });
-        
-        Validator::extend('number', function ($attribute, $value, $parameters, $validator) {
-            return preg_match('/[0-9]/', $value);
-        });
-        
-        Validator::extend('special_char', function ($attribute, $value, $parameters, $validator) {
-            return preg_match('/[^A-Za-z0-9]/', $value);
-        });
-    
         $validator = Validator::make($request->all(), [
             'current_password' => 'required',
             'password' => [
-                'required', 
-                'confirmed', 
-                'min:8',
-                'uppercase',
-                'lowercase',
-                'number',
-                'special_char',
-                PasswordRule::min(8)->uncompromised()
+                'required',
+                'confirmed',
+                PasswordRule::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised()
             ],
         ], [
-            'password.uppercase' => 'The password must contain at least one uppercase letter.',
-            'password.lowercase' => 'The password must contain at least one lowercase letter.',
-            'password.number' => 'The password must contain at least one number.',
-            'password.special_char' => 'The password must contain at least one special character.',
+            'current_password.required' => 'Please enter your current password.',
+            'password.required' => 'Please enter a new password.',
+            'password.confirmed' => 'The password confirmation does not match.',
             'password.min' => 'The password must be at least 8 characters.',
+            'password.mixed' => 'The password must contain both uppercase and lowercase letters.',
+            'password.numbers' => 'The password must contain at least one number.',
+            'password.symbols' => 'The password must contain at least one special character.',
             'password.uncompromised' => 'The password has appeared in a data leak. Please choose a different password.',
         ]);
         

@@ -62,15 +62,71 @@
     <!-- Account Info and Orders -->
     <section class="col-span-1 lg:col-span-3 space-y-4">
       
+      @if(session('success'))
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+          {{ session('success') }}
+        </div>
+      @endif
+
+      @if($errors->any())
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <ul>
+            @foreach($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+
       <!-- Account Info -->
       <div class="bg-white p-4 rounded shadow">
-        <h2 class="font-semibold mb-2">Account Information</h2>
-        <p><strong>Name:</strong> abc</p>
-        <p><strong>Email:</strong> abc@gmail.com</p>
-        <div class="mt-2 space-x-4 text-blue-600 text-sm">
-          <button id="editBtn">Edit</button>
-          <button id="changePasswordBtn">Change Password</button>
-        </div>
+        <h2 class="font-semibold mb-4">Account Information</h2>
+        <form action="{{ route('user.profile.update') }}" method="POST" id="profileForm">
+          @csrf
+          @method('PUT')
+          <div class="space-y-4">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+              <input type="text" name="name" id="name" value="{{ $user->name }}" required
+                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+            </div>
+
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+              <input type="email" name="email" id="email" value="{{ $user->email }}" required
+                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+            </div>
+
+            <div>
+              <label for="contact_details" class="block text-sm font-medium text-gray-700">Contact Details</label>
+              <input type="text" name="contact_details" id="contact_details" value="{{ $user->contact_details }}" required
+                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+            </div>
+
+            <div>
+              <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+              <textarea name="address" id="address" required rows="3"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">{{ $user->address }}</textarea>
+            </div>
+
+            <div>
+              <label for="notification_preference" class="block text-sm font-medium text-gray-700">Notification Preference</label>
+              <select name="notification_preference" id="notification_preference"
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                <option value="email" {{ $customer->notification_preference === 'email' ? 'selected' : '' }}>Email</option>
+                <option value="sms" {{ $customer->notification_preference === 'sms' ? 'selected' : '' }}>SMS</option>
+                <option value="both" {{ $customer->notification_preference === 'both' ? 'selected' : '' }}>Both</option>
+              </select>
+            </div>
+
+            <div class="flex justify-between items-center pt-4">
+              <a href="{{ route('user.password.change') }}" class="text-green-600 hover:text-green-800">Change Password</a>
+              <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                Save Changes
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
 
       <!-- Recent Orders -->

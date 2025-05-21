@@ -171,7 +171,6 @@
           <span>Total</span><span class="summary-total">$35.00</span>
         </div>
       </div>
-    @else
       <div class="bg-white p-8 rounded-lg shadow text-center">
         <h2 class="text-2xl font-semibold mb-4">Your cart is empty</h2>
         <p class="text-gray-600 mb-6">Add some products to your cart to continue shopping.</p>
@@ -179,7 +178,6 @@
           Continue Shopping
         </a>
       </div>
-    @endif
   </main>
 
   <!-- Footer -->

@@ -13,6 +13,7 @@ use App\Http\Controllers\TraderController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/loyalty-points', [CustomerController::class, 'showLoyaltyPoints'])->name('customer.loyalty-points');
     Route::post('/loyalty-points/redeem', [CustomerController::class, 'redeemPoints'])->name('customer.redeem-points');
     Route::get('/loyalty-points/history', [CustomerController::class, 'pointsHistory'])->name('customer.points-history');
+    Route::get('/loyalty-points/earn', [CustomerController::class, 'showEarnPoints'])->name('customer.earn-points');
+    Route::get('/loyalty-points/rewards', [CustomerController::class, 'showRewards'])->name('customer.rewards');
+    Route::post('/loyalty-points/convert', [CustomerController::class, 'convertPoints'])->name('customer.convert-points');
 })->name('home');
 
 // Product routes
@@ -195,3 +199,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
     Route::get('/reviews/product/{product_id}', [ReviewController::class, 'productReviews'])->name('reviews.product');
 });
+
+// Contact Routes
+Route::get('/contact', [ContactController::class, 'show'])->name('contact.show');
+Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');

@@ -136,4 +136,34 @@ class OrderController extends Controller
             return back()->with('error', 'Order processing failed. Please try again.');
         }
     }
+
+    public function checkout()
+    {
+        // Check if user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $userId = Auth::id();
+        $cart = Cart::where('user_id', $userId)->first();
+
+        if (!$cart || $cart->cartProducts()->count() == 0) {
+            return redirect()->route('cart.index')->with('error', 'Your cart is empty');
+        }
+
+        $cartItems = $cart->cartProducts()->with('product')->get();
+        $total = 0;
+
+        foreach ($cartItems as $item) {
+            $total += $item->product->price * $item->quantity;
+        }
+
+        // Apply loyalty points discount if available
+        if (session()->has('loyalty_discount')) {
+            $loyaltyDiscount = session('loyalty_discount');
+            $total = max(0, $total - $loyaltyDiscount['discount_amount']);
+        }
+
+        return view('orders.checkout', compact('cartItems', 'total'));
+    }
 } 

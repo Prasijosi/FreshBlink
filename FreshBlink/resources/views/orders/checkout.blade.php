@@ -8,111 +8,97 @@
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
-        <div class="flex flex-wrap -mx-4">
+        <h1 class="text-2xl font-bold mb-6">Checkout</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Order Summary -->
-            <div class="w-full lg:w-8/12 px-4 mb-8">
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-2xl font-semibold mb-4">Order Summary</h2>
-                    
-                    @foreach($cartItems as $item)
-                    <div class="flex items-center border-b border-gray-200 py-4">
-                        <img src="{{ asset($item->product->product_image) }}" alt="{{ $item->product->product_name }}" class="w-20 h-20 object-cover rounded">
-                        <div class="flex-1 ml-4">
-                            <h3 class="text-lg font-medium">{{ $item->product->product_name }}</h3>
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-semibold mb-4">Order Summary</h2>
+                
+                @foreach($cartItems as $item)
+                <div class="flex items-center justify-between py-4 border-b">
+                    <div class="flex items-center">
+                        <img src="{{ asset($item->product->product_image) }}" alt="{{ $item->product->product_name }}" class="w-16 h-16 object-cover rounded">
+                        <div class="ml-4">
+                            <h3 class="font-medium">{{ $item->product->product_name }}</h3>
                             <p class="text-gray-600">Quantity: {{ $item->quantity }}</p>
-                            <p class="text-gray-600">Price: ${{ number_format($item->product->price, 2) }}</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-lg font-medium">${{ number_format($item->product->price * $item->quantity, 2) }}</p>
                         </div>
                     </div>
-                    @endforeach
-                    
-                    <div class="mt-6">
-                        <div class="flex justify-between mb-2">
-                            <span class="text-gray-600">Subtotal</span>
-                            <span class="font-medium">${{ number_format($total, 2) }}</span>
-                        </div>
-                        
-                        @if(Auth::user()->customer->loyalty_points > 0)
-                        <div class="flex justify-between mb-2">
-                            <span class="text-gray-600">Available Loyalty Points</span>
-                            <span class="font-medium">{{ Auth::user()->customer->loyalty_points }} points</span>
-                        </div>
-                        <div class="flex justify-between mb-2">
-                            <span class="text-gray-600">Maximum Discount (30%)</span>
-                            <span class="font-medium">${{ number_format($total * 0.3, 2) }}</span>
-                        </div>
-                        @endif
+                    <div class="text-right">
+                        <p class="font-medium">${{ number_format($item->product->price * $item->quantity, 2) }}</p>
+                    </div>
+                </div>
+                @endforeach
+
+                <div class="mt-6">
+                    <div class="flex justify-between py-2">
+                        <span class="font-medium">Subtotal:</span>
+                        <span>${{ number_format($total, 2) }}</span>
+                    </div>
+                    <div class="flex justify-between py-2">
+                        <span class="font-medium">Total:</span>
+                        <span class="text-xl font-bold">${{ number_format($total, 2) }}</span>
                     </div>
                 </div>
             </div>
-            
-            <!-- Checkout Form -->
-            <div class="w-full lg:w-4/12 px-4">
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h2 class="text-2xl font-semibold mb-4">Payment Details</h2>
+
+            <!-- Payment Form -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-semibold mb-4">Payment Method</h2>
+                
+                <form action="{{ route('orders.store') }}" method="POST" id="payment-form">
+                    @csrf
                     
-                    <form action="{{ route('orders.store') }}" method="POST">
-                        @csrf
-                        
-                        <!-- Collection Slot -->
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="collection_slot_id">
-                                Collection Slot
-                            </label>
-                            <select name="collection_slot_id" id="collection_slot_id" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                                <option value="">Select a collection slot</option>
-                                @foreach($collectionSlots as $slot)
-                                <option value="{{ $slot->id }}">
-                                    {{ $slot->slot_date->format('Y-m-d') }} at {{ $slot->time_details->format('H:i') }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        
-                        <!-- Payment Method -->
-                        <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">
-                                Payment Method
-                            </label>
-                            <div class="space-y-2">
-                                <label class="flex items-center">
-                                    <input type="radio" name="payment_method" value="credit_card" class="mr-2" required>
-                                    <span>Credit Card</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="payment_method" value="paypal" class="mr-2">
-                                    <span>PayPal</span>
-                                </label>
-                                <label class="flex items-center">
-                                    <input type="radio" name="payment_method" value="cash" class="mr-2">
-                                    <span>Cash</span>
+                    <!-- Collection Slot Selection -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-medium mb-2">Select Collection Slot</label>
+                        <select name="collection_slot_id" class="w-full border rounded-lg px-4 py-2" required>
+                            <option value="">Select a time slot</option>
+                            <!-- Add your collection slots here -->
+                        </select>
+                    </div>
+
+                    <!-- Payment Method Selection -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-medium mb-2">Payment Method</label>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <input type="radio" name="payment_method" value="paypal" id="paypal" class="mr-2" checked>
+                                <label for="paypal" class="flex items-center">
+                                    <img src="{{ asset('images/paypal-logo.png') }}" alt="PayPal" class="h-6 mr-2">
+                                    PayPal
                                 </label>
                             </div>
+                            <div class="flex items-center">
+                                <input type="radio" name="payment_method" value="credit_card" id="credit_card" class="mr-2">
+                                <label for="credit_card">Credit Card</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="radio" name="payment_method" value="cash" id="cash" class="mr-2">
+                                <label for="cash">Cash on Collection</label>
+                            </div>
                         </div>
-                        
-                        <!-- Loyalty Points -->
-                        @if(Auth::user()->customer->loyalty_points > 0)
-                        <div class="mb-6">
-                            <label class="flex items-center">
-                                <input type="checkbox" name="use_loyalty_points" value="1" class="mr-2">
-                                <span>Use Loyalty Points for Discount</span>
-                            </label>
-                            <p class="text-sm text-gray-600 mt-1">
-                                You have {{ Auth::user()->customer->loyalty_points }} points available.
-                                Each point is worth $0.01 in discount (max 30% of order total).
-                            </p>
-                        </div>
-                        @endif
-                        
-                        <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                            Place Order
-                        </button>
-                    </form>
-                </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-200">
+                        Place Order
+                    </button>
+                </form>
             </div>
         </div>
     </div>
+
+    @push('scripts')
+    <script>
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+            
+            if (paymentMethod === 'paypal') {
+                e.preventDefault();
+                window.location.href = "{{ route('paypal.payment') }}";
+            }
+        });
+    </script>
+    @endpush
 </body>
 </html> 

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Services\PayPalService;
 use App\Models\Order;
-use App\Models\Payment;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class PayPalController extends Controller
 {
@@ -17,98 +17,81 @@ class PayPalController extends Controller
         $this->paypalService = $paypalService;
     }
 
-    public function showPaymentForm(Request $request)
+    public function showPaymentForm()
     {
-        $orderId = $request->input('order_id');
-        $order = Order::findOrFail($orderId);
-        
-        // Verify that the order belongs to the authenticated user
-        if ($order->user_id !== Auth::id()) {
-            return redirect()->route('orders.index')->with('error', 'Unauthorized access');
-        }
-        
-        return view('payment.form', compact('order'));
+        return view('payment.paypal');
     }
 
     public function createPayment(Request $request)
     {
         try {
-            // Get the order from the session or request
-            $orderId = $request->input('order_id');
-            $order = Order::findOrFail($orderId);
-            
-            // Verify that the order belongs to the authenticated user
-            if ($order->user_id !== Auth::id()) {
-                return redirect()->route('orders.index')->with('error', 'Unauthorized access');
-            }
+            // Get cart items and calculate total
+            $cartItems = Auth::user()->cart->cartProducts()->with('product')->get();
+            $total = $cartItems->sum(function ($item) {
+                return $item->product->price * $item->quantity;
+            });
 
             // Create PayPal order
-            $response = $this->paypalService->createOrder($order->total_order);
-            
-            if ($response->statusCode == 201) {
-                // Store PayPal order ID in the order
-                $order->update([
-                    'payment_id' => $response->result->id,
-                    'payment_method' => 'paypal'
-                ]);
+            $response = $this->paypalService->createOrder($total);
 
-                // Find the approval URL
-                foreach ($response->result->links as $link) {
-                    if ($link->rel == 'approve') {
-                        return redirect($link->href);
-                    }
-                }
-            }
-            
-            return redirect()->route('paypal.cancel')->with('error', 'Something went wrong with PayPal');
+            // Store order ID in session for later use
+            session(['paypal_order_id' => $response->result->id]);
+
+            // Find the approval URL from the response
+            $approvalUrl = collect($response->result->links)
+                ->firstWhere('rel', 'approve')
+                ->href;
+
+            return redirect($approvalUrl);
         } catch (\Exception $e) {
-            return redirect()->route('paypal.cancel')->with('error', $e->getMessage());
+            Log::error('PayPal payment creation failed: ' . $e->getMessage());
+            return redirect()->route('paypal.cancel')
+                ->with('error', 'Failed to create PayPal payment. Please try again.');
         }
     }
 
     public function success(Request $request)
     {
         try {
-            $orderId = $request->input('token');
-            $order = Order::where('payment_id', $orderId)->firstOrFail();
-            
-            // Verify that the order belongs to the authenticated user
-            if ($order->user_id !== Auth::id()) {
-                return redirect()->route('orders.index')->with('error', 'Unauthorized access');
+            $orderId = session('paypal_order_id');
+            if (!$orderId) {
+                throw new \Exception('No PayPal order ID found in session');
             }
-            
+
             // Capture the payment
             $response = $this->paypalService->captureOrder($orderId);
-            
-            if ($response->statusCode == 201) {
-                // Update order status
-                $order->update([
-                    'status' => 'paid',
-                    'is_placed' => true
+
+            if ($response->result->status === 'COMPLETED') {
+                // Create order in database
+                $order = Order::create([
+                    'user_id' => Auth::id(),
+                    'payment_method' => 'paypal',
+                    'total_amount' => $response->result->purchase_units[0]->payments->captures[0]->amount->value,
+                    'transaction_pin' => $orderId,
+                    'status' => 'paid'
                 ]);
 
-                // Create payment record
-                Payment::create([
-                    'order_id' => $order->id,
-                    'user_id' => Auth::id(),
-                    'payment_id' => $response->result->id,
-                    'payment_method' => 'paypal',
-                    'total_amount' => $order->total_order,
-                    'transaction_pin' => $response->result->id,
-                    'is_made_by' => true
-                ]);
+                // Clear the cart
+                Auth::user()->cart->cartProducts()->delete();
+
+                // Clear PayPal order ID from session
+                session()->forget('paypal_order_id');
 
                 return view('payment.success');
             }
-            
-            return redirect()->route('paypal.cancel')->with('error', 'Payment failed');
+
+            throw new \Exception('Payment not completed');
         } catch (\Exception $e) {
-            return redirect()->route('paypal.cancel')->with('error', $e->getMessage());
+            Log::error('PayPal payment capture failed: ' . $e->getMessage());
+            return redirect()->route('paypal.cancel')
+                ->with('error', 'Failed to process payment. Please contact support.');
         }
     }
 
     public function cancel()
     {
+        // Clear PayPal order ID from session
+        session()->forget('paypal_order_id');
         return view('payment.cancel');
     }
 } 

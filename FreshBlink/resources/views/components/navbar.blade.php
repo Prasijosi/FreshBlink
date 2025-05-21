@@ -2,7 +2,7 @@
 <div class="flex flex-col md:flex-row justify-between items-center px-5 py-3 border-b border-gray-300 bg-white gap-3 md:gap-0">
     <!-- Logo -->
     <div class="w-40">
-        <a href="/"><img src="{{ asset('Image/logo2.png') }}" alt="Logo"></a>
+        <a href="/"><img src="/images/logo2.png" alt="Logo"></a>
     </div>
 
     <!-- Search Box -->
@@ -15,7 +15,7 @@
     <div class="flex flex-wrap justify-center md:justify-end items-center gap-6 md:gap-12 w-full md:w-auto">
         <a href="#" class="text-black text-sm flex items-center gap-1"><span class="material-icons">favorite_border</span> Saved</a>
         <a href="#" class="text-black text-sm flex items-center gap-1"><span class="material-icons">shopping_cart</span> Cart</a>
-        <a href="#" class="text-black text-sm">Login</a>
-        <button class="bg-green-600 text-white px-4 py-2 rounded">Register</button>
+        <a href="/login" class="text-black text-sm">Login</a>
+        <a href="/register"><button class="bg-green-600 text-white px-4 py-2 rounded">Register</button></a> 
     </div>
 </div> 

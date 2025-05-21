@@ -1,175 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FreshBlink - Home</title>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshBlink - Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-100 font-sans">
 
-  <!-- Top Navbar -->
-  <div class="flex flex-col md:flex-row justify-between items-center px-5 py-3 border-b border-gray-300 bg-white gap-3 md:gap-0">
-    <!-- Logo -->
-    <div class="w-40">
-      <a href="#"><img src="Image/logo2.png" alt="Logo"></a>
-    </div>
+<body>
+    <!-- Navbar -->
+    @guest
+    {{-- Show this if the user is NOT logged in --}}
+    @include('components.navbar')
+    @endguest
 
-    <!-- Search Box -->
-    <div class="flex w-full md:flex-1 max-w-2xl mx-0 md:mx-5">
-      <input type="text" placeholder="Search Products......." class="w-full px-3 py-2 border border-gray-300 border-r-0 bg-green-50 rounded-l">
-      <button class="bg-green-600 text-white px-3 py-2 rounded-r">
-        <span class="material-icons">search</span>
-      </button>
-    </div>
+    @auth
+    {{-- Show this if the user IS logged in --}}
+    @include('userblade.loggedin')
+    @endauth
+    <!-- Secondary Navbar -->
+    <header class="navbar">
+        <button class="categories-btn">
+            <img src="/images/Grid.png" alt="" >
+            Browse All Categories
+        </button>
+        <nav class="nav-links">
+            <a href="home.html" class="active">Home</a>
+            <a href="/categories">Shop</a>
+            <a href="/contactus">Contact Us</a>
+        </nav>
+    </header>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <p class="tagline">
+                <span class="highlight">100%</span> Organic
+            </p>
+            <h1>Start Shopping At
+                <br>Our Store
+            </h1>
+            <p class="subtext">Save up to 50% off on your first order</p>
+        </div>
+        <div class="hero-images">
+            <!-- <img src="/images/1.png" alt="Meat" class="meat-image" /> -->
+            <img src="/images/2.png" alt="Vegetables" class="vegetables">
+        </div>
+    </section>
+    <!-- Product Promo Cards Section -->
+    <section class="promo-section">
+        <div class="promo-card card-blue">
+            <div class="promo-content">
+                <h3>The best Organic
+                    <br>Product Online
+                </h3>
+                <a href="/categories" class="shop-now">Shop Now</a>
+            </div>
+            <img src="/images/greenvegie.png" alt="Vegetables" class="promo-image">
+        </div>
+        <div class="promo-card card-beige">
+            <div class="promo-content">
+                <h3>Everyday Fresh &
+                    <br>Clean Product
+                </h3>
+                <a href="/categories" class="shop-now">Shop Now</a>
+            </div>
+            <img src="/images/ginger.png" alt="Ginger" class="promo-image">
+        </div>
+        <div class="promo-card card-pink">
+            <div class="promo-content">
+                <h3>Make your Breakfast
+                    <br>Healthy and Easy
+                </h3>
+                <a href="/categories" class="shop-now">Shop Now</a>
+            </div>
+            <img src="/images/cake.png" alt="Cake" class="promo-image">
+        </div>
+    </section>
+    <!-- Featured Categories -->
+    <section class="featured-section">
+        <h2 class="featured-heading">Featured Categories</h2>
+        <div class="categories">
+            <div class="category-box category-bakery">
+                <img src="/images/bakery_vector.png" alt="Bakery">
+                <p>Bakery</p>
+            </div>
+            <div class="category-box category-butchery">
+                <img src="/images/meat_steak.webp" alt="Butchery">
+                <p>Butchery</p>
+            </div>
+            <div class="category-box category-greengrocer">
+                <img src="/images/vegetable_vector.png" alt="Greengrocer">
+                <p>Greengrocer</p>
+            </div>
+            <div class="category-box category-delicatessen">
+                <img src="/images/vector.png" alt="Delicatessen">
+                <p>Delicatessen</p>
+            </div>
+            <div class="category-box category-fishmonger">
+                <img src="/images/seer_fish.png" alt="Fishmonger">
+                <p>Fishmonger</p>
+            </div>
+        </div>
+    </section>
+    <!-- Popular Products -->
+    <section class="popular-products">
+        <h2 class="featured-heading">Popular Products</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="/images/watermelom.png" alt="Watermelon">
+                <p>Watermelon 500gm</p>
+                <p class="price">$4
+                    <span class="old-price">$5.99</span>
+                </p>
+                <button class="add-btn">Add</button>
+            </div>
+            <div class="product-card">
+                <img src="/images/grainbread.png" alt="Brown Bread">
+                <p>Brown Bread</p>
+                <p class="price">$2.99
+                    <span class="old-price">$3.99</span>
+                </p>
+                <button class="add-btn">Add</button>
+            </div>
+            <div class="product-card">
+                <img src="/images/apple.png" alt="Apple">
+                <p>Apple 1000gm</p>
+                <p class="price">$2.99
+                    <span class="old-price">$3.99</span>
+                </p>
+                <button class="add-btn">Add</button>
+            </div>
+            <div class="product-card">
+                <img src="/images/buff2.png" alt="Buff Meat">
+                <p>Buff Meat 200gm</p>
+                <p class="price">$4.99
+                    <span class="old-price">$6.99</span>
+                </p>
+                <button class="add-btn">Add</button>
+            </div>
+            <div class="product-card">
+                <img src="/images/snacks-PL_mob.png" alt="Nut Bar">
+                <p>Nut Bar</p>
+                <p class="price">$0.99
+                    <span class="old-price">$1.99</span>
+                </p>
+                <button class="add-btn">Add</button>
+            </div>
+        </div>
+        
+    </section>
 
-    <!-- Nav Actions -->
-    <div class="flex flex-wrap justify-center md:justify-end items-center gap-6 md:gap-12 w-full md:w-auto">
-      <a href="#" class="text-black text-sm flex items-center gap-1">
-        <span class="material-icons">favorite_border</span> Saved
-      </a>
-      <a href="#" class="text-black text-sm flex items-center gap-1">
-        <span class="material-icons">shopping_cart</span> Cart
-      </a>
-      <a href="#" class="text-black text-sm">Login</a>
-      <button class="bg-green-600 text-white px-4 py-2 rounded">Register</button>
-    </div>
-  </div>
-
-  <!-- Navbar 2 -->
-  <nav class=" mb-6 flex items-center justify-between px-8 py-4 bg-white shadow">
-    <div class="flex items-center space-x-4">
-      <button class="flex items-center bg-green-600 text-white px-4 py-2 rounded">
-        <img src="Image/Grid.png" class="h-5 w-5 mr-2" alt="Grid Icon" />
-        Browse All Categories
-      </button>
-      <a href="#" class="flex items-center text-gray-700 hover:text-green-600">
-        <img src="Image/icon 1.png" class="h-5 w-5 mr-1" alt="Hot Deals Icon" />
-        Hot Deals
-      </a>
-    </div>
-    <div class="flex space-x-6">
-      <a href="#" class="text-green-600 font-semibold">Home</a>
-      <a href="#" class="text-gray-700 hover:text-green-600">Shop</a>
-      <a href="#" class="text-gray-700 hover:text-green-600">About</a>
-      <a href="#" class="text-gray-700 hover:text-green-600">Blog</a>
-      <a href="#" class="text-gray-700 hover:text-green-600">Contact</a>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section class="bg-green-100 py-10 px-6">
-    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-6">
-      <div>
-        <p class="text-sm text-red-600 font-bold">100% Organic</p>
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-          Start Shopping At<br />Our Store
-        </h1>
-        <p class="text-gray-600 mt-2">Save up to 50% off on your first order</p>
+    <section class="px-8 py-12 bg-white">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800">Deals Of The Day</h2>
+            <a href="#" class="text-sm text-gray-500 hover:text-green-600">All Deals →</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Deal Card -->
+            <div class="bg-white rounded-xl shadow hover:shadow-lg transition">
+                <img src="/images/redrice.jpg" alt="Seeds of Change Organic Quinoa" class="rounded-t-xl w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-sm font-semibold text-gray-800 leading-snug">
+                        Seeds of Change Organic Quinoa, Brown, & Red Rice
+                    </h3>
+                    <p class="text-xs text-gray-500 mt-1">By
+                        <span class="text-green-600 font-medium">NestFood</span>
+                    </p>
+                    <div class="flex items-center text-sm mt-2 text-yellow-400">
+                        ★★★★☆
+                        <span class="text-gray-400 ml-1 text-xs">(4.0)</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-4">
+                        <div>
+                            <span class="text-green-600 font-bold text-lg">$32.85</span>
+                            <span class="text-gray-400 line-through text-sm ml-1">$33.8</span>
+                        </div>
+                        <button class="bg-red-500 text-white px-4 py-1 rounded text-sm">Add</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Deal 2 -->
+            <div class="bg-white rounded-xl shadow hover:shadow-lg transition">
+                <img src="/images/lemon.jpg" alt="Perdue Simply Smart" class="rounded-t-xl w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-sm font-semibold text-gray-800 leading-snug">
+                        Perdue Simply Smart Organics Gluten Free
+                    </h3>
+                    <p class="text-xs text-gray-500 mt-1">By
+                        <span class="text-green-600 font-medium">Old El Paso</span>
+                    </p>
+                    <div class="flex items-center text-sm mt-2 text-yellow-400">
+                        ★★★★☆
+                        <span class="text-gray-400 ml-1 text-xs">(4.0)</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-4">
+                        <div>
+                            <span class="text-green-600 font-bold text-lg">$24.85</span>
+                            <span class="text-gray-400 line-through text-sm ml-1">$26.8</span>
+                        </div>
+                        <button class="bg-red-500 text-white px-4 py-1 rounded text-sm">Add</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Deal 3 -->
+            <div class="bg-white rounded-xl shadow hover:shadow-lg transition">
+                <img src="/images/pea.jpg" alt="Signature Wood-Fired Mushroom" class="rounded-t-xl w-full h-48 object-cover">
+                <div class="p-4">
+                    <h3 class="text-sm font-semibold text-gray-800 leading-snug">
+                        Signature Wood-Fired Mushroom and Caramelized
+                    </h3>
+                    <p class="text-xs text-gray-500 mt-1">By
+                        <span class="text-green-600 font-medium">Progresso</span>
+                    </p>
+                    <div class="flex items-center text-sm mt-2 text-yellow-400">
+                        ★★★☆☆
+                        <span class="text-gray-400 ml-1 text-xs">(3.0)</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-4">
+                        <div>
+                            <span class="text-green-600 font-bold text-lg">$12.85</span>
+                            <span class="text-gray-400 line-through text-sm ml-1">$13.8</span>
+                        </div>
+                        <button class="bg-red-500 text-white px-4 py-1 rounded text-sm">Add</button>
+                    </div>
+                </div>
+    <!-- Deal 4 -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg transition">
+      <img src="Image/redlemon.jpg" alt="Simply Lemonade" class="rounded-t-xl w-full h-48 object-cover" />
+      <div class="p-4">
+        <h3 class="text-sm font-semibold text-gray-800 leading-snug">
+          Simply Lemonade with Raspberry Juice
+        </h3>
+        <p class="text-xs text-gray-500 mt-1">By <span class="text-green-600 font-medium">Yoplait</span></p>
+        <div class="flex items-center text-sm mt-2 text-yellow-400">
+          ★★★☆☆ <span class="text-gray-400 ml-1 text-xs">(3.0)</span>
+        </div>
+        <div class="flex items-center justify-between mt-4">
+          <div>
+            <span class="text-green-600 font-bold text-lg">$15.85</span>
+            <span class="text-gray-400 line-through text-sm ml-1">$16.8</span>
+          </div>
+          <button class="bg-red-500 text-white px-4 py-1 rounded text-sm">Add</button>
+        </div>
       </div>
-      <div class="flex items-center justify-center">
-        <img src="Image/2.png" alt="Organic Foods" class="w-full max-w-xl rounded" />
-      </div>
     </div>
-  </section>
-<br>
-  <!-- Promo Banners -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto mb-12">
-    <div class="bg-blue-100 p-6 rounded-xl flex flex-col justify-between h-full">
-      <h2 class="text-xl font-semibold mb-4">The best Organic <br />Product Online</h2>
-      <button class="bg-orange-500 text-white px-4 py-2 rounded-full w-max">Shop Now</button>
-      <img src="Image/greenvegie.png" alt="Organic Veggies" class="mt-4">
-    </div>
-    <div class="bg-yellow-100 p-6 rounded-xl flex flex-col justify-between h-full">
-      <h2 class="text-xl font-semibold mb-4">Everyday Fresh & <br />Clean Product</h2>
-      <button class="bg-orange-500 text-white px-4 py-2 rounded-full w-max">Shop Now</button>
-      <img src="Image/ginger.png" alt="Ginger" class="mt-4">
-    </div>
-    <div class="bg-pink-100 p-6 rounded-xl flex flex-col justify-between h-full">
-      <h2 class="text-xl font-semibold mb-4">Make your Breakfast <br />Healthy and Easy</h2>
-      <button class="bg-orange-500 text-white px-4 py-2 rounded-full w-max">Shop Now</button>
-      <img src="Image/cake.png" alt="Cake Slice" class="mt-4">
-    </div>
-  </div>
-
-  <!-- Featured Categories -->
-  <div class="max-w-7xl mx-auto">
-    <h3 class="text-2xl font-bold mb-6">Featured Categories</h3>
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-      <div class="bg-yellow-100 p-4 rounded-xl text-center">
-        <img src="Image/bakery.png" class="mx-auto h-16 mb-2" alt="Bakery">
-        <div class="text-lg font-bold">Bakery</div>
-      </div>
-      <div class="bg-rose-200 p-4 rounded-xl text-center">
-        <img src="Image/butchery.png" class="mx-auto h-16 mb-2" alt="Butchery">
-        <div class="text-lg font-bold">Butchery</div>
-      </div>
-      <div class="bg-lime-100 p-4 rounded-xl text-center">
-        <img src="Image/greengrocer.png" class="mx-auto h-16 mb-2" alt="Greengrocer">
-        <div class="text-lg font-bold">Greengrocer</div>
-      </div>
-      <div class="bg-amber-100 p-4 rounded-xl text-center">
-        <img src="Image/delicatessen.png" class="mx-auto h-16 mb-2" alt="Delicatessen">
-        <div class="text-lg font-bold">Delicatessen</div>
-      </div>
-      <div class="bg-blue-100 p-4 rounded-xl text-center">
-        <img src="Image/fishmonger.png" class="mx-auto h-16 mb-2" alt="Fishmonger">
-        <div class="text-lg font-bold">Fishmonger</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-  <!-- Footer -->
-  <footer class="bg-gray-300 pt-10 px-5 mt-16">
-    <div class="flex flex-wrap justify-center lg:justify-around gap-6 mb-5">
-      <div class="text-center lg:text-left">
-        <img src="Image/logo2.png" alt="FreshBlink Logo" class="w-36 mx-auto lg:mx-0">
-      </div>
-
-      <div class="min-w-[150px]">
-        <h3 class="text-lg mb-2">Account</h3>
-        <ul class="text-sm text-gray-800 space-y-2">
-          <li><a href="#">Wishlist</a></li>
-          <li><a href="#">Cart</a></li>
-          <li><a href="#">Track Order</a></li>
-          <li><a href="#">Shipping Details</a></li>
-        </ul>
-      </div>
-
-      <div class="min-w-[150px]">
-        <h3 class="text-lg mb-2">Useful Links</h3>
-        <ul class="text-sm text-gray-800 space-y-2">
-          <li><a href="#">About Us</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Hot Deals</a></li>
-          <li><a href="#">Promotions</a></li>
-          <li><a href="#">New Product</a></li>
-        </ul>
-      </div>
-
-      <div class="min-w-[150px]">
-        <h3 class="text-lg mb-2">Help Center</h3>
-        <ul class="text-sm text-gray-800 space-y-2">
-          <li><a href="#">Payment</a></li>
-          <li><a href="#">Refund</a></li>
-          <li><a href="#">Checkout</a></li>
-          <li><a href="#">Q&amp;A</a></li>
-          <li><a href="#">Shipping</a></li>
-          <li><a href="#">Privacy Policy</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <hr class="border-t border-gray-600 my-5">
-    <div class="text-center text-sm text-gray-800 mb-3">
-      <p>&copy; 2022, All rights reserved</p>
-    </div>
-    <div class="text-center">
-      <img src="Image/paypal.webp" alt="PayPal" class="w-28 mx-auto">
-    </div>
-  </footer>
-
+    
+<script src="/js/home.js"></script>
 </body>
 </html>

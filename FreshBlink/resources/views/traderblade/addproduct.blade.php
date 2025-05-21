@@ -9,7 +9,7 @@
   <title>Add Product - FreshBlink</title>
 
   <!-- Link to external CSS for styling -->
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/css/addProductTrader.css" />
   
   <!-- Google Material Icons (used for icons in navbar) -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -17,27 +17,7 @@
 <body>
 
   <!-- ========== NAVIGATION BAR ========== -->
-  <div class="navbar">
-    <!-- Website Logo -->
-    <div class="logo">
-      <a href="#"><img src="images/logo2.png" alt="FreshBlink Logo"></a>
-    </div>
-
-    <!-- Search bar in the middle of navbar -->
-    <div class="search-box">
-      <input type="text" placeholder="Search Products......." />
-      <button><span class="material-icons">search</span></button>
-    </div>
-
-    <!-- Navigation actions like wishlist, cart, register and login -->
-    <div class="nav-actions">
-      <a href="#"><span class="material-icons">favorite_border</span> Saved</a>
-      <a href="#"><span class="material-icons">shopping_cart</span> Cart</a>
-      <a href="#">Register</a>
-      <button class="login-btn">Login</button>
-    </div>
-  </div>
-
+    @include('traderblade.tradernav')
   <!-- ========== PAGE BREADCRUMB & TITLE ========== -->
   <div class="bottom-bar">
     <span>Add Product</span> <!-- Page Title -->
@@ -101,7 +81,7 @@
     <div class="footer-top">
       <!-- Footer logo -->
       <div class="footer-logo">
-        <img src="images/logo2.png" alt="FreshBlink Logo" />
+        <img src="/images/logo2.png" alt="FreshBlink Logo" />
       </div>
 
       <!-- Footer links: Account -->
@@ -151,11 +131,11 @@
 
     <!-- Payment options (e.g., PayPal logo) -->
     <div class="footer-bottom">
-        <img src="images/paypal.webp" alt="PayPal" />
+        <img src="/images/paypal.webp" alt="PayPal" />
     </div>
   </footer>
 
   <!-- Link to external JavaScript functionality -->
-  <script src="script.js"></script>
+  <script src="/js/addProductTrader.js"></script>
 </body>
 </html>

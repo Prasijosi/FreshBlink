@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,51 +9,43 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100 text-gray-800">
 
   <!-- Navbar -->
-  <div class="flex flex-wrap items-center justify-between px-4 py-3 border-b border-gray-300 bg-white">
-    <a href="#"><img src="/Users/manjusha/Desktop/practice/images/ logo.png" alt="FreshBlink Logo" class="w-36 sm:w-40"></a>
-    <div class="flex items-center gap-2">
-      <input type="text" placeholder="Search Products..." class="px-3 py-2 border rounded-l bg-green-50 w-40 sm:w-64" />
-      <button class="px-3 py-2 bg-green-600 text-white rounded-r">
-        <span class="material-icons">search</span>
-      </button>
-    </div>
-    <div class="flex items-center gap-4">
-      <a href="#" class="flex items-center text-sm text-black hover:text-green-600">
-        <span class="material-icons mr-1">shopping_cart</span> Cart
-      </a>
-      <a href="#" class="flex items-center text-sm text-black hover:text-green-600">
-        <span class="material-icons mr-1">favorite_border</span> Saved
-      </a>
-    </div>
-  </div>
+  @guest
+  {{-- Show this if the user is NOT logged in --}}
+  @include('components.navbar')
+  @endguest
+
+  @auth
+  {{-- Show this if the user IS logged in --}}
+  @include('userblade.loggedin')
+  @endauth
+
 
   <!-- Slide Buttons (Mobile Only for Recent Orders) -->
   <button
     id="slideBtnLeft"
-    class="fixed left-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white px-3 py-2 rounded-full shadow-lg sm:hidden z-10"
-  >
+    class="fixed left-2 top-1/2 transform -translate-y-1/2 bg-green-600 text-white px-3 py-2 rounded-full shadow-lg sm:hidden z-10">
     &#8592;
   </button>
 
   <button
     id="slideBtnRight"
-    class="fixed right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white px-3 py-2 rounded-full shadow-lg sm:hidden z-10"
-  >
-    ➤
+    class="fixed right-2 top-1/2 transform -translate-y-1/2 bg-green-600 text-white px-3 py-2 rounded-full shadow-lg sm:hidden z-10">
+    &#8594;
   </button>
 
   <!-- Main Content -->
   <main class="max-w-screen-xl mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-4">
-    
+
     <!-- Profile Sidebar -->
     <aside class="bg-white p-4 rounded shadow col-span-1 flex flex-col items-center text-center">
       <label for="profilePicInput" class="cursor-pointer">
-        <img id="profilePic" src="images/Customer.jpg"
-             alt="Profile Picture"
-             class="w-24 h-24 rounded-full mb-2 object-cover border border-gray-300 hover:opacity-80 transition" />
+        <img id="profilePic" src="/images/Customer.jpg"
+          alt="Profile Picture"
+          class="w-24 h-24 rounded-full mb-2 object-cover border border-gray-300 hover:opacity-80 transition" />
         <input type="file" id="profilePicInput" accept="image/*" class="hidden" />
       </label>
       <p class="font-semibold">Profile Picture</p>
@@ -61,7 +54,7 @@
 
     <!-- Account Info and Orders -->
     <section class="col-span-1 lg:col-span-3 space-y-4">
-      
+
       <!-- Account Info -->
       <div class="bg-white p-4 rounded shadow">
         <h2 class="font-semibold mb-2">Account Information</h2>
@@ -145,7 +138,7 @@
       </div>
     </div>
     <div class="flex flex-wrap justify-between items-center text-xs text-gray-500 mt-6 border-t pt-4">
-      <span>© 2025 FreshBlink</span>
+      <span>© 2025 Company Name</span>
       <div class="space-x-4 text-lg text-gray-600">
         <a href="https://www.facebook.com" target="_blank" aria-label="Facebook">
           <i class="fab fa-facebook-f hover:text-blue-600"></i>
@@ -163,6 +156,7 @@
     </div>
   </footer>
 
-  <script src="{{ asset('js/profile.js') }}"></script>
+  <script src="/js/profile.js"></script>
 </body>
+
 </html>

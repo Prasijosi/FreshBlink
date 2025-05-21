@@ -118,6 +118,12 @@
                 <option value="both" {{ $customer->notification_preference === 'both' ? 'selected' : '' }}>Both</option>
               </select>
             </div>
+            
+            <div>
+              <label for="loyalty_points" class="block text-sm font-medium text-gray-700">Loyalty Points</label>
+              <input type="text" name="loyalty_points" id="loyalty_points" value="{{ $customer->loyalty_points }}" required
+                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+            </div>
 
             <div class="flex justify-between items-center pt-4">
               <a href="{{ route('user.password.change') }}" class="text-green-600 hover:text-green-800">Change Password</a>

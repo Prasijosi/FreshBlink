@@ -28,7 +28,7 @@ class CustomerController extends Controller
         $customer = Auth::user()->customer;
         $availableDiscount = $this->calculateAvailableDiscount($customer->loyalty_points);
         
-        return view('customer.loyalty', compact('customer', 'availableDiscount'));
+        return view('loyalty', compact('customer', 'availableDiscount'));
     }
 
     /**

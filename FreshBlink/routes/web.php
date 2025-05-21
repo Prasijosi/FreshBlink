@@ -23,7 +23,7 @@ use App\Http\Controllers\ContactController;
 // Home route
 Route::get('/', function () {
     return view('userblade.home');
-});
+})->name('home');
 
 // Authentication routes
 Route::get('/login', [UserController::class, 'showLogin'])->name('login');

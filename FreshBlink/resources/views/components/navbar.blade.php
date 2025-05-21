@@ -15,7 +15,7 @@
     <div class="flex flex-wrap justify-center md:justify-end items-center gap-6 md:gap-12 w-full md:w-auto">
         <a href="#" class="text-black text-sm flex items-center gap-1"><span class="material-icons">favorite_border</span> Saved</a>
         <a href="#" class="text-black text-sm flex items-center gap-1"><span class="material-icons">shopping_cart</span> Cart</a>
-        <a href="#" class="text-black text-sm">Login</a>
-        <button class="bg-green-600 text-white px-4 py-2 rounded">Register</button>
+        <a href="/login" class="text-black text-sm">Login</a>
+        <a href="/register"><button class="bg-green-600 text-white px-4 py-2 rounded">Register</button></a> 
     </div>
 </div> 

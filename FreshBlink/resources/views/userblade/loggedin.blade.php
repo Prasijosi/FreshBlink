@@ -12,7 +12,7 @@
   <div class="flex flex-col md:flex-row justify-between items-center px-5 py-3 border-b border-gray-300 bg-white gap-3 md:gap-0">
     <!-- Logo -->
     <div class="w-40">
-      <a href="home.html"><img src="Image/logo2.png" alt="Logo"></a>
+      <a href="/"><img src="Image/logo2.png" alt="Logo"></a>
     </div>
     <!-- Search Box -->
     <div class="flex w-full md:flex-1 max-w-2xl mx-0 md:mx-5">
@@ -22,10 +22,10 @@
     <!-- Nav Actions -->
     <!-- LOGGED IN -->
     <div class="flex flex-wrap justify-center md:justify-end items-center gap-6 md:gap-12 w-full md:w-auto">
-        <a href="#" class="text-black text-sm flex items-center gap-1">
+        <a href="/wishlist" class="text-black text-sm flex items-center gap-1">
           <span class="material-icons">favorite_border</span> Saved
         </a>
-        <a href="#" class="text-black text-sm flex items-center gap-1">
+        <a href="/cart" class="text-black text-sm flex items-center gap-1">
           <span class="material-icons">shopping_cart</span> Cart
         </a>
         <button class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition">Logout</button>

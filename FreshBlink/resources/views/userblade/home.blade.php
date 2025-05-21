@@ -25,13 +25,13 @@
     <!-- Secondary Navbar -->
     <header class="navbar">
         <button class="categories-btn">
-            <img src="/images/Grid.png" alt="">
+            <img src="/images/Grid.png" alt="" >
             Browse All Categories
         </button>
         <nav class="nav-links">
             <a href="home.html" class="active">Home</a>
-            <a href="#">Shop</a>
-            <a href="ContactUs.html">Contact</a>
+            <a href="/categories">Shop</a>
+            <a href="/contactus">Contact Us</a>
         </nav>
     </header>
     <!-- Hero Section -->
@@ -57,7 +57,7 @@
                 <h3>The best Organic
                     <br>Product Online
                 </h3>
-                <a href="#" class="shop-now">Shop Now</a>
+                <a href="/categories" class="shop-now">Shop Now</a>
             </div>
             <img src="/images/greenvegie.png" alt="Vegetables" class="promo-image">
         </div>
@@ -66,7 +66,7 @@
                 <h3>Everyday Fresh &
                     <br>Clean Product
                 </h3>
-                <a href="#" class="shop-now">Shop Now</a>
+                <a href="/categories" class="shop-now">Shop Now</a>
             </div>
             <img src="/images/ginger.png" alt="Ginger" class="promo-image">
         </div>
@@ -75,7 +75,7 @@
                 <h3>Make your Breakfast
                     <br>Healthy and Easy
                 </h3>
-                <a href="#" class="shop-now">Shop Now</a>
+                <a href="/categories" class="shop-now">Shop Now</a>
             </div>
             <img src="/images/cake.png" alt="Cake" class="promo-image">
         </div>
@@ -151,8 +151,8 @@
                 <button class="add-btn">Add</button>
             </div>
         </div>
+        
     </section>
-    <!-- Footer -->
 
     <section class="px-8 py-12 bg-white">
         <div class="flex items-center justify-between mb-6">
@@ -228,8 +228,27 @@
                         <button class="bg-red-500 text-white px-4 py-1 rounded text-sm">Add</button>
                     </div>
                 </div>
-
-
+    <!-- Deal 4 -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg transition">
+      <img src="Image/redlemon.jpg" alt="Simply Lemonade" class="rounded-t-xl w-full h-48 object-cover" />
+      <div class="p-4">
+        <h3 class="text-sm font-semibold text-gray-800 leading-snug">
+          Simply Lemonade with Raspberry Juice
+        </h3>
+        <p class="text-xs text-gray-500 mt-1">By <span class="text-green-600 font-medium">Yoplait</span></p>
+        <div class="flex items-center text-sm mt-2 text-yellow-400">
+          ★★★☆☆ <span class="text-gray-400 ml-1 text-xs">(3.0)</span>
+        </div>
+        <div class="flex items-center justify-between mt-4">
+          <div>
+            <span class="text-green-600 font-bold text-lg">$15.85</span>
+            <span class="text-gray-400 line-through text-sm ml-1">$16.8</span>
+          </div>
+          <button class="bg-red-500 text-white px-4 py-1 rounded text-sm">Add</button>
+        </div>
+      </div>
+    </div>
+    
+<script src="/js/home.js"></script>
 </body>
-
 </html>

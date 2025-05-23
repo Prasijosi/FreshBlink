@@ -120,6 +120,43 @@ include 'start.php';
         font-size: 0.95rem;
     }
 
+    .verification-icon {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .verification-icon i {
+        font-size: 3rem;
+        color: #28a745;
+        background: rgba(40, 167, 69, 0.1);
+        width: 80px;
+        height: 80px;
+        line-height: 80px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .verification-steps {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .verification-steps ol {
+        margin-bottom: 0;
+        padding-left: 1.2rem;
+    }
+
+    .verification-steps li {
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+    }
+
+    .verification-steps li:last-child {
+        margin-bottom: 0;
+    }
+
     @media (max-width: 576px) {
         .verify-container {
             margin: 1rem;
@@ -128,6 +165,13 @@ include 'start.php';
 
         .logo-container img {
             width: 70px;
+        }
+
+        .verification-icon i {
+            font-size: 2.5rem;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
         }
     }
 </style>
@@ -149,8 +193,20 @@ include 'start.php';
                     </a>
                 </div>
 
+                <div class="verification-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+
                 <form method="POST" action="customer/customer_email_verify_process.php">
                     <h4 class="section-title">Verify Your Email</h4>
+
+                    <div class="verification-steps">
+                        <ol>
+                            <li>Enter your email address</li>
+                            <li>Check your inbox for the verification code</li>
+                            <li>Enter the 6-digit code below</li>
+                        </ol>
+                    </div>
 
                     <div class="form-group">
                         <label for="inputEmail" class="form-label">Email Address</label>

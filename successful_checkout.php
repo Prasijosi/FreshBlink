@@ -3,7 +3,7 @@ include 'start.php';
 include "connection.php";
 
 if (!isset($_SESSION['username'])) {
-    header('Location:sign_in_customer.php');
+    // header('Location:sign_in_customer.php');
     exit;
 }
 
@@ -35,7 +35,7 @@ if (isset($_GET['PayerID'])) {
 }
 
 if (!isset($_SESSION['username'])) {
-    header('Location:sign_in_customer.php');
+    // header('Location:sign_in_customer.php');
 }
 /*
 if(isset($_POST['radio1'])  ){   //this is for while inserting in payment table just testing
@@ -106,9 +106,9 @@ while ($row = oci_fetch_array($result1)) {
             $stock = $row['STOCK'];
             //echo "Product Price " . $productprice . " ";
 
-            $gt = $quantity * $productprice;
+            @$gt = $quantity * $productprice;
 
-            $sql3 = "INSERT INTO orders(Order_Date, Quantity, Order_price, Customer_Id, Product_Id, Delivery_Status) VALUES (SYSDATE,'$quantity','$gt','$cid','$pid','0')";
+            $sql3 = "INSERT INTO orders(Order_Date, Quantity, Order_price, Customer_Id, Product_Id, Delivery_Status) VALUES (SYSDATE,'$quantity','@$gt','$cid','$pid','0')";
 
             $result3 = oci_parse($connection, $sql3);
             oci_execute($result3);
@@ -135,8 +135,6 @@ while ($row = oci_fetch_array($result1)) {
                         oci_execute($result5);
                     }
                 }
-
-
             } else {
                 echo " <script>
 								alert('Order Not Placed');
@@ -172,7 +170,7 @@ orders.Customer_Id=customer.Customer_ID INNER join product on orders.Product_Id=
 $qry15 = oci_parse($connection, $sql15);
 oci_execute($qry15);
 $s = 0;
-$gt1 = 0;
+@$gt1 = 0;
 
 $count = oci_fetch_all($qry15, $connection);
 oci_execute($qry15);
@@ -189,13 +187,11 @@ if ($count > 0) {
         $odate1 = $row['ORDER_DATE'];
 
         $oprice1 = $row['ORDER_PRICE'];
-        $gt1 = $oprice1 + $gt1;
+        @$gt1 = $oprice1 + @$gt1;
 
         $tname = $row['NAME'];
         $sname = $row['SHOP_NAME'];
         $taddress = $row['SHOP_LOCATION'];
-
-
     }
 
     include "connection.php";
@@ -321,7 +317,7 @@ if ($count > 0) {
 <tr>
 <td  colspan="6" ></td>
 <td   >Total: </td>
-<td   >' . $gt1 . '</td>
+<td   >' . @$gt1 . '</td>
   </tr>
 </table>
 </div>
@@ -331,16 +327,13 @@ if ($count > 0) {
 
 </html>
 ';
-
 } else {
-    echo "order number must be greater than 0";
-
-
+    // echo "order number must be greater than 0";
 }
 
 include 'sendmail.php';
 
-if ($gt > 0) {
+if (@$gt > 0) {
     $result = sendEmail(
         $to_email,
         '',
@@ -363,71 +356,150 @@ if ($gt > 0) {
 ?>
 <?php include 'header.php' ?>
 
-  <div class="container mb-5">
-    <div class="row text-center mt-5" style="border: 0.1vw solid black;">
-      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-        <div class="h1 mt-5">Thank You !</div>
-      </div>
-      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-        <div class="h3">Your order was completed successfully.</div>
-      </div>
-      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3">
-          <?php
+<style>
+    body {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
 
-          include('connection.php');
-          $un = $_SESSION['username'];
-          $sql1 = " SELECT Customer_ID FROM customer WHERE Username = '$un'";
+    .success-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 3rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
 
+    .success-icon {
+        width: 80px;
+        height: 80px;
+        background: #28a745;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 2rem;
+        color: white;
+        font-size: 2.5rem;
+    }
 
-          $result1 = oci_parse($connection, $sql1);
-          oci_execute($result1);
+    .success-title {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
 
-          while ($row = oci_fetch_array($result1)) {
+    .success-subtitle {
+        color: #6c757d;
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+    }
 
-              $cid = $row['CUSTOMER_ID'];
+    .order-details {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+    }
 
-              $sql7 = "SELECT Order_Id FROM orders WHERE Customer_Id= '$cid' and Delivery_Status!=1";
-              $result7 = oci_parse($connection, $sql7);
-              oci_execute($result7);
+    .order-info {
+        color: #495057;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
 
-              while ($row = oci_fetch_array($result7)) {
+    .order-label {
+        font-weight: 600;
+        color: #2c3e50;
+    }
 
-                  $orderid = $row['ORDER_ID'];
+    .email-receipt {
+        background: #e9ecef;
+        border-radius: 10px;
+        padding: 2rem;
+        margin-top: 2rem;
+        text-align: center;
+    }
 
-                  //echo "<div class='h4'>Your order number is $orderid </div>";
-              }
-          }
-          ?>
+    .email-icon {
+        font-size: 3rem;
+        color: #28a745;
+        margin-bottom: 1rem;
+    }
 
+    .email-text {
+        color: #6c757d;
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
 
-      </div>
-
-        <?php
-        if (isset($_GET['PayerID'])) {
-            $payerid = $_GET['PayerID'];
-            echo " 
-				<div class='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
-				<div class='h4'>Your Payment ID is  $payerid   </div>
-					<div class='h5'>You can pickup your order  $taskoption</div>
-				</div>
-				<div class='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 my-5'>
-					<div class='row'>
-						<div class='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center d-flex align-items-center justify-content-center'>
-							<i class='fas fa-envelope d-flex align-items-center justify-content-end' style='font-size:4vw;'></i>
-						</div>
-						<div class='col-12 col-sm-12 col-md-12 col-xl-12 col-lg-12 d-flex align-items-center justify-content-center mt-4'>
-							<div class='h5 text-justify text-center'>An email receipt including the details about your order has been sent to the email address provided.</div>
-						</div>
-					</div>
-				</div>
-				";
-        } else {
-            echo "There was some issue while checking out";
+    @media (max-width: 576px) {
+        .success-container {
+            margin: 1rem;
+            padding: 1.5rem;
         }
 
-        ?>
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 2rem;
+        }
+    }
+</style>
 
+<div class="container">
+    <div class="success-container">
+        <div class="text-center">
+            <div class="success-icon">
+                <i class="fas fa-check" style="color: white; background-color: #28a745; font-size: 3rem;"></i>
+            </div>
+            <h1 class="success-title">Thank You!</h1>
+            <p class="success-subtitle">Your order was completed successfully.</p>
+        </div>
+
+        <?php if (isset($_GET['PayerID'])): ?>
+            <div class="order-details">
+                <div class="row" style="background-color: transparent;">
+                    <div class="col-md-6" style="background-color: transparent;">
+                        <p class="order-info" style="background-color: transparent;">
+                            <span class="order-label" style="background-color: transparent;">Payment ID:</span><br>
+                            <span style="background-color: transparent;">
+                                <?php echo htmlspecialchars($payerid); ?>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="col-md-6" style="background-color: transparent;">
+                        <p class="order-info" style="background-color: transparent;">
+                            <span class="order-label" style="background-color: transparent;">Collection Date:</span><br>
+                            <span style="background-color: transparent;">
+                                <?php echo htmlspecialchars($taskoption); ?>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="email-receipt">
+                <i class="fas fa-envelope email-icon" style="background-color: #e9ecef;"></i>
+                <p class="email-text" style="background-color: #e9ecef;">
+                    An email receipt including the details about your order has been sent to the email address provided.
+                </p>
+            </div>
+        <?php else: ?>
+            <div class="alert alert-danger text-center">
+                There was some issue while checking out. Please try again.
+            </div>
+        <?php endif; ?>
+
+        <div class="text-center mt-4">
+            <a href="index.php" class="btn btn-success btn-lg">
+                <i class="fas fa-home mr-2" style="background-color: #28a745; color: white;"></i>Return to Home
+            </a>
+        </div>
     </div>
-  </div>
+</div>
+
 <?php include 'footer.php';
 include 'end.php'; ?>

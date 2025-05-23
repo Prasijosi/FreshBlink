@@ -1,5 +1,31 @@
 <?php include 'start.php';
+include 'condition_checker/get_all_products.php';
 include 'condition_checker/search_conditonal.php';
+
+// Get unique categories from the database
+$category_query = "SELECT DISTINCT PRODUCT_TYPE FROM product WHERE product_verification = '1' ORDER BY PRODUCT_TYPE";
+$category_result = oci_parse($connection, $category_query);
+oci_execute($category_result);
+
+$categories = [];
+while ($row = oci_fetch_assoc($category_result)) {
+  $categories[] = $row['PRODUCT_TYPE'];
+}
+
+// Get unique traders from the database
+$trader_query = "SELECT DISTINCT t.NAME 
+                 FROM trader t 
+                 INNER JOIN shop s ON t.TRADER_ID = s.TRADER_ID 
+                 INNER JOIN product p ON s.SHOP_ID = p.SHOP_ID 
+                 WHERE p.PRODUCT_VERIFICATION = '1' 
+                 ORDER BY t.NAME";
+$trader_result = oci_parse($connection, $trader_query);
+oci_execute($trader_result);
+
+$traders = [];
+while ($row = oci_fetch_assoc($trader_result)) {
+  $traders[] = $row['NAME'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -178,14 +204,14 @@ include 'condition_checker/search_conditonal.php';
               </label>
               <select id="product_Category" name="product_Category" class="form-control mb-3">
                 <option value="">— All Categories —</option>
-                <?php foreach (['Bakery', 'Butcher', 'Greengrocery', 'Fishmonger', 'Delicatesssen'] as $cat): ?>
-                  <option value="<?= $cat ?>" <?= ($product_Category === $cat) ? 'selected' : '' ?>>
-                    <?= $cat ?>
+                <?php foreach ($categories as $cat): ?>
+                  <option value="<?= htmlspecialchars($cat) ?>" <?= ($product_Category === $cat) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($cat) ?>
                   </option>
                 <?php endforeach; ?>
               </select>
               <button type="submit" name="submit1" class="btn btn-success btn-block">
-                <i class="fas fa-filter mr-2"></i>Filter Category
+                <i class="fas fa-filter mr-2" style="background-color: #28a745; color: white;"></i>Filter Category
               </button>
             </form>
           </div>
@@ -198,14 +224,14 @@ include 'condition_checker/search_conditonal.php';
               </label>
               <select id="traders" name="traders" class="form-control mb-3">
                 <option value="">— All Traders —</option>
-                <?php foreach (['Jack Morris', 'Tim Hilton', 'Jimmy Chu', 'Kamala Harris', 'Tom Hardy'] as $tr): ?>
-                  <option value="<?= $tr ?>" <?= ($traders === $tr) ? 'selected' : '' ?>>
-                    <?= $tr ?>
+                <?php foreach ($traders as $tr): ?>
+                  <option value="<?= htmlspecialchars($tr) ?>" <?= (isset($_POST['traders']) && $_POST['traders'] === $tr) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($tr) ?>
                   </option>
                 <?php endforeach; ?>
               </select>
               <button type="submit" name="submit2" class="btn btn-success btn-block">
-                <i class="fas fa-filter mr-2"></i>Filter Trader
+                <i class="fas fa-filter mr-2" style="background-color: #28a745; color: white;"></i>Filter Trader
               </button>
             </form>
           </div>
@@ -221,7 +247,7 @@ include 'condition_checker/search_conditonal.php';
               placeholder="Search products..." value="<?= htmlspecialchars($search_Txt) ?>">
             <div class="input-group-append">
               <button class="btn btn-success" type="submit" name="submit_search">
-                <i class="fas fa-search mr-2"></i>Search
+                <i class="fas fa-search mr-2" style="background-color: #28a745; color: white;"></i>Search
               </button>
             </div>
           </div>
@@ -236,10 +262,10 @@ include 'condition_checker/search_conditonal.php';
             "<?= ucfirst(htmlspecialchars($search_Cat)) ?>"
           <?php elseif ($product_Category): ?>
             "<?= ucfirst(htmlspecialchars($product_Category)) ?>"
-          <?php elseif ($traders): ?>
-            "<?= ucfirst(htmlspecialchars($traders)) ?>"
+          <?php elseif (isset($_POST['traders']) && $_POST['traders']): ?>
+            "<?= ucfirst(htmlspecialchars($_POST['traders'])) ?>"
           <?php else: ?>
-            "<?= $search_Txt || $search_Cat || $product_Category || $traders ?>"
+            "<?= $search_Txt || $search_Cat || $product_Category || (isset($_POST['traders']) ? $_POST['traders'] : '') ?>"
           <?php endif; ?>
         </h4>
 
@@ -285,7 +311,6 @@ include 'condition_checker/search_conditonal.php';
                             class="btn btn-sm btn-success">
                             <i class="fas fa-eye mr-1"
                               style="background-color: #28a745; color: white;"></i>View
-
                           </a>
                         </td>
                       </tr>

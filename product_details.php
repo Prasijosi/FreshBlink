@@ -63,8 +63,8 @@ oci_execute($statement);
             <!-- Product Image -->
             <div class="col-lg-6 mb-4">
                 <div class="card border-0 shadow-sm">
-                    <img src="<?php echo $product_image; ?>" class="card-img-top p-4" 
-                         alt="<?php echo $product_name; ?>" style="object-fit: contain; height: 400px;">
+                    <img src="<?php echo $product_image; ?>" class="card-img-top p-4"
+                        alt="<?php echo $product_name; ?>" style="object-fit: contain; height: 400px;">
                 </div>
             </div>
 
@@ -73,7 +73,7 @@ oci_execute($statement);
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-body">
                         <h1 class="h2 mb-3"><?php echo $product_name; ?></h1>
-                        
+
                         <!-- Rating -->
                         <div class="mb-4">
                             <h5 class="text-muted mb-2">Customer Rating</h5>
@@ -93,13 +93,13 @@ oci_execute($statement);
                             <h5 class="text-muted mb-2">Seller Information</h5>
                             <p class="mb-2">
                                 <strong>Sold by:</strong>
-                                <a href="search_product.php?search_Cat=<?php echo $shop_name; ?>" 
-                                   class="text-success ml-2">
+                                <a href="search_product.php?search_Cat=<?php echo $shop_name; ?>"
+                                    class="text-success ml-2">
                                     <?php echo $shop_name; ?>
                                 </a>
                             </p>
-                            <a href="search_product.php?search_Cat=<?php echo $shop_name; ?>" 
-                               class="btn btn-outline-success btn-sm">
+                            <a href="search_product.php?search_Cat=<?php echo $shop_name; ?>"
+                                class="btn btn-outline-success btn-sm">
                                 View more from this seller
                             </a>
                         </div>
@@ -120,14 +120,14 @@ oci_execute($statement);
                                 <h5 class="text-muted mb-2">Quantity</h5>
                                 <div class="input-group" style="width: 150px;">
                                     <div class="input-group-prepend">
-                                        <button type="button" class="btn btn-outline-secondary" 
-                                                onclick="decrementQuantity()">-</button>
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            onclick="decrementQuantity()">-</button>
                                     </div>
-                                    <input type="number" name="quantity" id="quantity" value="1" min="1" 
-                                           max="<?php echo $stock; ?>" class="form-control text-center">
+                                    <input type="number" name="quantity" id="quantity" value="1" min="1"
+                                        max="<?php echo $stock; ?>" class="form-control text-center">
                                     <div class="input-group-append">
-                                        <button type="button" class="btn btn-outline-secondary" 
-                                                onclick="incrementQuantity()">+</button>
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            onclick="incrementQuantity()">+</button>
                                     </div>
                                 </div>
                             </div>
@@ -179,14 +179,14 @@ oci_execute($statement);
                     <p class="mb-0"><?php echo $review['DESCRIPTION']; ?></p>
                 </div>
             <?php endwhile; ?>
-            
+
             <?php if (oci_num_rows($statement) == 0): ?>
                 <p class="text-muted">No reviews yet. Be the first to review this product!</p>
             <?php endif; ?>
 
             <?php if (isset($_SESSION['username'])): ?>
-                <a href="review_product.php?product_id=<?php echo $product_id; ?>" 
-                   class="btn btn-outline-success">
+                <a href="review_product.php?product_id=<?php echo $product_id; ?>"
+                    class="btn btn-outline-success">
                     Write a Review
                 </a>
             <?php else: ?>
@@ -203,6 +203,7 @@ oci_execute($statement);
         border-radius: 15px;
         overflow: hidden;
     }
+
     .user-avatar {
         width: 40px;
         height: 40px;
@@ -210,20 +211,25 @@ oci_execute($statement);
         align-items: center;
         justify-content: center;
     }
+
     .rating .fa-star {
         font-size: 1rem;
     }
+
     .review-item:last-child {
         border-bottom: none !important;
         margin-bottom: 0 !important;
         padding-bottom: 0 !important;
     }
+
     .input-group .btn {
         padding: 0.375rem 1rem;
     }
+
     .input-group input[type="number"] {
         -moz-appearance: textfield;
     }
+
     .input-group input[type="number"]::-webkit-outer-spin-button,
     .input-group input[type="number"]::-webkit-inner-spin-button {
         -webkit-appearance: none;
@@ -232,22 +238,22 @@ oci_execute($statement);
 </style>
 
 <script>
-function incrementQuantity() {
-    var input = document.getElementById('quantity');
-    var max = parseInt(input.getAttribute('max'));
-    var value = parseInt(input.value);
-    if (value < max) {
-        input.value = value + 1;
+    function incrementQuantity() {
+        var input = document.getElementById('quantity');
+        var max = parseInt(input.getAttribute('max'));
+        var value = parseInt(input.value);
+        if (value < max) {
+            input.value = value + 1;
+        }
     }
-}
 
-function decrementQuantity() {
-    var input = document.getElementById('quantity');
-    var value = parseInt(input.value);
-    if (value > 1) {
-        input.value = value - 1;
+    function decrementQuantity() {
+        var input = document.getElementById('quantity');
+        var value = parseInt(input.value);
+        if (value > 1) {
+            input.value = value - 1;
+        }
     }
-}
 </script>
 
 <?php include 'footer.php'; ?>
@@ -255,4 +261,4 @@ function decrementQuantity() {
 <?php
 include 'end.php';
 ob_end_flush();
-?>
+?>?>

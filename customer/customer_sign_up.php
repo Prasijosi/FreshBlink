@@ -11,13 +11,13 @@ if (isset($_POST['submit'])) {
     // Validate required fields
     $required_fields = ['uname', 'fname', 'email', 'password', 'repassword', 'address', 'gender', 'dob'];
     $missing_fields = [];
-    
+
     foreach ($required_fields as $field) {
         if (empty($_POST[$field])) {
             $missing_fields[] = $field;
         }
     }
-    
+
     if (!empty($missing_fields)) {
         $_SESSION['error'] = "Please fill up all required fields: " . implode(', ', $missing_fields);
         header('Location: ../sign_up_customer.php?' . http_build_query($_POST));
@@ -68,13 +68,13 @@ if (isset($_POST['submit'])) {
     $check_stmt = oci_parse($connection, $check_sql);
     oci_bind_by_name($check_stmt, ':uname', $_POST['uname']);
     oci_bind_by_name($check_stmt, ':email', $email);
-    
+
     if (!oci_execute($check_stmt)) {
         $_SESSION['error'] = "Database error occurred.";
         header('Location: ../sign_up_customer.php');
         exit;
     }
-    
+
     $row = oci_fetch_array($check_stmt, OCI_NUM);
     if ($row[0] > 0) {
         $_SESSION['error'] = "Username or email already exists.";
@@ -85,7 +85,7 @@ if (isset($_POST['submit'])) {
     // Prepare SQL with parameter binding
     $sql = "INSERT INTO customer (Username, Full_Name, Email, Password, Address, Contact_number, Sex, Date_Of_Birth, Email_Verify) 
             VALUES (:uname, :fname, :email, :password, :address, :phone, :gender, :dob, :verify_code)";
-    
+
     $stmt = oci_parse($connection, $sql);
     oci_bind_by_name($stmt, ':uname', $_POST['uname']);
     oci_bind_by_name($stmt, ':fname', $_POST['fname']);
@@ -100,13 +100,13 @@ if (isset($_POST['submit'])) {
     if (oci_execute($stmt)) {
         $_SESSION['username'] = $_POST['uname'];
         $_SESSION['verify_code'] = $random_number;
-        
+
         // Send verification email
         $to = $email;
         $subject = 'Verification Code';
         $message = 'Your 6-Digit OTP Verification Code is: ' . $random_number;
         $headers = "From: josiprasi@gmail.com\r\nReply-To: josiprasi@gmail.com";
-        
+
         include '../sendmail.php';
         $result = sendEmail(
             $to,
@@ -115,7 +115,7 @@ if (isset($_POST['submit'])) {
             $message,
             ""
         );
-        
+
         if ($result === true) {
             unset($_SESSION['username']);
             echo "<script>alert('Check your Email for 6-Digit OTP Code');</script>";

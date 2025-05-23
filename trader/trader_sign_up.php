@@ -7,13 +7,13 @@ if (isset($_POST['submit'])) {
     // Validate required fields
     $required_fields = ['uname', 'fname', 'email', 'password', 'repassword', 'shopname', 'what'];
     $missing_fields = [];
-    
+
     foreach ($required_fields as $field) {
         if (empty($_POST[$field])) {
             $missing_fields[] = $field;
         }
     }
-    
+
     if (!empty($missing_fields)) {
         $_SESSION['error'] = "Please fill up all required fields: " . implode(', ', $missing_fields);
         header('Location: sign_up_trader.php?' . http_build_query($_POST));
@@ -65,16 +65,16 @@ if (isset($_POST['submit'])) {
     $check_stmt = oci_parse($connection, $check_sql);
     oci_bind_by_name($check_stmt, ':uname', $_POST['uname']);
     oci_bind_by_name($check_stmt, ':email', $email);
-    
+
     if (!oci_execute($check_stmt)) {
         $e = oci_error($check_stmt);
         $_SESSION['error'] = "Database error: " . $e['message'];
         header('Location: sign_up_trader.php');
         exit;
     }
-    
+
     $row = oci_fetch_array($check_stmt, OCI_NUM);
-    
+
     if ($row[0] > 0) {
         $_SESSION['error'] = "Username or email already exists.";
         header('Location: sign_up_trader.php?' . http_build_query($_POST));
@@ -91,7 +91,7 @@ if (isset($_POST['submit'])) {
         $trader_sql = "INSERT INTO trader (Name, Username, Password, Email, Trader_Verification) 
                       VALUES (:fname, :uname, :password, :email, 0)
                       RETURNING Trader_ID INTO :trader_id";
-        
+
         $trader_stmt = oci_parse($connection, $trader_sql);
         oci_bind_by_name($trader_stmt, ':fname', $_POST['fname']);
         oci_bind_by_name($trader_stmt, ':uname', $_POST['uname']);
@@ -105,12 +105,12 @@ if (isset($_POST['submit'])) {
         // Insert shop
         $shop_sql = "INSERT INTO shop (Shop_Name, Shop_description, Shop_location, Trader_id, Shop_Verification) 
                     VALUES (:shopname, :what, 'Cleckhuddersfax', :trader_id, 0)";
-        
+
         $shop_stmt = oci_parse($connection, $shop_sql);
         oci_bind_by_name($shop_stmt, ':shopname', $_POST['shopname']);
         oci_bind_by_name($shop_stmt, ':what', $_POST['what']);
         oci_bind_by_name($shop_stmt, ':trader_id', $trader_id);
-        
+
         if (!oci_execute($shop_stmt)) {
             throw new Exception("Failed to register shop.");
         }

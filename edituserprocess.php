@@ -13,7 +13,7 @@ if (isset($_POST['update'])) {
     $gender = $_POST['gender'];
     $dob = $_POST['dob'];
 
-    if (!empty($uname) && !empty($fname) && !empty($email) && !empty($address)  && !empty($gender) && !empty($dob)) {
+    if (!empty($uname) && !empty($fname) && !empty($email) && !empty($address) && !empty($gender) && !empty($dob)) {
 
         $sql = "UPDATE customer SET Username = '$uname', Full_Name='$fname', Email = '$email', Address='$address', 
         Contact_number='$phone', Sex = '$gender', Date_Of_Birth = '$dob' where Customer_ID = $cid";
@@ -23,23 +23,23 @@ if (isset($_POST['update'])) {
 
         if ($qry) {
 
-            
+
             unset($_SESSION['username']);
             unset($_SESSION['email']);
 
 
             include('connection.php');
-     
-			$sql = "SELECT * FROM customer where  Customer_ID=$cid";
-			$qry84 = oci_parse($connection, $sql);
-			oci_execute($qry84);
-	
-			while ($r = oci_fetch_array($qry84)) {
+
+            $sql = "SELECT * FROM customer where  Customer_ID=$cid";
+            $qry84 = oci_parse($connection, $sql);
+            oci_execute($qry84);
+
+            while ($r = oci_fetch_array($qry84)) {
                 $_SESSION['username'] = $r['USERNAME'];
-                $_SESSION['email']=$r['EMAIL'];
-	
-			}
-           
+                $_SESSION['email'] = $r['EMAIL'];
+
+            }
+
 
             header("Location:customer_profile.php?msg=$uname Account Details Updated Successfully");
             //echo "updated";

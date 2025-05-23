@@ -3,7 +3,7 @@ session_start();
 if (isset($_POST['submit'])) {
     $email = trim($_POST['email']);
     $pincode = trim($_POST['pincode']);
-    
+
     if (empty($email) || empty($pincode)) {
         header('Location:../customer_email_verify.php?msg=Please fill in all fields');
         exit();
@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
     $check_stmt = oci_parse($connection, $check_sql);
     oci_bind_by_name($check_stmt, ':email', $email);
     oci_execute($check_stmt);
-    
+
     if (oci_fetch($check_stmt)) {
         // Email exists, now verify the pin
         $verify_sql = "SELECT * FROM customer WHERE Email = :email AND Email_Verify = :pincode";
@@ -31,7 +31,7 @@ if (isset($_POST['submit'])) {
             $update_stmt = oci_parse($connection, $update_sql);
             oci_bind_by_name($update_stmt, ':email', $email);
             oci_bind_by_name($update_stmt, ':pincode', $pincode);
-            
+
             if (oci_execute($update_stmt)) {
                 header('Location:../sign_in_customer.php?message=Email Successfully Verified');
                 exit();

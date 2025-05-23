@@ -35,7 +35,7 @@ if (isset($_GET['PayerID'])) {
 }
 
 if (!isset($_SESSION['username'])) {
-	header('Location:sign_in_customer.php');
+    header('Location:sign_in_customer.php');
 }
 /*
 if(isset($_POST['radio1'])  ){   //this is for while inserting in payment table just testing
@@ -54,19 +54,12 @@ if(isset($_POST['radio1'])  ){   //this is for while inserting in payment table 
 foreach ($_SESSION['collectionslot'] as $key => $value) {
 
 
-	$taskoption = $value['task_option'];
-	$timeoption = $value['time_option'];
+    $taskoption = $value['task_option'];
+    $timeoption = $value['time_option'];
 }
 
 
-
-
-
-
-
 include "connection.php";
-
-
 
 
 $un = $_SESSION['username'];
@@ -79,160 +72,140 @@ oci_execute($result1);
 
 while ($row = oci_fetch_array($result1)) {
 
-	$cid = $row['CUSTOMER_ID'];
-	//echo $cid . " ";
+    $cid = $row['CUSTOMER_ID'];
+    //echo $cid . " ";
 
-	$sql8 = " SELECT MAX(Order_Id) as Order_Id FROM orders";
-	$result8 = oci_parse($connection, $sql8);
-	oci_execute($result8);
+    $sql8 = " SELECT MAX(Order_Id) as Order_Id FROM orders";
+    $result8 = oci_parse($connection, $sql8);
+    oci_execute($result8);
 
-	while ($row = oci_fetch_array($result8)) {
-		$maxid = $row['ORDER_ID'];
-	}
+    while ($row = oci_fetch_array($result8)) {
+        $maxid = $row['ORDER_ID'];
+    }
 
-	$sql = " SELECT * FROM cart WHERE Customer_Id = '$cid'";
-	$result = oci_parse($connection, $sql);
-	oci_execute($result);
-
-
-	while ($row = oci_fetch_array($result)) {
-
-		$ctid = $row['CART_ID'];
-		$pid = $row['PRODUCT_ID'];
-		$quantity = $row['TOTAL_PRICE'];
-		//echo "Cart ID " . $ctid . " ";
-		//echo "Payer ID " .$payerid."";
+    $sql = " SELECT * FROM cart WHERE Customer_Id = '$cid'";
+    $result = oci_parse($connection, $sql);
+    oci_execute($result);
 
 
-		$sql2 = " SELECT Product_Price, Stock FROM product WHERE Product_Id = '$pid'";
-		$result2 = oci_parse($connection, $sql2);
-		oci_execute($result2);
+    while ($row = oci_fetch_array($result)) {
 
-		while ($row = oci_fetch_array($result2)) {
-			$productprice = $row['PRODUCT_PRICE'];
-			$stock = $row['STOCK'];
-			//echo "Product Price " . $productprice . " ";
-
-			$gt = $quantity * $productprice;
-
-			$sql3 = "INSERT INTO orders(Order_Date, Quantity, Order_price, Customer_Id, Product_Id, Delivery_Status) VALUES (SYSDATE,'$quantity','$gt','$cid','$pid','0')";
-
-			$result3 = oci_parse($connection, $sql3);
-			oci_execute($result3);
-
-			if ($result3) {
-				unset($_SESSION['cart']);
-
-				$remquantity = $stock - $quantity;
-				$sql6 = "UPDATE product SET Stock='$remquantity' WHERE Product_Id='$pid'";
-				$result6 = oci_parse($connection, $sql6);
-				oci_execute($result6);
-				if ($result6) {
-
-					$sql4 = "SELECT Cart_Id FROM cart WHERE Customer_Id='$cid'";
-					$result4 = oci_parse($connection, $sql4);
-					oci_execute($result4);
-
-					while ($row = oci_fetch_array($result4)) {
-
-						$cartid = $row['CART_ID'];
-
-						$sql5 = " delete from cart where Cart_Id='$cartid' ";
-						$result5 = oci_parse($connection, $sql5);
-						oci_execute($result5);
-					}
-				}
+        $ctid = $row['CART_ID'];
+        $pid = $row['PRODUCT_ID'];
+        $quantity = $row['TOTAL_PRICE'];
+        //echo "Cart ID " . $ctid . " ";
+        //echo "Payer ID " .$payerid."";
 
 
+        $sql2 = " SELECT Product_Price, Stock FROM product WHERE Product_Id = '$pid'";
+        $result2 = oci_parse($connection, $sql2);
+        oci_execute($result2);
+
+        while ($row = oci_fetch_array($result2)) {
+            $productprice = $row['PRODUCT_PRICE'];
+            $stock = $row['STOCK'];
+            //echo "Product Price " . $productprice . " ";
+
+            $gt = $quantity * $productprice;
+
+            $sql3 = "INSERT INTO orders(Order_Date, Quantity, Order_price, Customer_Id, Product_Id, Delivery_Status) VALUES (SYSDATE,'$quantity','$gt','$cid','$pid','0')";
+
+            $result3 = oci_parse($connection, $sql3);
+            oci_execute($result3);
+
+            if ($result3) {
+                unset($_SESSION['cart']);
+
+                $remquantity = $stock - $quantity;
+                $sql6 = "UPDATE product SET Stock='$remquantity' WHERE Product_Id='$pid'";
+                $result6 = oci_parse($connection, $sql6);
+                oci_execute($result6);
+                if ($result6) {
+
+                    $sql4 = "SELECT Cart_Id FROM cart WHERE Customer_Id='$cid'";
+                    $result4 = oci_parse($connection, $sql4);
+                    oci_execute($result4);
+
+                    while ($row = oci_fetch_array($result4)) {
+
+                        $cartid = $row['CART_ID'];
+
+                        $sql5 = " delete from cart where Cart_Id='$cartid' ";
+                        $result5 = oci_parse($connection, $sql5);
+                        oci_execute($result5);
+                    }
+                }
 
 
-
-			
-			} else {
-				echo " <script>
+            } else {
+                echo " <script>
 								alert('Order Not Placed');
 								//window.location.href='checkout.php';
 								</script>";
-			}
-		} //
+            }
+        } //
 
 
+    }
 
-	}
+    $sql7 = "SELECT * FROM orders WHERE Delivery_Status=0 AND Customer_Id='$cid' AND Order_Date=SYSDATE AND Order_Id>'$maxid'";
+    $result7 = oci_parse($connection, $sql7);
+    oci_execute($result7);
 
-	$sql7 = "SELECT * FROM orders WHERE Delivery_Status=0 AND Customer_Id='$cid' AND Order_Date=SYSDATE AND Order_Id>'$maxid'";
-	$result7 = oci_parse($connection, $sql7);
-	oci_execute($result7);
+    while ($row = oci_fetch_assoc($result7)) {
+        $oid = $row['ORDER_ID'];
+        $oprice = $row['ORDER_PRICE'];
 
-	while ($row = oci_fetch_assoc($result7)) {
-		$oid = $row['ORDER_ID'];
-		$oprice = $row['ORDER_PRICE'];
+        $sql10 = "INSERT INTO time_slot(Time_Slot_Date, Time_Slot_Time, Order_Id, Customer_Id) VALUES ('$taskoption','$timeoption','$oid','$cid')";
+        $result10 = oci_parse($connection, $sql10);
+        oci_execute($result10);
 
-		$sql10 = "INSERT INTO time_slot(Time_Slot_Date, Time_Slot_Time, Order_Id, Customer_Id) VALUES ('$taskoption','$timeoption','$oid','$cid')";
-		$result10 = oci_parse($connection, $sql10);
-		oci_execute($result10);
-
-		$sql11 = "INSERT INTO payment(Payment_Id, Payment_type, Total_Payment, Customer_Id, Order_Id) VALUES ('$payerid','Paypal','$oprice','$cid','$oid')";
-		$result11 = oci_parse($connection, $sql11);
-		oci_execute($result11);
-	}
+        $sql11 = "INSERT INTO payment(Payment_Id, Payment_type, Total_Payment, Customer_Id, Order_Id) VALUES ('$payerid','Paypal','$oprice','$cid','$oid')";
+        $result11 = oci_parse($connection, $sql11);
+        oci_execute($result11);
+    }
 }
 
 include "connection.php";
-$sql15="SELECT * FROM orders INNER JOIN customer on 
+$sql15 = "SELECT * FROM orders INNER JOIN customer on 
 orders.Customer_Id=customer.Customer_ID INNER join product on orders.Product_Id=product.Product_Id INNER JOIN shop on product.Shop_Id=shop.Shop_Id INNER JOIN trader on trader.Trader_Id=shop.Trader_id  AND orders.Customer_Id='$cid' AND orders.Delivery_Status=0  AND Order_Id>$maxid";
-$qry15=oci_parse($connection,$sql15);
+$qry15 = oci_parse($connection, $sql15);
 oci_execute($qry15);
-$s=0;
-$gt1=0;
+$s = 0;
+$gt1 = 0;
 
 $count = oci_fetch_all($qry15, $connection);
-						oci_execute($qry15);
+oci_execute($qry15);
 
-						if($count>0){
-
-						
+if ($count > 0) {
 
 
+    while ($row = oci_fetch_assoc($qry15)) {
+        include "connection.php";
+        $oid = $row['ORDER_ID'];
+        $cname1 = $row['FULL_NAME'];
+        $address1 = $row['ADDRESS'];
+        $email1 = $row['EMAIL'];
+        $odate1 = $row['ORDER_DATE'];
 
-	
+        $oprice1 = $row['ORDER_PRICE'];
+        $gt1 = $oprice1 + $gt1;
+
+        $tname = $row['NAME'];
+        $sname = $row['SHOP_NAME'];
+        $taddress = $row['SHOP_LOCATION'];
 
 
-	
-           
+    }
 
-
-            while($row=oci_fetch_assoc($qry15)){
-				include "connection.php";
-                $oid=$row['ORDER_ID'];
-                $cname1=$row['FULL_NAME'];
-                $address1=$row['ADDRESS'];
-                $email1=$row['EMAIL'];
-                $odate1=$row['ORDER_DATE'];
-    
-                $oprice1=$row['ORDER_PRICE'];
-                $gt1=$oprice1+$gt1;
-
-				$tname=$row['NAME'];
-				$sname=$row['SHOP_NAME'];
-				$taddress=$row['SHOP_LOCATION'];
-
-				
-
-            }
-		
-			include "connection.php";
-            $sql20="SELECT * FROM orders INNER JOIN customer on 
+    include "connection.php";
+    $sql20 = "SELECT * FROM orders INNER JOIN customer on 
 			orders.Customer_Id=customer.Customer_ID INNER join product on orders.Product_Id=product.Product_Id  AND orders.Customer_Id='$cid' AND orders.Delivery_Status=0  AND Order_Id>$maxid";
-			$qry20=oci_parse($connection,$sql20);
-			oci_execute($qry20);
+    $qry20 = oci_parse($connection, $sql20);
+    oci_execute($qry20);
 
 
-
-
-
-			
-$message = '
+    $message = '
 
 <html>
 
@@ -267,17 +240,17 @@ $message = '
 
                 <div style="float: right; ">   
                 
-                <P>Invoice NO: '.$payerid.'</P>
-                <P>Invoice Date: '.$odate1.'</P>
+                <P>Invoice NO: ' . $payerid . '</P>
+                <P>Invoice Date: ' . $odate1 . '</P>
               
-                <P>Order Date: '.$odate1.'</P>
+                <P>Order Date: ' . $odate1 . '</P>
               
                 </div>
                 
                 <div style="display: block; ">                
                 <P>Bill To: </P>
-                <P>Customer Name: '.$cname1.'</P>
-                <P>Customer Address: '.$address1.'</P>
+                <P>Customer Name: ' . $cname1 . '</P>
+                <P>Customer Address: ' . $address1 . '</P>
                 
                
                 </div>
@@ -287,10 +260,10 @@ $message = '
 							<br>
 			<div style="display: block; ">                
 			<P>Sold By: </P>
-			<P>Trader Name: '.$tname.'</P>
-			<P>Shop Name: '.$sname.'</P>
-			<P>Address: '.$taddress.'</P>
-			<P>Seller Email: '.$email1.'</P>
+			<P>Trader Name: ' . $tname . '</P>
+			<P>Shop Name: ' . $sname . '</P>
+			<P>Address: ' . $taddress . '</P>
+			<P>Seller Email: ' . $email1 . '</P>
 			</div>
 
 						<br>
@@ -317,41 +290,38 @@ $message = '
 		  <th>Total Price</th>
 		</tr>';
 
-					
+
+    include 'connection.php';
 
 
-			include 'connection.php';
+    while ($row = oci_fetch_assoc($qry20)) {
+        include 'connection.php';
+        $s = $s + 1;
+        $cname2 = $row['FULL_NAME'];
 
-			
-		  while($row=oci_fetch_assoc($qry20)){
-			include 'connection.php';
-			  $s=$s+1;
-			  $cname2=$row['FULL_NAME'];
 
-			  
-		  $message .='
+        $message .= '
 		  <tr>
-		  <td>'.$s.'</td>
-		  <td>'.$row['PRODUCT_ID'].'</td>
-		  <td>'.$row['PRODUCT_NAME'].'</td>
-		  <td>'.$row['PRODUCT_DETAILS'].'</td>
-		  <td>'.$row['QUANTITY'].'</td>
-		  <td>'.$row['PRODUCT_PRICE'].'</td>
+		  <td>' . $s . '</td>
+		  <td>' . $row['PRODUCT_ID'] . '</td>
+		  <td>' . $row['PRODUCT_NAME'] . '</td>
+		  <td>' . $row['PRODUCT_DETAILS'] . '</td>
+		  <td>' . $row['QUANTITY'] . '</td>
+		  <td>' . $row['PRODUCT_PRICE'] . '</td>
 		  <td>0</td>
-		  <td>'.$row['ORDER_PRICE'].'</td>
+		  <td>' . $row['ORDER_PRICE'] . '</td>
 		  
 		  
 		  </tr>';
-}
+    }
 
 
-	  
-$message .=' 
+    $message .= ' 
 
 <tr>
 <td  colspan="6" ></td>
 <td   >Total: </td>
-<td   >'.$gt1.'</td>
+<td   >' . $gt1 . '</td>
   </tr>
 </table>
 </div>
@@ -362,84 +332,80 @@ $message .='
 </html>
 ';
 
-}
-
-
-else{
-	echo "order number must be greater than 0";
+} else {
+    echo "order number must be greater than 0";
 
 
 }
 
 include 'sendmail.php';
 
-if($gt>0){
-	$result = sendEmail(
-		$to_email,
-		'',
-		$subject,
-		$message,
-		""
-	);
-	
-	if ($result === true) {
-		echo "✅ Email sent successfully.";
-	} else {
-		echo $result; // Displays the error message
-	}
-}
-else{
-	// header('Location:index.php');
-	//echo "Plz order";
+if ($gt > 0) {
+    $result = sendEmail(
+        $to_email,
+        '',
+        $subject,
+        $message,
+        ""
+    );
+
+    if ($result === true) {
+        echo "✅ Email sent successfully.";
+    } else {
+        echo $result; // Displays the error message
+    }
+} else {
+    // header('Location:index.php');
+    //echo "Plz order";
 }
 
 
 ?>
-	<?php include 'header.php' ?>
+<?php include 'header.php' ?>
 
-<div class="container mb-5">
-	<div class="row text-center mt-5" style="border: 0.1vw solid black;">
-		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-			<div class="h1 mt-5">Thank You !</div>
-		</div>
-		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-			<div class="h3">Your order was completed successfully.</div>
-		</div>
-		<div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3">
-			<?php
+  <div class="container mb-5">
+    <div class="row text-center mt-5" style="border: 0.1vw solid black;">
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="h1 mt-5">Thank You !</div>
+      </div>
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="h3">Your order was completed successfully.</div>
+      </div>
+      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-3">
+          <?php
 
-			include('connection.php');
-			$un = $_SESSION['username'];
-			$sql1 = " SELECT Customer_ID FROM customer WHERE Username = '$un'";
-
-
-			$result1 = oci_parse($connection, $sql1);
-			oci_execute($result1);
-
-			while ($row = oci_fetch_array($result1)) {
-
-				$cid = $row['CUSTOMER_ID'];
-
-				$sql7 = "SELECT Order_Id FROM orders WHERE Customer_Id= '$cid' and Delivery_Status!=1";
-				$result7 = oci_parse($connection, $sql7);
-				oci_execute($result7);
-
-				while ($row = oci_fetch_array($result7)) {
-
-					$orderid = $row['ORDER_ID'];
-
-					//echo "<div class='h4'>Your order number is $orderid </div>";
-				}
-			}
-			?>
+          include('connection.php');
+          $un = $_SESSION['username'];
+          $sql1 = " SELECT Customer_ID FROM customer WHERE Username = '$un'";
 
 
-		</div>
+          $result1 = oci_parse($connection, $sql1);
+          oci_execute($result1);
 
-		<?php
-		if (isset($_GET['PayerID'])) {
-			$payerid = $_GET['PayerID'];
-			echo " 
+          while ($row = oci_fetch_array($result1)) {
+
+              $cid = $row['CUSTOMER_ID'];
+
+              $sql7 = "SELECT Order_Id FROM orders WHERE Customer_Id= '$cid' and Delivery_Status!=1";
+              $result7 = oci_parse($connection, $sql7);
+              oci_execute($result7);
+
+              while ($row = oci_fetch_array($result7)) {
+
+                  $orderid = $row['ORDER_ID'];
+
+                  //echo "<div class='h4'>Your order number is $orderid </div>";
+              }
+          }
+          ?>
+
+
+      </div>
+
+        <?php
+        if (isset($_GET['PayerID'])) {
+            $payerid = $_GET['PayerID'];
+            echo " 
 				<div class='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
 				<div class='h4'>Your Payment ID is  $payerid   </div>
 					<div class='h5'>You can pickup your order  $taskoption</div>
@@ -455,13 +421,13 @@ else{
 					</div>
 				</div>
 				";
-		} else {
-			echo "There was some issue while checking out";
-		}
+        } else {
+            echo "There was some issue while checking out";
+        }
 
-		?>
+        ?>
 
-	</div>
-</div>
+    </div>
+  </div>
 <?php include 'footer.php';
 include 'end.php'; ?>

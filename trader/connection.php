@@ -5,5 +5,5 @@ if (!$connection) {
     $m = oci_error();
     echo $m['message'], "\n";
     exit;
-} 
+}
 ?>

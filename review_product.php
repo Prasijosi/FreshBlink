@@ -57,66 +57,69 @@ if (isset($_GET['product_id'])) {
         cursor: pointer;
         color: #ddd;
     }
+
     .star-rating .fa-star.checked {
         color: #f0ad4e;
     }
 </style>
 
 <?php if (!$is_authenticated): ?>
-<div class="container review-container py-5">
+  <div class="container review-container py-5">
     <h3 class="text-center mb-4">Review Product: <?php echo htmlspecialchars($product_name); ?></h3>
     <div class="text-center mb-4">
-        <img src="<?php echo htmlspecialchars($product_image); ?>" class="img-fluid" style="max-height: 200px;">
+      <img src="<?php echo htmlspecialchars($product_image); ?>" class="img-fluid" style="max-height: 200px;">
     </div>
 
     <form method="POST">
-        <div class="mb-4 text-center star-rating">
-            <input type="hidden" name="rating" id="rating-value" value="1">
-            <?php for ($i = 1; $i <= 5; $i++): ?>
-                <i class="fa fa-star" data-index="<?= $i ?>"></i>
-            <?php endfor; ?>
-        </div>
+      <div class="mb-4 text-center star-rating">
+        <input type="hidden" name="rating" id="rating-value" value="1">
+          <?php for ($i = 1; $i <= 5; $i++): ?>
+            <i class="fa fa-star" data-index="<?= $i ?>"></i>
+          <?php endfor; ?>
+      </div>
 
-        <div class="mb-4 text-center">
-            <textarea name="description" class="form-control w-75 mx-auto" placeholder="Write your review here..." rows="5" required></textarea>
-        </div>
+      <div class="mb-4 text-center">
+        <textarea name="description" class="form-control w-75 mx-auto" placeholder="Write your review here..." rows="5"
+                  required></textarea>
+      </div>
 
-        <div class="text-center">
-            <button type="submit" name="review" class="btn btn-success px-4">Submit Review</button>
-        </div>
+      <div class="text-center">
+        <button type="submit" name="review" class="btn btn-success px-4">Submit Review</button>
+      </div>
     </form>
-</div>
+  </div>
 <?php else: ?>
-<div class="container py-5 text-center">
+  <div class="container py-5 text-center">
     <div class="alert alert-info">
-        <h4 style="background-color: transparent;">Please <a href="sign_in_customer.php" class="alert-link">sign in</a> to leave a review</h4>
-        <p style="background-color: transparent;">You must be logged in to submit a product review.</p>
+      <h4 style="background-color: transparent;">Please <a href="sign_in_customer.php" class="alert-link">sign in</a> to
+        leave a review</h4>
+      <p style="background-color: transparent;">You must be logged in to submit a product review.</p>
     </div>
-</div>
+  </div>
 <?php endif; ?>
 
 <?php include 'end.php'; ?>
 
 <script>
-    const stars = document.querySelectorAll('.fa-star');
-    const ratingInput = document.getElementById('rating-value');
-    let currentRating = 1;
+  const stars = document.querySelectorAll(".fa-star");
+  const ratingInput = document.getElementById("rating-value");
+  let currentRating = 1;
 
-    stars.forEach((star, index) => {
-        star.addEventListener('click', () => {
-            currentRating = index + 1;
-            ratingInput.value = currentRating;
-            highlightStars(currentRating);
-        });
-        star.addEventListener('mouseover', () => highlightStars(index + 1));
-        star.addEventListener('mouseout', () => highlightStars(currentRating));
+  stars.forEach((star, index) => {
+    star.addEventListener("click", () => {
+      currentRating = index + 1;
+      ratingInput.value = currentRating;
+      highlightStars(currentRating);
     });
+    star.addEventListener("mouseover", () => highlightStars(index + 1));
+    star.addEventListener("mouseout", () => highlightStars(currentRating));
+  });
 
-    function highlightStars(count) {
-        stars.forEach((star, idx) => {
-            star.classList.toggle('checked', idx < count);
-        });
-    }
+  function highlightStars(count) {
+    stars.forEach((star, idx) => {
+      star.classList.toggle("checked", idx < count);
+    });
+  }
 
-    highlightStars(1);
+  highlightStars(1);
 </script>

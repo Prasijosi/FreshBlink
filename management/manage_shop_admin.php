@@ -36,7 +36,6 @@ if (isset($_POST['submit']) && isset($_POST['sid'])) {
             include 'connection.php';
 
 
-
             $sql5 = "UPDATE trader SET TRADER_VERIFICATION='1', Status='approved' where TRADER_ID=$tid";
             $qry5 = oci_parse($connection, $sql5);
             oci_execute($qry5);
@@ -113,15 +112,8 @@ if (isset($_POST['submit']) && isset($_POST['sid'])) {
         }
 
 
-
-
-
-
-
-
         header('Location:managementseler.php?msg=Shop Approved');
     } else {
-
 
 
         header('Location:managementseler.php?msg=Query Not Running');
@@ -220,8 +212,6 @@ if (isset($_POST['submit']) && isset($_POST['sid'])) {
             }
         }
     }
-
-
 
 
     if ($qry8) {

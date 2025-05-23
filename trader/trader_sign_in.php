@@ -41,7 +41,7 @@ if (isset($_POST['submit'])) {
             $qry = oci_parse($connection, $sql);
             oci_execute($qry);
             $count = oci_fetch_all($qry, $connection);
-            
+
             if ($count == 1) {
                 header('Location:sign_in_trader.php?msg=Your account is pending approval. Please wait for admin verification.');
             } else {

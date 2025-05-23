@@ -68,15 +68,14 @@ if (isset($_POST['submit_search'])) {
     }
     oci_free_statement($stmt);
 
-}
-// Category filter
+} // Category filter
 elseif (isset($_POST['submit1']) && !empty($product_Category)) {
     $query = "SELECT * FROM product WHERE Product_Type LIKE :category AND product_verification = '1'";
     $stmt = oci_parse($connection, $query);
     $category_param = '%' . $product_Category . '%';
     oci_bind_by_name($stmt, ':category', $category_param);
     oci_execute($stmt);
-    
+
     while ($row = oci_fetch_assoc($stmt)) {
         $products[] = [
             'id' => $row['PRODUCT_ID'],
@@ -90,8 +89,7 @@ elseif (isset($_POST['submit1']) && !empty($product_Category)) {
         ];
     }
     oci_free_statement($stmt);
-}
-// Traders filter
+} // Traders filter
 elseif (isset($_POST['submit2']) && !empty($traders)) {
     $query = "SELECT p.* 
               FROM trader t
@@ -100,12 +98,12 @@ elseif (isset($_POST['submit2']) && !empty($traders)) {
               WHERE t.Name LIKE :trader_name 
               AND t.trader_verification = '1' 
               AND p.product_verification = '1'";
-    
+
     $stmt = oci_parse($connection, $query);
     $trader_param = '%' . $traders . '%';
     oci_bind_by_name($stmt, ':trader_name', $trader_param);
     oci_execute($stmt);
-    
+
     while ($row = oci_fetch_assoc($stmt)) {
         $products[] = [
             'id' => $row['PRODUCT_ID'],
@@ -119,8 +117,7 @@ elseif (isset($_POST['submit2']) && !empty($traders)) {
         ];
     }
     oci_free_statement($stmt);
-}
-// Default case
+} // Default case
 else {
     $products = [];
 }

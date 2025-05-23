@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
 
             while ($row = oci_fetch_array($qry)) {
                 $_SESSION['username'] = $row['USERNAME'];
-                $_SESSION['email']=$row['EMAIL'];
+                $_SESSION['email'] = $row['EMAIL'];
                 $_SESSION['customer_id'] = $row['CUSTOMER_ID'];
                 $_SESSION['profile_picture'] = $row['PROFILE_IMAGE'];
                 header('Location:../index.php');

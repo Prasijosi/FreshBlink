@@ -2,35 +2,31 @@
 session_start();
 
 
-
 if (isset($_GET['d'])) {
     unset($_SESSION['cart']);
-   
-    $cid= $_SESSION['customer_id'];
+
+    $cid = $_SESSION['customer_id'];
     include('connection.php');
-   $sql = "DELETE FROM CART WHERE customer_id=$cid";
+    $sql = "DELETE FROM CART WHERE customer_id=$cid";
 
-  
 
-   $qry = oci_parse($connection, $sql);
-   oci_execute($qry);
+    $qry = oci_parse($connection, $sql);
+    oci_execute($qry);
 
-   if($qry){
-    echo " <script>
+    if ($qry) {
+        echo " <script>
     alert('Cart Cleared');
     window.location.href='index.php';
     </script>";
-   }
-   else{
-    echo " <script>
+    } else {
+        echo " <script>
     alert('Error in qry while clearing all cart');
     window.location.href='index.php';
     </script>";
-   }
+    }
 
 
 }
-
 
 
 if (isset($_POST['clear_cart'])) {
@@ -40,10 +36,6 @@ if (isset($_POST['clear_cart'])) {
     window.location.href='index.php';
     </script>";
 }
-
-
-
-
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -59,8 +51,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 window.location.href='product_details.php?product_id=1001';
                 </script>";
             } else {
-
-
 
 
                 $count = count($_SESSION['cart']); //if there is already a cart then count it
@@ -115,68 +105,58 @@ if (isset($_GET['value'])) {  //for removing item
     foreach ($_SESSION['cart'] as $key => $value) {  //from here we get index value of array  , only key then whole data aaray shows if value added then index
         //print_r($key) ;
         if ($value['item_name'] == $_GET['value']) {
-              $productname=$value['item_name'];
-              
+            $productname = $value['item_name'];
+
             unset($_SESSION['cart'][$key]); //for removing that index cart item
 
             $_SESSION['cart'] = array_values($_SESSION['cart']); //for reaaranging araay index , if 0 index item is delete then remaining other index values are arraged like  1 to 0 , 2 to 1 since 0 index is deleted
 
 
-                            $cid= $_SESSION['customer_id'];
+            $cid = $_SESSION['customer_id'];
+            include('connection.php');
+
+            $sql2 = "select * from product where PRODUCT_NAME='$productname'";
+            $qry2 = oci_parse($connection, $sql2);
+            oci_execute($qry2);
+
+
+            while ($row = oci_fetch_array($qry2)) {
+                $pid = $row['PRODUCT_ID'];
+                include('connection.php');
+                $sql3 = "select * from cart where product_id=$pid and customer_id=$cid";
+                $qry3 = oci_parse($connection, $sql3);
+                oci_execute($qry3);
+
+                while ($row = oci_fetch_array($qry3)) {
+
+                    $cartid = $row['CART_ID'];
                     include('connection.php');
 
-                    $sql2 = "select * from product where PRODUCT_NAME='$productname'";
-                    $qry2 = oci_parse($connection, $sql2);
-                    oci_execute($qry2);
+                    $sql4 = "DELETE FROM CART WHERE CART_ID=$cartid";
+                    $qry4 = oci_parse($connection, $sql4);
+                    oci_execute($qry4);
 
-
-                    while ($row = oci_fetch_array($qry2)) {
-                        $pid=$row['PRODUCT_ID'];
-                        include('connection.php');
-                        $sql3 = "select * from cart where product_id=$pid and customer_id=$cid";
-                        $qry3 = oci_parse($connection, $sql3);
-                        oci_execute($qry3);
-
-                        while ($row = oci_fetch_array($qry3)) {
-
-                           $cartid=$row['CART_ID'];
-                            include('connection.php');
-                            
-                        $sql4 = "DELETE FROM CART WHERE CART_ID=$cartid";
-                        $qry4 = oci_parse($connection, $sql4);
-                        oci_execute($qry4);
-        
-                        if($qry4){
-                            echo "
+                    if ($qry4) {
+                        echo "
                             <script>
                             alert('Item Removed');
                             window.location.href='cart.php';
                             </script>
                             ";
-                        }
-                        else{
-                            echo "
+                    } else {
+                        echo "
                             <script>
                             alert('Query error');
                             window.location.href='cart.php';
                             </script>
                             ";
-                        }
-
-
-
-
-                        }
-
-
-
-                       
-
-           
-
                     }
 
-                
+
+                }
+
+
+            }
 
 
         }

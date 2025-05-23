@@ -1,41 +1,42 @@
 <style>
-  .footer {
-    background-color: white;
-    padding: 2rem 1rem;
-  }
+    .footer {
+        background-color: white;
+        padding: 2rem 1rem;
+    }
 
-  .footer-logo {
-    height: 50px;
-  }
-
-  .footer-text {
-    color: #4BB543;
-    font-size: 1.3rem;
-    font-weight: bold;
-  }
-
-  .footer-links a {
-    text-decoration: none;
-    color: #343a40;
-  }
-
-  .footer-links a:hover {
-    text-decoration: underline;
-  }
-
-  .footer-heading {
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
-
-  @media (max-width: 576px) {
     .footer-logo {
-      height: 40px;
+        height: 50px;
     }
+
     .footer-text {
-      font-size: 1.1rem;
+        color: #4BB543;
+        font-size: 1.3rem;
+        font-weight: bold;
     }
-  }
+
+    .footer-links a {
+        text-decoration: none;
+        color: #343a40;
+    }
+
+    .footer-links a:hover {
+        text-decoration: underline;
+    }
+
+    .footer-heading {
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    @media (max-width: 576px) {
+        .footer-logo {
+            height: 40px;
+        }
+
+        .footer-text {
+            font-size: 1.1rem;
+        }
+    }
 </style>
 
 <footer class="footer">

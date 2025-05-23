@@ -3,172 +3,293 @@ include 'start.php';
 ?>
 <?php include 'header.php'; ?>
 
-  <div class="container w-100 d-flex align-items-center justify-content-center">
-      <?php
-      if (isset($_GET['message'])) {
-          $user_created_msg = $_GET['message'];
-          echo "<div class='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-2 d-flex align-items-center justify-content-center' style='color:green;'>" . $user_created_msg . "
-                </div>";
-      }
-      ?>
-    <div class="row mt-3">
-      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex align-items-center justify-content-center mt-5">
-        <a href="index.php">
-          <img src="images/logo.png" class="img-fluid" style="width: 10rem; ">
-        </a>
-      </div>
-      <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex align-items-center justify-content-center mt-3">
-        <form class="border p-5 mt-2" method="POST" action="customer/customer_sign_up.php">
-          <div class="row">
-            <div
-              class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex align-items-center justify-content-center">
-              <div class="h4 mt-1">Customer : Create Account</div>
-            </div>
-          </div>
-          <div class="row">
-            <div
-              class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex align-items-center justify-content-center">
-              <div class="h6 mt-3">Want to be a Trader?
-                <a href="trader/sign_up_trader.php">
-                  <u>
-                    Create a Trader account here
-                  </u>
-                </a>
-              </div>
-            </div>
-          </div>
-            <?php
-            if (isset($_SESSION['error'])) {
-                echo "<p style='color:red; text-align:center'>" . $_SESSION['error'] . "</p> ";
-            }
-            ?>
-          <div class="form-group mt-3">
-            <label for="inputUsername">Username</label>
-            <input type="text" class="form-control" id="inputUsername" placeholder="Username" name="uname"
-                   value="<?php if (isset($_GET['uname'])) {
-                       echo $_GET['uname'];
-                   } ?>">
-          </div>
-          <div class="form-group">
-            <label for="inputfullName">Full Name</label>
-            <input type="text" class="form-control" id="inputfullName" placeholder="Full Name" name="fname"
-                   value="<?php if (isset($_GET['fname'])) {
-                       echo $_GET['fname'];
-                   } ?>">
-          </div>
-          <div class="form-group row">
-            <label for="inputEmail" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-form-label">Email</label>
-            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <input type="email" class="form-control" id="inputEmail" placeholder="Email Address" name="email"
-                     value="<?php if (isset($_GET['email'])) {
-                         echo $_GET['email'];
-                     } ?>">
-            </div>
-          </div>
+<style>
+    body {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
 
-          <fieldset class="form-group">
-            <div class="row">
-              <legend class="col-form-label col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-0">Gender</legend>
-              <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gender" id="genderRadio"
-                         value="Male" <?php if (isset($_GET['gender']) && $_GET['gender'] == "Male") echo "checked"; ?>
-                         checked style="width: 1vw; height: 1vw;">
-                  <label class="form-check-label" for="genderRadio">
-                    Male
-                  </label>
+    .signup-container {
+        max-width: 800px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 2.5rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control {
+        height: 50px;
+        border-radius: 8px;
+        border: 2px solid #e9ecef;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.15);
+    }
+
+    textarea.form-control {
+        height: auto;
+        min-height: 100px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #495057;
+        margin-bottom: 0.75rem;
+        font-size: 0.95rem;
+    }
+
+    .btn-signup {
+        height: 50px;
+        background: #28a745;
+        color: white;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
+    }
+
+    .btn-signup:hover {
+        background: #218838;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+    }
+
+    .signin-link {
+        color: #28a745;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .signin-link:hover {
+        color: #218838;
+        text-decoration: none;
+    }
+
+    .alert {
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        border: none;
+        padding: 1rem 1.25rem;
+    }
+
+    .section-title {
+        color: #2c3e50;
+        font-weight: 700;
+        margin-bottom: 2rem;
+        text-align: center;
+        position: relative;
+        padding-bottom: 1rem;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background: #28a745;
+        border-radius: 3px;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-check {
+        padding-left: 1.75rem;
+    }
+
+    .form-check-input {
+        margin-left: -1.75rem;
+    }
+
+    .form-check-label {
+        color: #6c757d;
+        font-size: 0.9rem;
+    }
+
+    .logo-container {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .logo-container img {
+        width: 120px;
+        height: auto;
+        transition: transform 0.3s ease;
+    }
+
+    .logo-container img:hover {
+        transform: scale(1.05);
+    }
+
+    @media (max-width: 576px) {
+        .signup-container {
+            margin: 1rem;
+            padding: 1.5rem;
+        }
+
+        .logo-container img {
+            width: 100px;
+        }
+    }
+</style>
+
+<div class="container-fluid px-3">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+            <div class="signup-container">
+                <?php
+                if (isset($_GET['message'])) {
+                    $user_created_msg = $_GET['message'];
+                    echo "<div class='alert alert-success text-center'>" . htmlspecialchars($user_created_msg) . "</div>";
+                }
+                ?>
+
+                <div class="logo-container">
+                    <a href="index.php">
+                        <img src="images/logo.png" alt="FreshBlink Logo">
+                    </a>
                 </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gender" id="genderRadio1"
-                         style="width: 1vw; height: 1vw;"
-                         value="Female" <?php if (isset($_GET['gender']) && $_GET['gender'] == "Female") {
-                      echo "checked";
-                  } ?> />
-                  <label class="form-check-label" for="genderRadio1">
-                    Female
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="radio" name="gender" id="genderRadio2"
-                         value="Other" <?php if (isset($_GET['gender']) && $_GET['gender'] == "Other") echo "checked"; ?>
-                         style="width: 1vw; height: 1vw;">
-                  <label class="form-check-label" for="genderRadio2">
-                    Other
-                  </label>
-                </div>
-              </div>
-            </div>
-          </fieldset>
 
-          <div class="form-group row">
-            <label for="inputDOB" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-form-label">Date of
-              Birth</label>
-            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <input type="date" class="form-control" id="inputDOB" name="dob" value="<?php if (isset($_GET['dob'])) {
-                  echo $_GET['dob'];
-              } ?>">
-            </div>
-          </div>
+                <form method="POST" action="customer/customer_sign_up.php">
+                    <h4 class="section-title">Create Your Account</h4>
 
-          <div class="form-group row">
-            <label for="inputPassword"
-                   class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-form-label">Password</label>
-            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <input type="password" class="form-control" id="inputPassword" placeholder="Enter your Password"
-                     name="password">
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="inputPassword1" class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-form-label">Confirm
-              your password</label>
-            <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-              <input type="password" class="form-control" id="inputPassword1" placeholder="Re-enter your Password"
-                     name="repassword">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="inputAddress">Address</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="Address" name="address"
-                   value="<?php if (isset($_GET['address'])) {
-                       echo $_GET['address'];
-                   } ?>">
-          </div>
-          <div class="form-group">
-            <label for="inputphoneNumber">Phone Number</label>
-            <input type="text" class="form-control" id="inputphoneNumber" placeholder="Phone Number" name="phone"
-                   value="<?php if (isset($_GET['phone'])) {
-                       echo $_GET['phone'];
-                   } ?>">
-          </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputUsername">Username</label>
+                                <input type="text" class="form-control" id="inputUsername"
+                                    placeholder="Choose a username" name="uname"
+                                    value="<?php if (isset($_GET['uname'])) echo htmlspecialchars($_GET['uname']); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputfullName">Full Name</label>
+                                <input type="text" class="form-control" id="inputfullName"
+                                    placeholder="Enter your full name" name="fname"
+                                    value="<?php if (isset($_GET['fname'])) echo htmlspecialchars($_GET['fname']); ?>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputEmail">Email Address</label>
+                                <input type="email" class="form-control" id="inputEmail"
+                                    placeholder="Enter your email" name="email"
+                                    value="<?php if (isset($_GET['email'])) echo htmlspecialchars($_GET['email']); ?>">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputphoneNumber">Phone Number</label>
+                                <input type="tel" class="form-control" id="inputphoneNumber"
+                                    placeholder="Enter your phone number" name="phone"
+                                    value="<?php if (isset($_GET['phone'])) echo htmlspecialchars($_GET['phone']); ?>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="inputDOB">Date of Birth</label>
+                                <input type="date" class="form-control" id="inputDOB" name="dob"
+                                    value="<?php if (isset($_GET['dob'])) echo htmlspecialchars($_GET['dob']); ?>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword">Password</label>
+                                <input type="password" class="form-control" id="inputPassword"
+                                    placeholder="Create a password" name="password">
+                                <small class="form-text text-muted">
+                                    Must include uppercase, number, and special character
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword1">Confirm Password</label>
+                                <input type="password" class="form-control" id="inputPassword1"
+                                    placeholder="Confirm your password" name="repassword">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputAddress">Address</label>
+                        <textarea class="form-control" id="inputAddress"
+                            placeholder="Enter your address" name="address" rows="2"><?php if (isset($_GET['address'])) echo htmlspecialchars($_GET['address']); ?></textarea>
+                    </div>
 
 
-          <div class="form-group row">
-            <div
-              class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex align-items-center justify-content-center">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="checkBox" style="width:1.2vw; height: 1.2vw;"
-                       name="cb">
-                <label class="form-check-label" for="checkBox">
-                  <span>By creating an account, you agree to FreshBlink Privacy <br>Notice and Terms of Use.</span>
-                </label>
-              </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="genderRadio"
+                                        value="Male" <?php if (isset($_GET['gender']) && $_GET['gender'] == "Male") echo "checked"; ?> checked>
+                                    <label class="form-check-label" for="genderRadio">Male</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="genderRadio1"
+                                        value="Female" <?php if (isset($_GET['gender']) && $_GET['gender'] == "Female") echo "checked"; ?>>
+                                    <label class="form-check-label" for="genderRadio1">Female</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="genderRadio2"
+                                        value="Other" <?php if (isset($_GET['gender']) && $_GET['gender'] == "Other") echo "checked"; ?>>
+                                    <label class="form-check-label" for="genderRadio2">Other</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="checkBox" name="cb">
+                            <label class="form-check-label" for="checkBox">
+                                I agree to the <a href="#" class="text-success">Privacy Notice</a> and <a href="#" class="text-success">Terms of Use</a>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-signup btn-block" name="submit">Create Account</button>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <p class="mb-0">Already have an account?
+                            <a href="sign_in_customer.php" class="signin-link">Sign In</a>
+                        </p>
+                    </div>
+                </form>
             </div>
-          </div>
-          <div class="form-group row">
-            <div
-              class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex align-items-center justify-content-center ml-2">
-              <button type="submit" class="btn btn-success" name="submit">Sign Up</button>
-            </div>
-          </div>
-          <div class="row">
-            <div
-              class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex align-items-center justify-content-center">
-              <a href="sign_in_customer.php" style="font-size: 1vw">Have an account? Sign In</a>
-            </div>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
+</div>
+
 <?php include 'footer.php'; ?>
-<?php include 'end.php' ?>
+<?php include 'end.php'; ?>

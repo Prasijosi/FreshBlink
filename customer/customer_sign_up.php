@@ -138,3 +138,290 @@ if (isset($_POST['submit'])) {
     header('Location: ../sign_up_customer.php');
     exit;
 }
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Sign Up</title>
+    <!-- Bootstrap 4.0 CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+        .signup-container {
+            max-width: 800px;
+            width: 100%;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+        .form-control {
+            border-radius: 8px;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+        .btn-signup {
+            background: #28a745;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .btn-signup:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+        .custom-control-label {
+            color: #6c757d;
+        }
+        .signin-link {
+            color: #28a745;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .signin-link:hover {
+            color: #218838;
+            text-decoration: none;
+        }
+        .alert {
+            border-radius: 8px;
+            border: none;
+        }
+        .section-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .form-group label {
+            font-weight: 500;
+            color: #495057;
+        }
+        .input-group-text {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="signup-container">
+                    <h3 class="text-center mb-4">
+                        <i class="fas fa-user-plus text-success mr-2"></i>
+                        Create Your Account
+                    </h3>
+
+                    <?php if (isset($_SESSION['error'])): ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <?php 
+                            echo $_SESSION['error'];
+                            unset($_SESSION['error']);
+                            ?>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    <?php endif; ?>
+
+                    <form method="POST" action="customer_sign_up.php">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="uname">Username</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-user"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control" id="uname" name="uname" 
+                                               placeholder="Choose a username" required
+                                               value="<?php echo isset($_GET['uname']) ? htmlspecialchars($_GET['uname']) : ''; ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="fname">Full Name</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-id-card"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" class="form-control" id="fname" name="fname" 
+                                               placeholder="Enter your full name" required
+                                               value="<?php echo isset($_GET['fname']) ? htmlspecialchars($_GET['fname']) : ''; ?>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-envelope"></i>
+                                            </span>
+                                        </div>
+                                        <input type="email" class="form-control" id="email" name="email" 
+                                               placeholder="Enter your email" required
+                                               value="<?php echo isset($_GET['email']) ? htmlspecialchars($_GET['email']) : ''; ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-phone"></i>
+                                            </span>
+                                        </div>
+                                        <input type="tel" class="form-control" id="phone" name="phone" 
+                                               placeholder="Enter your phone number"
+                                               value="<?php echo isset($_GET['phone']) ? htmlspecialchars($_GET['phone']) : ''; ?>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                        </div>
+                                        <input type="password" class="form-control" id="password" name="password" 
+                                               placeholder="Create a password" required>
+                                    </div>
+                                    <small class="form-text text-muted">
+                                        Password must include at least one capital letter, one number, one symbol, and be 8-20 characters long.
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="repassword">Confirm Password</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-lock"></i>
+                                            </span>
+                                        </div>
+                                        <input type="password" class="form-control" id="repassword" name="repassword" 
+                                               placeholder="Confirm your password" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-map-marker-alt"></i>
+                                            </span>
+                                        </div>
+                                        <textarea class="form-control" id="address" name="address" 
+                                                  placeholder="Enter your address" required rows="2"><?php echo isset($_GET['address']) ? htmlspecialchars($_GET['address']) : ''; ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-venus-mars"></i>
+                                            </span>
+                                        </div>
+                                        <select class="form-control" id="gender" name="gender" required>
+                                            <option value="">Select Gender</option>
+                                            <option value="Male" <?php echo (isset($_GET['gender']) && $_GET['gender'] == 'Male') ? 'selected' : ''; ?>>Male</option>
+                                            <option value="Female" <?php echo (isset($_GET['gender']) && $_GET['gender'] == 'Female') ? 'selected' : ''; ?>>Female</option>
+                                            <option value="Other" <?php echo (isset($_GET['gender']) && $_GET['gender'] == 'Other') ? 'selected' : ''; ?>>Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fas fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                        <input type="date" class="form-control" id="dob" name="dob" required
+                                               value="<?php echo isset($_GET['dob']) ? htmlspecialchars($_GET['dob']) : ''; ?>">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="cb" name="cb" required>
+                                <label class="custom-control-label" for="cb">
+                                    I agree to the <a href="#" class="text-success">Privacy Notice</a> and <a href="#" class="text-success">Terms of Use</a>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" name="submit" class="btn btn-signup btn-block">
+                            <i class="fas fa-user-plus mr-2"></i>Create Account
+                        </button>
+
+                        <div class="text-center mt-3">
+                            <p class="mb-0">Already have an account? 
+                                <a href="../sign_in_customer.php" class="signin-link">Sign In</a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

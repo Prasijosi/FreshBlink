@@ -1,0 +1,118 @@
+*{
+	background-color: #ffffff;
+	font-size: 1.171303074670571vw;
+}
+
+body{
+  /* background-color: #f8f9fa; */
+  font-size: 1.171303074670571vw;
+}
+
+.selector-for-some-widget {
+  box-sizing: content-box;
+}
+
+
+a{
+  color: black;
+}
+
+a:hover{
+  color: black;
+}
+
+a:after{
+  color: black;
+}
+
+.bg-color-bg{
+  background-color: #f8f9fa;
+}
+
+#bs-example-navbar-collapse-1{
+  background-color: #f8f9fa
+}
+
+.ddl-title{
+  background-color:#5bc0de !important;
+  color:#fff !important;
+  font-style:italic;
+  font-size:80%;
+}
+  
+.ddl-select.input-group-btn:first-child>.btn-group:not(:first-child)>.btn {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  
+}
+.btn.dropdown-toggle{
+  border-radius:0;
+}
+
+.featured-categories-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .featured-categories-row {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+.featured-category-card {
+  flex: 1 1 0;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 10px 10px 10px;
+  min-width: 140px;
+  max-width: 180px;
+  transition: box-shadow 0.2s;
+}
+.featured-category-card img {
+  max-width: 80px;
+  max-height: 70px;
+  margin-bottom: 10px;
+  background-color: transparent;
+}
+.featured-category-card .cat-title {
+  font-weight: 800;
+  font-size: 1.3rem;
+  background-color: transparent;
+  color: #111;
+  margin-bottom: 0;
+  text-align: center;
+  font-family: 'Poppins', Arial, sans-serif;
+}
+.featured-category-card.bakery { background: #f8e6d2; }
+.featured-category-card.butchery { background: #f9d6d6; }
+.featured-category-card.greengrocer { background: #e5efc1; }
+.featured-category-card.delicatessen { background: #fbe5ce; }
+.featured-category-card.fishmonger { background: #e6eaf2; }
+.featured-category-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+}
+
+.card {
+  border-radius: 14px !important;
+}
+.star-rating i {
+  font-size: 1rem;
+}
+.btn-danger {
+  background: #FF3C00;
+  border: none;
+}
+.btn-danger:hover {
+  background: #d32f00;
+}
+
+.card-img-top {
+  border-top-left-radius: 18px !important;
+  border-top-right-radius: 18px !important;
+}

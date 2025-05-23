@@ -5,10 +5,10 @@ $products = [];
 $params = [];
 
 // Get all input parameters safely
-$search_Cat = $_POST['search_Cat'] ?? '';
-$search_Txt = $_POST['search_Txt'] ?? '';
-$product_Category = $_POST['product_Category'] ?? '';
-$traders = $_POST['traders'] ?? '';
+$search_Cat = $_POST['search_Cat'] ?? $_GET['search_Cat'] ?? '';
+$search_Txt = $_POST['search_Txt'] ?? $_GET['search_Txt'] ?? '';
+$product_Category = $_POST['product_Category'] ?? $_GET['product_Category'] ?? '';
+$traders = $_POST['traders'] ?? $_GET['traders'] ?? '';
 
 // Main search logic
 if (isset($_POST['submit_search'])) {
@@ -117,7 +117,47 @@ elseif (isset($_POST['submit2']) && !empty($traders)) {
         ];
     }
     oci_free_statement($stmt);
-} // Default case
+}
+else if($search_Cat){
+    $query = "SELECT * FROM product WHERE Product_Type LIKE :category AND product_verification = '1'";
+    $stmt = oci_parse($connection, $query);
+    $category_param = '%' . $$search_Cat . '%';
+    oci_bind_by_name($stmt, ':category', $category_param);
+    oci_execute($stmt);
+
+    while ($row = oci_fetch_assoc($stmt)) {
+        $products[] = [
+            'id' => $row['PRODUCT_ID'],
+            'type' => $row['PRODUCT_TYPE'],
+            'name' => $row['PRODUCT_NAME'],
+            'price' => $row['PRODUCT_PRICE'],
+            'details' => $row['PRODUCT_DETAILS'],
+            'stock' => $row['STOCK'],
+            'image' => $row['PRODUCT_IMAGE'],
+            'shop_id' => $row['SHOP_ID']
+        ];
+    }
+    oci_free_statement($stmt);
+}
+else if(!$search_Txt && !$search_Cat){
+    $query = "SELECT * FROM product WHERE product_verification = '1'";
+    $stmt = oci_parse($connection, $query);
+    oci_execute($stmt);
+
+    while ($row = oci_fetch_assoc($stmt)) {
+        $products[] = [
+            'id' => $row['PRODUCT_ID'],
+            'type' => $row['PRODUCT_TYPE'],
+            'name' => $row['PRODUCT_NAME'],
+            'price' => $row['PRODUCT_PRICE'],
+            'details' => $row['PRODUCT_DETAILS'],
+            'stock' => $row['STOCK'],
+            'image' => $row['PRODUCT_IMAGE'],
+            'shop_id' => $row['SHOP_ID']
+        ];
+    }
+    oci_free_statement($stmt);
+}
 else {
     $products = [];
 }

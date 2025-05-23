@@ -167,7 +167,7 @@ oci_execute($statement);
                         <div>
                             <h6 class="mb-0"><?php echo $review['CUSTOMER_NAME']; ?></h6>
                             <small class="text-muted">
-                                <?php echo date('F j, Y', strtotime($review['REVIEW_DATE'])); ?>
+                                <?php echo date('F j, Y', strtotime($review['DATES'])); ?>
                             </small>
                         </div>
                     </div>
@@ -176,7 +176,7 @@ oci_execute($statement);
                             <i class="fas fa-star <?php echo $i <= $review['RATING'] ? 'text-warning' : 'text-muted'; ?>"></i>
                         <?php endfor; ?>
                     </div>
-                    <p class="mb-0"><?php echo $review['REVIEW_TEXT']; ?></p>
+                    <p class="mb-0"><?php echo $review['DESCRIPTION']; ?></p>
                 </div>
             <?php endwhile; ?>
             

@@ -37,7 +37,7 @@
 
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav">
-        <a href="http://localhost:8080/apex/" class="nav-item nav-link">Dashboard</a>
+        <a href="http://localhost:8080/apex/f?p=103:LOGIN_DESKTOP:15070506401462:::::" class="nav-item nav-link">Dashboard</a>
         <a href="managementseler.php" class="nav-item nav-link">New Shop/Trader Request</a>
         <a href="management.php" class="nav-item nav-link">New Products Request</a>
         <a href="managementpwr.php" class="nav-item nav-link">Products Enable/Disable</a>

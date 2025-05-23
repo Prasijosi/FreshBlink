@@ -145,6 +145,10 @@
           </div>
 
           <div class="text-center mt-3">
+            <a href="trader/sign_in_trader.php" class="signup-link">Trader/Admin Sign In</a>
+          </div>
+
+          <div class="text-center mt-3">
             <a href="sign_up_customer.php" class="signup-link">Sign Up?</a>
           </div>
         </form>

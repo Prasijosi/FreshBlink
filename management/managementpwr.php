@@ -23,7 +23,7 @@ if (isset($_GET['msg'])) {
               $count2 = oci_fetch_all($qry, $connection);
               oci_execute($qry);
 
-              echo "<h5 class='mb-0 text-primary'><i class='fas fa-box me-2'></i>Active Products: <span class='badge bg-primary ms-2'>$count2</span></h5>";
+              echo "<h5 class='mb-0'>Active Products: $count2</h5>";
               ?>
           </div>
         </div>

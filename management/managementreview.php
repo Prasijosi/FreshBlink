@@ -49,7 +49,7 @@ if (isset($_POST['submit']) && isset($_POST['pid'])) {
               oci_execute($qry);
               $count3 = oci_fetch_all($qry, $connection);
               oci_execute($qry);
-              echo "<h5 class='mb-0 text-primary'><i class='fas fa-comments me-2'></i>New Review Requests: <span class='badge bg-primary ms-2'>$count3</span></h5>";
+              echo "<h5 class='mb-0'>New Review Requests: $count3</h5>";
               ?>
           </div>
         </div>
@@ -90,11 +90,7 @@ if (isset($_POST['submit']) && isset($_POST['pid'])) {
                   <img src="../<?php echo $pimage; ?>" class="product-image" alt="<?php echo $pname; ?>">
                 </td>
                 <td class="text-center">
-                  <div class="rating-stars">
-                    <?php for($i = 1; $i <= 5; $i++): ?>
-                      <i class="fas fa-star <?php echo $i <= $rating ? 'text-warning' : 'text-muted'; ?>"></i>
-                    <?php endfor; ?>
-                  </div>
+                  <span class="badge bg-warning"><?php echo $rating; ?>/5</span>
                 </td>
                 <td class="text-center">
                   <div class="review-text"><?php echo $review; ?></div>

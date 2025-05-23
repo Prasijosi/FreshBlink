@@ -88,12 +88,3 @@ BEGIN
 END;
 /
 
-CREATE OR REPLACE TRIGGER Trader_Status_Trg
-BEFORE INSERT ON Trader
-FOR EACH ROW
-BEGIN
-    IF :NEW.Status IS NULL THEN
-        :NEW.Status := 'pending';
-    END IF;
-END;
-/

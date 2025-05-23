@@ -24,7 +24,7 @@ if (isset($_SESSION['cart'])) {
                         <input type="text" name="search_Txt" class="form-control border" placeholder="Search products">
                         <div class="input-group-append">
                             <button class="btn btn-success" type="submit" name="submit_search">
-                                <i class="fas fa-search text-white"></i>
+                                <i class="fas fa-search" style="color:white; background-color:#28a745;"></i>
                             </button>
                         </div>
                     </div>

@@ -95,9 +95,9 @@ if (isset($_POST['submit']) && isset($_POST['sid'])) {
     </html>';
 
 
-                include 'sendmail.php';
+                include '../sendmail.php';
                 $result = sendEmail(
-                    $to_email,
+                    $temail,
                     '',
                     $subject,
                     $message,
@@ -204,9 +204,9 @@ if (isset($_POST['submit']) && isset($_POST['sid'])) {
 	</body>
 </html>';
 
-            include 'sendmail.php';
+            include '../sendmail.php';
             $result = sendEmail(
-                $to_email,
+                $temail,
                 '',
                 $subject,
                 $message,

@@ -130,7 +130,6 @@ if(isset($_POST['submit'])){
             <h4 class="mb-3">Request Sent Successfully!</h4>
             <p class="info-text">
                 We've received your trader account request and notified our admin team. 
-                Please check your email for updates or return here to check your approval status.
             </p>
         </div>
 

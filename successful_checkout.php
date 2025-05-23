@@ -3,7 +3,7 @@ include 'start.php';
 include "connection.php";
 
 if (!isset($_SESSION['username'])) {
-    // header('Location:sign_in_customer.php');
+    header('Location:sign_in_customer.php');
     exit;
 }
 
@@ -35,7 +35,7 @@ if (isset($_GET['PayerID'])) {
 }
 
 if (!isset($_SESSION['username'])) {
-    // header('Location:sign_in_customer.php');
+    header('Location:sign_in_customer.php');
 }
 /*
 if(isset($_POST['radio1'])  ){   //this is for while inserting in payment table just testing
@@ -202,89 +202,155 @@ if ($count > 0) {
 
 
     $message = '
-
+<!DOCTYPE html>
 <html>
-
-
-
-
-<body style="color: #000; font-size: 16px; text-decoration: none; font-family: , Helvetica, Arial, sans-serif; background-color: #efefef;">
-
-<div id="wrapper" style="max-width: 1000px; margin: auto auto; padding: 20px;">
-<div id="logo" style="">
-				<center><h1 style="margin: 0px;"><a href="http://localhost:8000/index.php" target="_blank">FreshBlink</a></h1></center>
-			</div>
-
-            <div id="content" style="font-size: 16px; padding: 25px; background-color: #fff;
-				moz-border-radius: 10px; -webkit-border-radius: 10px; border-radius: 10px; -khtml-border-radius: 10px;
-				border-color: #A3D0F8; border-width: 4px 1px; border-style: solid;">
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshBlink Order Confirmation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #28a745;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        .invoice-details div {
+            flex: 1;
+        }
+        .invoice-details h3 {
+            color: #28a745;
+            margin-top: 0;
+            font-size: 18px;
+        }
+        .address-block {
+            margin-bottom: 20px;
+        }
+        .address-block h3 {
+            color: #28a745;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .address-block p {
+            margin: 5px 0;
+            color: #6c757d;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th {
+            background-color: #f8f9fa;
+            padding: 12px;
+            text-align: left;
+            border-bottom: 2px solid #dee2e6;
+            color: #495057;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .total-row {
+            font-weight: bold;
+            background-color: #f8f9fa;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+            color: #6c757d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FreshBlink</h1>
+            <p>Order Confirmation</p>
+        </div>
+        <div class="content">
+            <div class="invoice-details">
                 <div>
-                    
-                Bill From: <br>
-                FreshBlink <br>
-                Clechshudderfax <br>
-                josiprasi@gmail.com <br>
-                <br>
-                
-                
+                    <h3>Bill From</h3>
+                    <p>FreshBlink</p>
+                    <p>Clechshudderfax</p>
+                    <p>josiprasi@gmail.com</p>
                 </div>
-
-                <div style=" color:white; display:flex;
-                justify-content:center;background-color:#898989;">Sales Invoice</div>
-
-
-                <div style="float: right; ">   
-                
-                <P>Invoice NO: ' . $payerid . '</P>
-                <P>Invoice Date: ' . $odate1 . '</P>
-              
-                <P>Order Date: ' . $odate1 . '</P>
-              
+                <div>
+                    <h3>Invoice Details</h3>
+                    <p><strong>Invoice No:</strong> ' . $payerid . '</p>
+                    <p><strong>Invoice Date:</strong> ' . $odate1 . '</p>
+                    <p><strong>Order Date:</strong> ' . $odate1 . '</p>
                 </div>
-                
-                <div style="display: block; ">                
-                <P>Bill To: </P>
-                <P>Customer Name: ' . $cname1 . '</P>
-                <P>Customer Address: ' . $address1 . '</P>
-                
-               
-                </div>
+            </div>
 
+            <div class="address-block">
+                <h3>Bill To</h3>
+                <p><strong>Customer Name:</strong> ' . $cname1 . '</p>
+                <p><strong>Customer Address:</strong> ' . $address1 . '</p>
+            </div>
 
+            <div class="address-block">
+                <h3>Sold By</h3>
+                <p><strong>Trader Name:</strong> ' . $tname . '</p>
+                <p><strong>Shop Name:</strong> ' . $sname . '</p>
+                <p><strong>Address:</strong> ' . $taddress . '</p>
+                <p><strong>Seller Email:</strong> ' . $email1 . '</p>
+            </div>
 
-							<br>
-			<div style="display: block; ">                
-			<P>Sold By: </P>
-			<P>Trader Name: ' . $tname . '</P>
-			<P>Shop Name: ' . $sname . '</P>
-			<P>Address: ' . $taddress . '</P>
-			<P>Seller Email: ' . $email1 . '</P>
-			</div>
+            <div class="address-block">
+                <h3>Payment Method</h3>
+                <p>PayPal</p>
+            </div>
 
-						<br>
-			<div style="display: block; ">                
-			<P>Payment Method: Paypal</P>
-
-			</div>
-
-	
-
-			
-
-	
-
-		<table style=" width:100%; border-style:solid; border-width:1px; border-color:#000000; border-collapse: collapse;">
-		<tr>
-		<th>SN</th>
-		  <th>Product ID</th>
-		  <th>Product Name</th>
-		  <th>Product Description</th>
-		  <th>Qty</th>
-		  <th>Unit Cost</th>
-		  <th>Discount</th>
-		  <th>Total Price</th>
-		</tr>';
+            <table>
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Description</th>
+                        <th>Qty</th>
+                        <th>Unit Cost</th>
+                        <th>Discount</th>
+                        <th>Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>';
 
 
     include 'connection.php';
@@ -297,36 +363,38 @@ if ($count > 0) {
 
 
         $message .= '
-		  <tr>
-		  <td>' . $s . '</td>
-		  <td>' . $row['PRODUCT_ID'] . '</td>
-		  <td>' . $row['PRODUCT_NAME'] . '</td>
-		  <td>' . $row['PRODUCT_DETAILS'] . '</td>
-		  <td>' . $row['QUANTITY'] . '</td>
-		  <td>' . $row['PRODUCT_PRICE'] . '</td>
-		  <td>0</td>
-		  <td>' . $row['ORDER_PRICE'] . '</td>
-		  
-		  
-		  </tr>';
+                    <tr>
+                        <td>' . $s . '</td>
+                        <td>' . $row['PRODUCT_ID'] . '</td>
+                        <td>' . $row['PRODUCT_NAME'] . '</td>
+                        <td>' . $row['PRODUCT_DETAILS'] . '</td>
+                        <td>' . $row['QUANTITY'] . '</td>
+                        <td>£' . $row['PRODUCT_PRICE'] . '</td>
+                        <td>£0</td>
+                        <td>£' . $row['ORDER_PRICE'] . '</td>
+                    </tr>';
     }
 
 
-    $message .= ' 
+    $message .= '
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="6"></td>
+                        <td>Total:</td>
+                        <td>£' . @$gt1 . '</td>
+                    </tr>
+                </tfoot>
+            </table>
 
-<tr>
-<td  colspan="6" ></td>
-<td   >Total: </td>
-<td   >' . @$gt1 . '</td>
-  </tr>
-</table>
-</div>
-</div>
-
+            <div class="footer">
+                <p>Thank you for shopping with FreshBlink!</p>
+                <p>If you have any questions, please contact our customer service.</p>
+            </div>
+        </div>
+    </div>
 </body>
-
-</html>
-';
+</html>';
 } else {
     // echo "order number must be greater than 0";
 }

@@ -13,8 +13,8 @@ if (isset($_GET['msg'])) {
   <div class="container-fluid main-content">
     <div class="card shadow-sm">
       <div class="card-body">
-        <div class="row mb-3">
-          <div class="col-md-6 d-flex align-items-center">
+        <div class="row mb-4">
+          <div class="col-md-12 d-flex align-items-center">
               <?php
               include 'connection.php';
               $sql = " SELECT * FROM  product, shop, trader where trader.Trader_Id=shop.Trader_id and shop.Shop_Id=product.Shop_Id  and product.Product_Verification='1' ";
@@ -23,31 +23,22 @@ if (isset($_GET['msg'])) {
               $count2 = oci_fetch_all($qry, $connection);
               oci_execute($qry);
 
-              echo "<h5 class='mb-0'>Active Products : $count2</h5>";
+              echo "<h5 class='mb-0 text-primary'><i class='fas fa-box me-2'></i>Active Products: <span class='badge bg-primary ms-2'>$count2</span></h5>";
               ?>
-          </div>
-          <div class="col-md-6">
-            <form action="#" method="GET" class="d-flex justify-content-end align-items-center">
-              <span class="me-2">Sort By:</span>
-              <select name="category" class="form-select sort-select me-2" style="width: auto;">
-                <option value="recent">Recent</option>
-              </select>
-              <button type="submit" class="btn btn-dark btn-sm">Go</button>
-            </form>
           </div>
         </div>
 
         <div class="table-responsive">
-          <table class="table table-hover">
+          <table class="table table-hover align-middle">
             <thead>
             <tr class="bg-light">
-              <th>SN</th>
-              <th>Trader Name</th>
-              <th>Shop</th>
-              <th>Product Image</th>
-              <th>Product Name</th>
-              <th>Product Type</th>
-              <th>Actions</th>
+              <th class="text-center" style="width: 5%">SN</th>
+              <th class="text-center" style="width: 15%">Trader</th>
+              <th class="text-center" style="width: 15%">Shop</th>
+              <th class="text-center" style="width: 15%">Image</th>
+              <th class="text-center" style="width: 20%">Product</th>
+              <th class="text-center" style="width: 15%">Type</th>
+              <th class="text-center" style="width: 15%">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -69,12 +60,17 @@ if (isset($_GET['msg'])) {
                 ?>
               <tr>
                 <td class="text-center"><?php echo $s; ?></td>
-                <td class="text-center"><?php echo $tname; ?></td>
-                <td class="text-center"><?php echo $sname; ?></td>
-                <td class="text-center"><img src="../<?php echo $pimage; ?>" class="img-fluid" style="width: 10vw;">
+                <td class="text-center">
+                  <span class="badge bg-info"><?php echo $tname; ?></span>
                 </td>
-                <td class="text-center"><?php echo $pname; ?></td>
-                <td class="text-center"><?php echo $ptype; ?></td>
+                <td class="text-center fw-medium"><?php echo $sname; ?></td>
+                <td class="text-center">
+                  <img src="../<?php echo $pimage; ?>" class="product-image" alt="<?php echo $pname; ?>">
+                </td>
+                <td class="text-center fw-medium"><?php echo $pname; ?></td>
+                <td class="text-center">
+                  <span class="badge bg-secondary"><?php echo $ptype; ?></span>
+                </td>
                 <td class="text-center">
                   <form method="POST" action="manage_product_process.php" class="d-inline">
                     <input type="hidden" name="pid" value="<?php echo $pid; ?>">
@@ -97,20 +93,30 @@ if (isset($_GET['msg'])) {
   </div>
 
   <style>
+      .main-content {
+          padding: 2rem;
+      }
+
+      .card {
+          border: none;
+          border-radius: 10px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      }
+
       .sort-select {
           min-width: 150px;
-          height: 32px;
-          border: 1px solid #dee2e6;
-          border-radius: 4px;
-          padding: 0.3rem 0.5rem;
-          font-size: 0.85rem;
+          height: 38px;
+          border: 1px solid #e0e0e0;
+          border-radius: 6px;
+          padding: 0.4rem 0.8rem;
+          font-size: 0.9rem;
           background-color: #fff;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+          transition: all 0.2s ease;
       }
 
       .sort-select:focus {
-          border-color: #80bdff;
-          box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, .25);
+          border-color: #4a90e2;
+          box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.15);
       }
 
       .table {
@@ -118,17 +124,18 @@ if (isset($_GET['msg'])) {
       }
 
       .table thead th {
-          border-bottom: 2px solid #dee2e6;
-          color: #495057;
+          border-bottom: 2px solid #e0e0e0;
+          color: #333;
           font-weight: 600;
           font-size: 0.95rem;
           padding: 1rem;
+          background-color: #f8f9fa;
       }
 
       .table tbody td {
-          vertical-align: middle;
           padding: 1rem;
           font-size: 0.95rem;
+          border-bottom: 1px solid #e0e0e0;
       }
 
       .table tbody tr {
@@ -137,14 +144,39 @@ if (isset($_GET['msg'])) {
 
       .table tbody tr:hover {
           background-color: #f8f9fa;
+          transform: translateY(-1px);
+      }
+
+      .product-image {
+          width: 80px;
+          height: 80px;
+          object-fit: cover;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
       .btn-sm {
-          padding: 0.4rem 0.8rem;
-          font-size: 0.85rem;
+          padding: 0.5rem 1rem;
+          font-size: 0.9rem;
+          border-radius: 6px;
+          transition: all 0.2s ease;
       }
 
-      @media (max-width: 576px) {
+      .btn-sm:hover {
+          transform: translateY(-1px);
+      }
+
+      .badge {
+          padding: 0.5rem 1rem;
+          font-weight: 500;
+          border-radius: 6px;
+      }
+
+      @media (max-width: 768px) {
+          .main-content {
+              padding: 1rem;
+          }
+
           .sort-select, .btn {
               width: 100%;
               margin-bottom: 0.5rem;
@@ -153,6 +185,11 @@ if (isset($_GET['msg'])) {
           form.d-flex {
               flex-direction: column;
               gap: 0.5rem;
+          }
+
+          .product-image {
+              width: 60px;
+              height: 60px;
           }
       }
   </style>

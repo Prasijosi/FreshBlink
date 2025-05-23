@@ -40,8 +40,8 @@ if (isset($_POST['submit']) && isset($_POST['pid'])) {
   <div class="container-fluid main-content">
     <div class="card shadow-sm">
       <div class="card-body">
-        <div class="row mb-3">
-          <div class="col-md-6 d-flex align-items-center">
+        <div class="row mb-4">
+          <div class="col-md-12 d-flex align-items-center">
               <?php
               include('connection.php');
               $sql = " SELECT * FROM  review, product,customer where review.Product_Id=product.Product_Id and review.Customer_Id=customer.Customer_ID and Review_Status='0' ";
@@ -49,32 +49,22 @@ if (isset($_POST['submit']) && isset($_POST['pid'])) {
               oci_execute($qry);
               $count3 = oci_fetch_all($qry, $connection);
               oci_execute($qry);
-              echo "<h5 class='mb-0'>New Review Request : [ $count3 ]</h5>";
+              echo "<h5 class='mb-0 text-primary'><i class='fas fa-comments me-2'></i>New Review Requests: <span class='badge bg-primary ms-2'>$count3</span></h5>";
               ?>
-          </div>
-
-          <div class="col-md-6">
-            <form action="#" method="GET" class="d-flex justify-content-end align-items-center">
-              <span class="me-2">Sort By:</span>
-              <select name="category" class="form-select sort-select me-2" style="width: auto;">
-                <option value="recent">Recent</option>
-              </select>
-              <button type="submit" class="btn btn-dark btn-sm">Go</button>
-            </form>
           </div>
         </div>
 
         <div class="table-responsive">
-          <table class="table table-hover">
+          <table class="table table-hover align-middle">
             <thead>
             <tr class="bg-light">
-              <th>SN</th>
-              <th>Product Name</th>
-              <th>Product Image</th>
-              <th>Rating</th>
-              <th>Review</th>
-              <th>Reviewer</th>
-              <th>Actions</th>
+              <th class="text-center" style="width: 5%">SN</th>
+              <th class="text-center" style="width: 20%">Product</th>
+              <th class="text-center" style="width: 15%">Image</th>
+              <th class="text-center" style="width: 10%">Rating</th>
+              <th class="text-center" style="width: 25%">Review</th>
+              <th class="text-center" style="width: 15%">Reviewer</th>
+              <th class="text-center" style="width: 10%">Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -95,12 +85,23 @@ if (isset($_POST['submit']) && isset($_POST['pid'])) {
                 ?>
               <tr>
                 <td class="text-center"><?php echo $s; ?></td>
-                <td class="text-center"><?php echo $pname; ?></td>
-                <td class="text-center"><img src="../<?php echo $pimage; ?>" class="img-fluid" style="width: 10vw;">
+                <td class="text-center fw-medium"><?php echo $pname; ?></td>
+                <td class="text-center">
+                  <img src="../<?php echo $pimage; ?>" class="product-image" alt="<?php echo $pname; ?>">
                 </td>
-                <td class="text-center"><?php echo $rating; ?></td>
-                <td class="text-center"><?php echo $review; ?></td>
-                <td class="text-center"><?php echo $customer; ?></td>
+                <td class="text-center">
+                  <div class="rating-stars">
+                    <?php for($i = 1; $i <= 5; $i++): ?>
+                      <i class="fas fa-star <?php echo $i <= $rating ? 'text-warning' : 'text-muted'; ?>"></i>
+                    <?php endfor; ?>
+                  </div>
+                </td>
+                <td class="text-center">
+                  <div class="review-text"><?php echo $review; ?></div>
+                </td>
+                <td class="text-center">
+                  <span class="badge bg-info"><?php echo $customer; ?></span>
+                </td>
                 <td class="text-center">
                   <form method="POST" action="managementreview.php" class="d-inline">
                     <input type="hidden" name="pid" value="<?php echo $pid; ?>">
@@ -118,20 +119,30 @@ if (isset($_POST['submit']) && isset($_POST['pid'])) {
   </div>
 
   <style>
+      .main-content {
+          padding: 2rem;
+      }
+
+      .card {
+          border: none;
+          border-radius: 10px;
+          box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      }
+
       .sort-select {
           min-width: 150px;
-          height: 32px;
-          border: 1px solid #dee2e6;
-          border-radius: 4px;
-          padding: 0.3rem 0.5rem;
-          font-size: 0.85rem;
+          height: 38px;
+          border: 1px solid #e0e0e0;
+          border-radius: 6px;
+          padding: 0.4rem 0.8rem;
+          font-size: 0.9rem;
           background-color: #fff;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+          transition: all 0.2s ease;
       }
 
       .sort-select:focus {
-          border-color: #80bdff;
-          box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, .25);
+          border-color: #4a90e2;
+          box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.15);
       }
 
       .table {
@@ -139,17 +150,18 @@ if (isset($_POST['submit']) && isset($_POST['pid'])) {
       }
 
       .table thead th {
-          border-bottom: 2px solid #dee2e6;
-          color: #495057;
+          border-bottom: 2px solid #e0e0e0;
+          color: #333;
           font-weight: 600;
           font-size: 0.95rem;
           padding: 1rem;
+          background-color: #f8f9fa;
       }
 
       .table tbody td {
-          vertical-align: middle;
           padding: 1rem;
           font-size: 0.95rem;
+          border-bottom: 1px solid #e0e0e0;
       }
 
       .table tbody tr {
@@ -158,14 +170,49 @@ if (isset($_POST['submit']) && isset($_POST['pid'])) {
 
       .table tbody tr:hover {
           background-color: #f8f9fa;
+          transform: translateY(-1px);
+      }
+
+      .product-image {
+          width: 80px;
+          height: 80px;
+          object-fit: cover;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .rating-stars {
+          font-size: 1rem;
+      }
+
+      .review-text {
+          max-width: 300px;
+          margin: 0 auto;
+          line-height: 1.4;
       }
 
       .btn-sm {
-          padding: 0.4rem 0.8rem;
-          font-size: 0.85rem;
+          padding: 0.5rem 1rem;
+          font-size: 0.9rem;
+          border-radius: 6px;
+          transition: all 0.2s ease;
       }
 
-      @media (max-width: 576px) {
+      .btn-sm:hover {
+          transform: translateY(-1px);
+      }
+
+      .badge {
+          padding: 0.5rem 1rem;
+          font-weight: 500;
+          border-radius: 6px;
+      }
+
+      @media (max-width: 768px) {
+          .main-content {
+              padding: 1rem;
+          }
+
           .sort-select, .btn {
               width: 100%;
               margin-bottom: 0.5rem;
@@ -174,6 +221,15 @@ if (isset($_POST['submit']) && isset($_POST['pid'])) {
           form.d-flex {
               flex-direction: column;
               gap: 0.5rem;
+          }
+
+          .product-image {
+              width: 60px;
+              height: 60px;
+          }
+
+          .review-text {
+              max-width: 200px;
           }
       }
   </style>

@@ -149,9 +149,6 @@ if (isset($_SESSION['cart'])) {
           <li class="nav-item">
             <a href="cart.php" class="nav-link">
               <i class="fas fa-shopping-cart cart-icon"></i>
-              <?php if ($c > 0): ?>
-                <span class="cart-badge"><?php echo $c; ?></span>
-              <?php endif; ?>
               <span class="d-none d-md-inline ml-1">Cart</span>
             </a>
           </li>
@@ -195,9 +192,22 @@ if (isset($_SESSION['cart'])) {
   </nav>
 
   <!-- Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // Initialize all dropdowns
+      $('.dropdown-toggle').dropdown();
+      
+      // Ensure dropdowns work on mobile
+      $('.dropdown-item').on('click', function() {
+        if ($(window).width() < 992) {
+          $('.navbar-collapse').collapse('hide');
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

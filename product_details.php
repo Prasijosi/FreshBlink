@@ -132,6 +132,10 @@ oci_execute($statement);
                                 </div>
                             </div>
                             <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
+                            <input type="hidden" name="itemname" value="<?php echo $product_name; ?>">
+                            <input type="hidden" name="itemprice" value="<?php echo $product_price; ?>">
+                            <input type="hidden" name="itemimage" value="<?php echo $product_image; ?>">
+                            <input type="hidden" name="stock" value="<?php echo $stock; ?>">
                             <button type="submit" name="addtoCart" class="btn btn-success btn-lg btn-block">
                                 <i class="fas fa-shopping-cart mr-2" style="background-color: #28a745; color: white;"></i>Add to Cart
                             </button>

@@ -121,7 +121,7 @@ elseif (isset($_POST['submit2']) && !empty($traders)) {
 else if($search_Cat){
     $query = "SELECT * FROM product WHERE Product_Type LIKE :category AND product_verification = '1'";
     $stmt = oci_parse($connection, $query);
-    $category_param = '%' . $$search_Cat . '%';
+    $category_param = '%' . $search_Cat . '%';
     oci_bind_by_name($stmt, ':category', $category_param);
     oci_execute($stmt);
 

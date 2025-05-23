@@ -1,6 +1,4 @@
 <?php include '../start.php'; ?>
-<?php include '../header.php'; ?>
-
 <div class="container w-100 d-flex align-items-center justify-content-center">
   <div class="row mt-3 w-100">
     <div class="col-12 d-flex align-items-center justify-content-center mt-5">
@@ -83,5 +81,4 @@
   </div>
 </div>
 
-<?php include '../footer.php'; ?>
 <?php include '../end.php'; ?>

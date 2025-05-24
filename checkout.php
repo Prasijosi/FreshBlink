@@ -32,7 +32,6 @@ if (isset($_POST['check'])) {
       </script>";
       exit;
     }
-sin
   if (isset($_SESSION['collectionslot'])) {
 
     $_SESSION['collectionslot'][0] = array('task_option' => $_POST['taskoption'], 'time_option' => $_POST['timeoption']);

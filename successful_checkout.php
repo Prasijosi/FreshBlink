@@ -1,6 +1,7 @@
 <?php
 include 'start.php';
 include "connection.php";
+include 'sendmail.php';
 
 if (!isset($_SESSION['username'])) {
     header('Location:sign_in_customer.php');
@@ -92,74 +93,92 @@ while ($row = oci_fetch_array($result1)) {
 
         $ctid = $row['CART_ID'];
         $pid = $row['PRODUCT_ID'];
-        $quantity = $row['TOTAL_PRICE'];
+        $quantity = (int)$row['TOTAL_PRICE'];
         //echo "Cart ID " . $ctid . " ";
         //echo "Payer ID " .$payerid."";
 
 
-        $sql2 = " SELECT Product_Price, Stock FROM product WHERE Product_Id = '$pid'";
+        $sql2 = " SELECT Product_Price, Stock FROM product WHERE Product_Id = :pid";
         $result2 = oci_parse($connection, $sql2);
+        oci_bind_by_name($result2, ":pid", $pid);
         oci_execute($result2);
 
         while ($row = oci_fetch_array($result2)) {
-            $productprice = $row['PRODUCT_PRICE'];
-            $stock = $row['STOCK'];
+            $productprice = floatval($row['PRODUCT_PRICE']);
+            $stock = intval($row['STOCK']);
             //echo "Product Price " . $productprice . " ";
 
-            @$gt = $quantity * $productprice;
+            $gt = $quantity * $productprice;
 
-            $sql3 = "INSERT INTO orders(Order_Date, Quantity, Order_price, Customer_Id, Product_Id, Delivery_Status) VALUES (SYSDATE,'$quantity','@$gt','$cid','$pid','0')";
-
+            $sql3 = "INSERT INTO orders(Order_Date, Quantity, Order_price, Customer_Id, Product_Id, Delivery_Status) 
+                    VALUES (SYSDATE, :quantity, :gt, :cid, :pid, '0')";
             $result3 = oci_parse($connection, $sql3);
+            oci_bind_by_name($result3, ":quantity", $quantity);
+            oci_bind_by_name($result3, ":gt", $gt);
+            oci_bind_by_name($result3, ":cid", $cid);
+            oci_bind_by_name($result3, ":pid", $pid);
             oci_execute($result3);
 
             if ($result3) {
                 unset($_SESSION['cart']);
 
                 $remquantity = $stock - $quantity;
-                $sql6 = "UPDATE product SET Stock='$remquantity' WHERE Product_Id='$pid'";
+                $sql6 = "UPDATE product SET Stock = :remquantity WHERE Product_Id = :pid";
                 $result6 = oci_parse($connection, $sql6);
+                oci_bind_by_name($result6, ":remquantity", $remquantity);
+                oci_bind_by_name($result6, ":pid", $pid);
                 oci_execute($result6);
                 if ($result6) {
 
-                    $sql4 = "SELECT Cart_Id FROM cart WHERE Customer_Id='$cid'";
+                    $sql4 = "SELECT Cart_Id FROM cart WHERE Customer_Id = :cid";
                     $result4 = oci_parse($connection, $sql4);
+                    oci_bind_by_name($result4, ":cid", $cid);
                     oci_execute($result4);
 
                     while ($row = oci_fetch_array($result4)) {
 
                         $cartid = $row['CART_ID'];
 
-                        $sql5 = " delete from cart where Cart_Id='$cartid' ";
+                        $sql5 = "DELETE FROM cart WHERE Cart_Id = :cartid";
                         $result5 = oci_parse($connection, $sql5);
+                        oci_bind_by_name($result5, ":cartid", $cartid);
                         oci_execute($result5);
                     }
                 }
             } else {
-                echo " <script>
-								alert('Order Not Placed');
-								//window.location.href='checkout.php';
-								</script>";
+                echo "<script>alert('Order Not Placed');</script>";
             }
         } //
 
 
     }
 
-    $sql7 = "SELECT * FROM orders WHERE Delivery_Status=0 AND Customer_Id='$cid' AND Order_Date=SYSDATE AND Order_Id>'$maxid'";
+    $sql7 = "SELECT * FROM orders WHERE Delivery_Status = 0 AND Customer_Id = :cid AND Order_Date = SYSDATE AND Order_Id > :maxid";
     $result7 = oci_parse($connection, $sql7);
+    oci_bind_by_name($result7, ":cid", $cid);
+    oci_bind_by_name($result7, ":maxid", $maxid);
     oci_execute($result7);
 
     while ($row = oci_fetch_assoc($result7)) {
         $oid = $row['ORDER_ID'];
         $oprice = $row['ORDER_PRICE'];
 
-        $sql10 = "INSERT INTO time_slot(Time_Slot_Date, Time_Slot_Time, Order_Id, Customer_Id) VALUES ('$taskoption','$timeoption','$oid','$cid')";
+        $sql10 = "INSERT INTO time_slot(Time_Slot_Date, Time_Slot_Time, Order_Id, Customer_Id) 
+                 VALUES (:taskoption, :timeoption, :oid, :cid)";
         $result10 = oci_parse($connection, $sql10);
+        oci_bind_by_name($result10, ":taskoption", $taskoption);
+        oci_bind_by_name($result10, ":timeoption", $timeoption);
+        oci_bind_by_name($result10, ":oid", $oid);
+        oci_bind_by_name($result10, ":cid", $cid);
         oci_execute($result10);
 
-        $sql11 = "INSERT INTO payment(Payment_Id, Payment_type, Total_Payment, Customer_Id, Order_Id) VALUES ('$payerid','Paypal','$oprice','$cid','$oid')";
+        $sql11 = "INSERT INTO payment(Payment_Id, Payment_type, Total_Payment, Customer_Id, Order_Id) 
+                 VALUES (:payerid, 'Paypal', :oprice, :cid, :oid)";
         $result11 = oci_parse($connection, $sql11);
+        oci_bind_by_name($result11, ":payerid", $payerid);
+        oci_bind_by_name($result11, ":oprice", $oprice);
+        oci_bind_by_name($result11, ":cid", $cid);
+        oci_bind_by_name($result11, ":oid", $oid);
         oci_execute($result11);
     }
 }
@@ -176,32 +195,23 @@ $count = oci_fetch_all($qry15, $connection);
 oci_execute($qry15);
 
 if ($count > 0) {
-
-
+    $message = '';
     while ($row = oci_fetch_assoc($qry15)) {
         include "connection.php";
         $oid = $row['ORDER_ID'];
         $cname1 = $row['FULL_NAME'];
         $address1 = $row['ADDRESS'];
         $email1 = $row['EMAIL'];
+        $to_email = $email1;
         $odate1 = $row['ORDER_DATE'];
-
         $oprice1 = $row['ORDER_PRICE'];
         @$gt1 = $oprice1 + @$gt1;
-
         $tname = $row['NAME'];
         $sname = $row['SHOP_NAME'];
         $taddress = $row['SHOP_LOCATION'];
-    }
-
-    include "connection.php";
-    $sql20 = "SELECT * FROM orders INNER JOIN customer on 
-			orders.Customer_Id=customer.Customer_ID INNER join product on orders.Product_Id=product.Product_Id  AND orders.Customer_Id='$cid' AND orders.Delivery_Status=0  AND Order_Id>$maxid";
-    $qry20 = oci_parse($connection, $sql20);
-    oci_execute($qry20);
-
-
-    $message = '
+        
+        // Build email message
+        $message = '
 <!DOCTYPE html>
 <html>
 <head>
@@ -209,197 +219,76 @@ if ($count > 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FreshBlink Order Confirmation</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .header {
-            text-align: center;
-            padding: 20px 0;
-            background-color: #28a745;
-            color: white;
-            border-radius: 10px 10px 0 0;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-        .content {
-            background-color: white;
-            padding: 30px;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .invoice-details {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #e9ecef;
-        }
-        .invoice-details div {
-            flex: 1;
-        }
-        .invoice-details h3 {
-            color: #28a745;
-            margin-top: 0;
-            font-size: 18px;
-        }
-        .address-block {
-            margin-bottom: 20px;
-        }
-        .address-block h3 {
-            color: #28a745;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-        .address-block p {
-            margin: 5px 0;
-            color: #6c757d;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th {
-            background-color: #f8f9fa;
-            padding: 12px;
-            text-align: left;
-            border-bottom: 2px solid #dee2e6;
-            color: #495057;
-        }
-        td {
-            padding: 12px;
-            border-bottom: 1px solid #dee2e6;
-        }
-        .total-row {
-            font-weight: bold;
-            background-color: #f8f9fa;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid #e9ecef;
-            color: #6c757d;
-            font-size: 14px;
-        }
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background-color: #28a745; color: white; padding: 20px; text-align: center; }
+        .content { background-color: #f8f9fa; padding: 20px; }
+        .order-details { margin: 20px 0; }
+        .shop-details { margin: 20px 0; }
+        .footer { text-align: center; margin-top: 20px; color: #666; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>FreshBlink</h1>
-            <p>Order Confirmation</p>
+            <h1>Order Confirmation</h1>
         </div>
         <div class="content">
-            <div class="invoice-details">
-                <div>
-                    <h3>Bill From</h3>
-                    <p>FreshBlink</p>
-                    <p>Clechshudderfax</p>
-                    <p>josiprasi@gmail.com</p>
-                </div>
-                <div>
-                    <h3>Invoice Details</h3>
-                    <p><strong>Invoice No:</strong> ' . $payerid . '</p>
-                    <p><strong>Invoice Date:</strong> ' . $odate1 . '</p>
-                    <p><strong>Order Date:</strong> ' . $odate1 . '</p>
-                </div>
+            <h2>Thank you for your order!</h2>
+            <p>Dear ' . htmlspecialchars($cname1) . ',</p>
+            <p>Your order has been successfully placed.</p>
+            
+            <div class="order-details">
+                <h3>Order Details:</h3>
+                <ul>
+                    <li><strong>Order ID:</strong> ' . htmlspecialchars($oid) . '</li>
+                    <li><strong>Order Date:</strong> ' . htmlspecialchars($odate1) . '</li>
+                    <li><strong>Total Amount:</strong> £' . htmlspecialchars($gt1) . '</li>
+                    <li><strong>Delivery Address:</strong> ' . htmlspecialchars($address1) . '</li>
+                    <li><strong>Collection Date:</strong> ' . htmlspecialchars($taskoption) . '</li>
+                    <li><strong>Collection Time:</strong> ' . htmlspecialchars($timeoption) . '</li>
+                </ul>
             </div>
-
-            <div class="address-block">
-                <h3>Bill To</h3>
-                <p><strong>Customer Name:</strong> ' . $cname1 . '</p>
-                <p><strong>Customer Address:</strong> ' . $address1 . '</p>
+            
+            <div class="shop-details">
+                <h3>Shop Details:</h3>
+                <ul>
+                    <li><strong>Shop Name:</strong> ' . htmlspecialchars($sname) . '</li>
+                    <li><strong>Shop Location:</strong> ' . htmlspecialchars($taddress) . '</li>
+                </ul>
             </div>
-
-            <div class="address-block">
-                <h3>Sold By</h3>
-                <p><strong>Trader Name:</strong> ' . $tname . '</p>
-                <p><strong>Shop Name:</strong> ' . $sname . '</p>
-                <p><strong>Address:</strong> ' . $taddress . '</p>
-                <p><strong>Seller Email:</strong> ' . $email1 . '</p>
-            </div>
-
-            <div class="address-block">
-                <h3>Payment Method</h3>
-                <p>PayPal</p>
-            </div>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>SN</th>
-                        <th>Product ID</th>
-                        <th>Product Name</th>
-                        <th>Description</th>
-                        <th>Qty</th>
-                        <th>Unit Cost</th>
-                        <th>Discount</th>
-                        <th>Total Price</th>
-                    </tr>
-                </thead>
-                <tbody>';
-
-
-    include 'connection.php';
-
-
-    while ($row = oci_fetch_assoc($qry20)) {
-        include 'connection.php';
-        $s = $s + 1;
-        $cname2 = $row['FULL_NAME'];
-
-
-        $message .= '
-                    <tr>
-                        <td>' . $s . '</td>
-                        <td>' . $row['PRODUCT_ID'] . '</td>
-                        <td>' . $row['PRODUCT_NAME'] . '</td>
-                        <td>' . $row['PRODUCT_DETAILS'] . '</td>
-                        <td>' . $row['QUANTITY'] . '</td>
-                        <td>£' . $row['PRODUCT_PRICE'] . '</td>
-                        <td>£0</td>
-                        <td>£' . $row['ORDER_PRICE'] . '</td>
-                    </tr>';
-    }
-
-
-    $message .= '
-                </tbody>
-                <tfoot>
-                    <tr class="total-row">
-                        <td colspan="6"></td>
-                        <td>Total:</td>
-                        <td>£' . @$gt1 . '</td>
-                    </tr>
-                </tfoot>
-            </table>
-
+            
             <div class="footer">
                 <p>Thank you for shopping with FreshBlink!</p>
-                <p>If you have any questions, please contact our customer service.</p>
+                <p>If you have any questions, please contact our customer support.</p>
             </div>
         </div>
     </div>
 </body>
 </html>';
+    }
+
+    // Send email only if we have a message and email address
+    if (!empty($message) && !empty($to_email)) {
+        $result = sendEmail(
+            $to_email,
+            $cname1,
+            $subject,
+            $message,
+            "Thank you for your order! Your order has been successfully placed."
+        );
+
+        if ($result === true) {
+            echo "<script>alert('Order placed successfully! A confirmation email has been sent.');</script>";
+        } else {
+            echo "<script>alert('Order placed successfully! However, there was an error sending the confirmation email.');</script>";
+        }
+    } else {
+        echo "<script>alert('Order placed successfully! However, there was an error preparing the confirmation email.');</script>";
+    }
 } else {
     // echo "order number must be greater than 0";
 }
-
-include 'sendmail.php';
 
 if (@$gt > 0) {
     $result = sendEmail(

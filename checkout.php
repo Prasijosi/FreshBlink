@@ -11,6 +11,28 @@ if (isset($_POST['check'])) {
   $taskoption = $_POST['taskoption'];
   $timeoption = $_POST['timeoption'];
 
+    // Check if the selected slot has reached maximum capacity (20 unique orders/customers)
+    include "connection.php";
+    $sql_check = "
+      SELECT COUNT(DISTINCT Order_Id) AS slot_count
+        FROM time_slot
+       WHERE Time_Slot_Date = :taskoption
+         AND Time_Slot_Time = :timeoption
+    ";
+    $stmt_check = oci_parse($connection, $sql_check);
+    oci_bind_by_name($stmt_check, ":taskoption", $taskoption);
+    oci_bind_by_name($stmt_check, ":timeoption", $timeoption);
+    oci_execute($stmt_check);
+    $row = oci_fetch_assoc($stmt_check);
+    
+    if ($row['SLOT_COUNT'] >= 20) {
+      echo "<script>
+        alert('Sorry, this time slot has reached its maximum capacity of 20 orders. Please select a different slot.');
+        window.location.href='checkout.php';
+      </script>";
+      exit;
+    }
+sin
   if (isset($_SESSION['collectionslot'])) {
 
     $_SESSION['collectionslot'][0] = array('task_option' => $_POST['taskoption'], 'time_option' => $_POST['timeoption']);
@@ -518,15 +540,44 @@ $paypal_email = 'sb-2fcha6626063@business.example.com'; //merchant account -> ge
               <div class="form-group">
                 <label class="font-weight-medium">Select Time Slot</label>
                 <select class="form-control" required id="inlineFormCustomSelect" name="timeoption">
-                  <option value="10-13" <?php echo (isset($_GET['timeoption']) && $_GET['timeoption'] == "10-13") ? 'selected' : ''; ?>>
-                    10:00 AM - 1:00 PM
-                  </option>
-                  <option value="13-16" <?php echo (isset($_GET['timeoption']) && $_GET['timeoption'] == "13-16") ? 'selected' : ''; ?>>
-                    1:00 PM - 4:00 PM
-                  </option>
-                  <option value="16-19" <?php echo (isset($_GET['timeoption']) && $_GET['timeoption'] == "16-19") ? 'selected' : ''; ?>>
-                    4:00 PM - 7:00 PM
-                  </option>
+                  <?php
+                  // Get current slot counts (counting unique orders/customers)
+                  include "connection.php";
+                  $date = isset($_GET['taskoption']) ? $_GET['taskoption'] : date("l-m-d-Y");
+                  
+                  $slots = array("10-13", "13-16", "16-19");
+                  foreach ($slots as $slot) {
+                    $sql_count = "SELECT COUNT(DISTINCT Order_Id) as slot_count 
+                                FROM time_slot 
+                                WHERE Time_Slot_Date = :date 
+                                AND Time_Slot_Time = :slot";
+                    $stmt_count = oci_parse($connection, $sql_count);
+                    oci_bind_by_name($stmt_count, ":date", $date);
+                    oci_bind_by_name($stmt_count, ":slot", $slot);
+                    oci_execute($stmt_count);
+                    $row = oci_fetch_assoc($stmt_count);
+                    $available = 20 - $row['SLOT_COUNT'];
+                    
+                    $display_time = "";
+                    switch($slot) {
+                      case "10-13":
+                        $display_time = "10:00 AM - 1:00 PM";
+                        break;
+                      case "13-16":
+                        $display_time = "1:00 PM - 4:00 PM";
+                        break;
+                      case "16-19":
+                        $display_time = "4:00 PM - 7:00 PM";
+                        break;
+                    }
+                    
+                    $selected = (isset($_GET['timeoption']) && $_GET['timeoption'] == $slot) ? 'selected' : '';
+                    $disabled = ($available <= 0) ? 'disabled' : '';
+                    echo "<option value='$slot' $selected $disabled>
+                      $display_time ($available customer slots available)
+                    </option>";
+                  }
+                  ?>
                 </select>
               </div>
             </div>
